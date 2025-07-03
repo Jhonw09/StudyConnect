@@ -64,7 +64,7 @@ if (loginForm) {
             showAlert('Login bem-sucedido!', 'success'); // Usa o alerta personalizado para sucesso
             // Atrasar o redirecionamento um pouco para o usuário ver o alerta
             setTimeout(() => {
-                window.location.href = "https://jhonw09.github.io/ReactStudy-main-main/" // Redireciona o usuário para a sua página principal
+                window.location.href = "https://jhonw09.github.io/StudyConnect/index.html" // Redireciona o usuário para a sua página principal
             }, 1500); // Redireciona após 1.5 segundos
         } else {
             showAlert('Credenciais inválidas. Por favor, tente novamente.', 'error'); // Usa o alerta personalizado para erro
