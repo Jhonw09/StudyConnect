@@ -1,0 +1,61 @@
+/* Correção para todas as palavras com destaque */
+.highlight {
+  color: var(--primary-color) !important;
+  position: relative !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.title-accent {
+  color: var(--primary-color) !important;
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Garantir que todos os textos sejam visíveis */
+.hero-title,
+.section-title,
+.title-line {
+  color: var(--text-primary) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Corrigir estatísticas */
+.stat-number {
+  color: var(--primary-color) !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Corrigir botões */
+.btn-primary,
+.btn-secondary {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Corrigir cards */
+.course-card,
+.teacher-card {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Corrigir textos dos cards */
+.card-content h3,
+.card-content p,
+.teacher-info h3,
+.teacher-description {
+  color: var(--text-primary) !important;
+  visibility: visible !important;
+}
+
+/* Corrigir preço gratuito */
+.price-free {
+  color: #28a745 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}

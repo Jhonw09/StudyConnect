@@ -1,0 +1,214 @@
+/* ===========================
+   CORREÇÕES DE LEGIBILIDADE - FAIXA VERDE
+=========================== */
+
+/* Garantir que todos os textos na faixa verde sejam legíveis */
+.course-hero *,
+.teacher-hero * {
+  color: #ffffff !important;
+}
+
+/* Responsividade adicional */
+@media (max-width: 1200px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .floating-cards {
+    display: none;
+  }
+}
+
+@media (max-width: 992px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .teachers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  .stat-item {
+    text-align: center;
+    min-width: 120px;
+  }
+  
+  .courses-grid,
+  .teachers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Melhorar contraste de todos os elementos de texto */
+.course-hero h1,
+.course-hero h2,
+.course-hero h3,
+.teacher-hero h1,
+.teacher-hero h2,
+.teacher-hero h3 {
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  font-weight: 800 !important;
+}
+
+.course-hero p,
+.teacher-hero p,
+.course-hero span,
+.teacher-hero span {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 500 !important;
+}
+
+/* Melhorar legibilidade dos badges */
+.course-hero .badge,
+.teacher-hero .badge {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(8px) !important;
+  font-weight: 700 !important;
+}
+
+/* Melhorar legibilidade das estatísticas */
+.course-stats .stat,
+.teacher-stats-hero .stat {
+  background: rgba(255, 255, 255, 0.15) !important;
+  padding: 0.6rem 1rem !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.course-stats .stat *,
+.teacher-stats-hero .stat * {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Melhorar legibilidade dos preços */
+.course-price *,
+.price-current,
+.price-old,
+.price-free {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Melhorar legibilidade dos links sociais */
+.social-links .social-link {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--color-primary) !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.social-links .social-link:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Melhorar legibilidade dos ícones */
+.course-hero i,
+.teacher-hero i {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Garantir legibilidade em dispositivos móveis */
+@media (max-width: 768px) {
+  .course-hero *,
+  .teacher-hero * {
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  .course-hero h1,
+  .teacher-hero h1 {
+    font-size: 2.2rem !important;
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.6) !important;
+  }
+  
+  .course-description,
+  .profile-info .bio {
+    font-size: 1.1rem !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  }
+  
+  .course-stats .stat,
+  .teacher-stats-hero .stat {
+    background: rgba(255, 255, 255, 0.2) !important;
+    padding: 0.8rem !important;
+  }
+}
+
+/* Garantir que botões sejam legíveis */
+.course-hero .btn,
+.teacher-hero .btn {
+  text-shadow: none !important;
+  font-weight: 600 !important;
+}
+
+.course-hero .btn-primary,
+.teacher-hero .btn-primary {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Mobile específico para faixa verde */
+@media (max-width: 768px) {
+  .course-hero,
+  .teacher-hero {
+    padding: 3rem 1rem;
+  }
+  
+  .course-hero-content,
+  .teacher-hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .teacher-profile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.course-hero .btn-primary:hover,
+.teacher-hero .btn-primary:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.course-hero .btn-secondary,
+.teacher-hero .btn-secondary {
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.7) !important;
+}
+
+.course-hero .btn-secondary:hover,
+.teacher-hero .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}

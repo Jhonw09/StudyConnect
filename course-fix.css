@@ -1,0 +1,30 @@
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.course-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-footer {
+    margin-top: auto;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}

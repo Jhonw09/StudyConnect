@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <title>StudyConnect+ | Plataforma de Estudos Profissional</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mobile-responsive.css" />
+    <link rel="stylesheet" href="quiz-styles-addon.css" />
+    <link rel="stylesheet" href="chatbot.css" />
+    <link rel="stylesheet" href="faq-layout.css" />
+    <link rel="stylesheet" href="course-fix.css" />
+    <link rel="stylesheet" href="teacher-fix.css" />
+    <link rel="stylesheet" href="scroll-progress.css" />
+    <link rel="stylesheet" href="background-lines.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    
+
+    
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudyConnect+</span>
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Carregando experiência de aprendizado...</p>
+        </div>
+    </div>
+
+
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">StudyConnect+</span>
+                <div class="logo-glow"></div>
+            </div>
+            <nav>
+                <ul class="nav-list" id="nav-list">
+                    <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#cursos"><i class="fas fa-book"></i> Cursos</a></li>
+                    <li><a href="#quiz"><i class="fas fa-brain"></i> Quiz</a></li>
+                    <li><a href="#professores"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
+                    <li><a href="#contato"><i class="fas fa-envelope"></i> Contato</a></li>
+                    <li><a href="Login/Login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                </ul>
+                <div class="header-controls">
+                    <div class="toggle-dark" tabindex="0" id="darkModeToggle">
+                        <div class="toggle-slider">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                        </div>
+                    </div>
+                    <div class="mobile-menu" tabindex="0" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="title-line">Transforme seu Futuro</span>
+                        <span class="title-line">com Educação</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Plataforma completa de estudos com cursos profissionais <strong>gratuitos</strong>, 
+                        professores especializados e metodologia inovadora para acelerar sua carreira.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-users stat-icon users"></i>
+                            <span class="stat-number" data-target="1000">0</span>
+                            <span class="stat-label">Alunos</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-book stat-icon books"></i>
+                            <span class="stat-number" data-target="50">0</span>
+                            <span class="stat-label">Cursos</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-chalkboard-teacher stat-icon teachers"></i>
+                            <span class="stat-number" data-target="25">0</span>
+                            <span class="stat-label">Professores</span>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#cursos" class="btn btn-primary">
+                            <i class="fas fa-rocket"></i>
+                            Começar Agora
+                        </a>
+                        <a href="#professores" class="btn btn-secondary">
+                            <i class="fas fa-play"></i>
+                            Conhecer Professores
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-cards">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-code"></i>
+                            <span>Programação</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-book-open"></i>
+                            <span>Português</span>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-calculator"></i>
+                            <span>Matemática</span>
+                        </div>
+                        <div class="floating-card card-4">
+                            <i class="fas fa-database"></i>
+                            <span>Backend</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </section>
+
+        <section id="cursos" class="courses-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-accent"></span> Nossos Cursos
+                </h2>
+                <p class="section-subtitle">
+                    Cursos gratuitos desenvolvidos por especialistas para acelerar sua carreira
+                </p>
+            </div>
+            
+            <div class="courses-filter">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i> Todos
+                </button>
+                <button class="filter-btn" data-filter="frontend">
+                    <i class="fas fa-laptop-code"></i> Frontend
+                </button>
+                <button class="filter-btn" data-filter="backend">
+                    <i class="fas fa-server"></i> Backend
+                </button>
+                <button class="filter-btn" data-filter="portugues">
+                    <i class="fas fa-book-open"></i> Português
+                </button>
+                <button class="filter-btn" data-filter="matematica">
+                    <i class="fas fa-calculator"></i> Matemática
+                </button>
+            </div>
+
+            <div class="courses-grid animate-on-scroll">
+                <div class="course-card hover-lift" data-category="frontend">
+                    <div class="card-header">
+                        <div class="course-badge">Mais Popular</div>
+                        <div class="course-level">Iniciante</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/capa-front-end.jpg" alt="Front-End Moderno" />
+                        <div class="image-overlay">
+                            <div class="course-duration">
+                                <i class="fas fa-clock"></i> 40h
+                            </div>
+                            <div class="course-students">
+                                <i class="fas fa-users"></i> 250+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Front-End Moderno</h3>
+                        <p>Domine HTML5, CSS3, JavaScript ES6+ e frameworks como React. Crie interfaces modernas e responsivas.</p>
+                        <div class="course-tech">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">React</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="course-price">
+                            
+                        </div>
+                        <div class="card-actions">
+                            <button class="like-btn">
+                                <i class="fas fa-heart"></i>
+                                <span>1.2k</span>
+                            </button>
+                            <a href="cursos/frontend-moderno.html" class="btn btn-course">
+                                <i class="fas fa-play"></i> Começar Curso
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card hover-lift" data-category="backend">
+                    <div class="card-header">
+                        <div class="course-badge premium">Premium</div>
+                        <div class="course-level advanced">Avançado</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/17f7d622-3a54-480e-be53-5dd7296bddce_desenvolvedor+backend.avif" alt="Back-End Avançado" />
+                        <div class="image-overlay">
+                            <div class="course-duration">
+                                <i class="fas fa-clock"></i> 60h
+                            </div>
+                            <div class="course-students">
+                                <i class="fas fa-users"></i> 180+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Back-End Avançado</h3>
+                        <p>Desenvolva APIs robustas com Node.js, trabalhe com bancos de dados e implemente arquiteturas escaláveis.</p>
+                        <div class="course-tech">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="course-price">
+                          
+                        </div>
+                        <div class="card-actions">
+                            <button class="like-btn">
+                                <i class="fas fa-heart"></i>
+                                <span>890</span>
+                            </button>
+                            <a href="cursos/backend-avancado.html" class="btn btn-course">
+                                <i class="fas fa-play"></i> Começar Curso
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card hover-lift" data-category="portugues">
+                    <div class="card-header">
+                        <div class="course-badge new">Novo</div>
+                        <div class="course-level">Básico</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/dia-mundial-da-lingua-portuguesa-momento-para-se-aperfeicoar-no-idioma.jpeg" alt="Português" />
+                        <div class="image-overlay">
+                            <div class="course-duration">
+                                <i class="fas fa-clock"></i> 40h
+                            </div>
+                            <div class="course-students">
+                                <i class="fas fa-users"></i> 280+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Português</h3>
+                        <p>Domine a língua portuguesa com gramática, redação e interpretação de texto. Prepare-se para concursos e vestibulares.</p>
+                        <div class="course-tech">
+                            <span class="tech-tag">Gramática</span>
+                            <span class="tech-tag">Redação</span>
+                            <span class="tech-tag">Literatura</span>
+                            <span class="tech-tag">Ortografia</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="course-price">
+                           
+                        </div>
+                        <div class="card-actions">
+                            <button class="like-btn">
+                                <i class="fas fa-heart"></i>
+                                <span>920</span>
+                            </button>
+                            <a href="cursos/Port.html" class="btn btn-course">
+                                <i class="fas fa-play"></i> Começar Curso
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card hover-lift" data-category="matematica">
+                    <div class="card-header">
+                        <div class="course-badge trending">Em Alta</div>
+                        <div class="course-level">Intermediário</div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/capa-matematicawebp.webp" alt="Matemática Aplicada" />
+                        <div class="image-overlay">
+                            <div class="course-duration">
+                                <i class="fas fa-clock"></i> 45h
+                            </div>
+                            <div class="course-students">
+                                <i class="fas fa-users"></i> 320+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Matemática</h3>
+                        <p>Domine álgebra, geometria, cálculo e estatística. Aprenda matemática de forma prática e aplicada.</p>
+                        <div class="course-tech">
+                            <span class="tech-tag">Álgebra</span>
+                            <span class="tech-tag">Geometria</span>
+                            <span class="tech-tag">Cálculo</span>
+                            <span class="tech-tag">Estatística</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="course-price">
+                         
+                        </div>
+                        <div class="card-actions">
+                            <button class="like-btn">
+                                <i class="fas fa-heart"></i>
+                                <span>850</span>
+                            </button>
+                            <a href="cursos/Matematica.html" class="btn btn-course">
+                                <i class="fas fa-play"></i> Começar Curso
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="professores" class="teachers-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-accent"></span> Nossos Professores
+                </h2>
+                <p class="section-subtitle">
+                    Aprenda com profissionais experientes do mercado
+                </p>
+            </div>
+
+            <div class="teachers-grid animate-on-scroll">
+                <div class="teacher-card hover-lift">
+                    <div class="teacher-image">
+                        <img src="images/profa.jpg" alt="Maria Silva" />
+                        <div class="teacher-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="teacher-status online"></div>
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Maria Silva</h3>
+                        <p class="teacher-role">Especialista Front-End & UI/UX</p>
+                        <p class="teacher-description">
+                            8 anos de experiência em desenvolvimento front-end e design de interfaces. 
+                            Ex-Google, especialista em React e Vue.js.
+                        </p>
+                        <div class="teacher-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>450+ alunos</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.9 rating</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-book"></i>
+                                <span>3 cursos</span>
+                            </div>
+                        </div>
+                        <div class="teacher-skills">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">TypeScript</span>
+                        </div>
+                        <a href="professores/maria-silva.html" class="btn btn-teacher">
+                            <i class="fas fa-user"></i> Ver Perfil
+                        </a>
+                    </div>
+                </div>
+
+                <div class="teacher-card hover-lift">
+                    <div class="teacher-image">
+                        <img src="images/Carlos.jpg" alt="Carlos Souza" />
+                        <div class="teacher-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="teacher-status online"></div>
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Carlos Souza</h3>
+                        <p class="teacher-role">Arquiteto de Software & DevOps</p>
+                        <p class="teacher-description">
+                            10 anos desenvolvendo sistemas escaláveis. Especialista em Node.js, 
+                            microserviços e segurança de aplicações.
+                        </p>
+                        <div class="teacher-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>320+ alunos</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.8 rating</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-book"></i>
+                                <span>2 cursos</span>
+                            </div>
+                        </div>
+                        <div class="teacher-skills">
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">MongoDB</span>
+                        </div>
+                        <a href="professores/carlos-souza.html" class="btn btn-teacher">
+                            <i class="fas fa-user"></i> Ver Perfil
+                        </a>
+                    </div>
+                </div>
+
+                <div class="teacher-card hover-lift">
+                    <div class="teacher-image">
+                        <img src="images/geha_blog-janeiro-2024-09-1.jpg" alt="Ana Lima" />
+                        <div class="teacher-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-dribbble"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-behance"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="teacher-status away"></div>
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Ana Lima</h3>
+                        <p class="teacher-role">Professora de Português & Mestre em Letras</p>
+                        <p class="teacher-description">
+                            8 anos ensinando língua portuguesa. Mestre em Letras pela USP, 
+                            especialista em gramática, redação e literatura brasileira.
+                        </p>
+                        <div class="teacher-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>580+ alunos</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.9 rating</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-book"></i>
+                                <span>4 cursos</span>
+                            </div>
+                        </div>
+                        <div class="teacher-skills">
+                            <span class="skill-tag">Gramática</span>
+                            <span class="skill-tag">Redação</span>
+                            <span class="skill-tag">Literatura</span>
+                            <span class="skill-tag">Ortografia</span>
+                        </div>
+                        <a href="professores/ana-lima.html" class="btn btn-teacher">
+                            <i class="fas fa-user"></i> Ver Perfil
+                        </a>
+                    </div>
+                </div>
+
+                <div class="teacher-card hover-lift">
+                    <div class="teacher-image">
+                        <img src="images/profmat.jpg" alt="João Pereira" />
+                        <div class="teacher-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="teacher-status online"></div>
+                    </div>
+                    <div class="teacher-info">
+                        <h3>João Pereira</h3>
+                        <p class="teacher-role">Professor de Matemática & PhD</p>
+                        <p class="teacher-description">
+                            10 anos ensinando matemática. PhD em Matemática Aplicada pela UNICAMP, 
+                            especialista em álgebra, cálculo e estatística.
+                        </p>
+                        <div class="teacher-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>290+ alunos</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.7 rating</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-book"></i>
+                                <span>2 cursos</span>
+                            </div>
+                        </div>
+                        <div class="teacher-skills">
+                            <span class="skill-tag">Álgebra</span>
+                            <span class="skill-tag">Cálculo</span>
+                            <span class="skill-tag">Geometria</span>
+                            <span class="skill-tag">Estatística</span>
+                        </div>
+                        <a href="professores/joao-pereira.html" class="btn btn-teacher">
+                            <i class="fas fa-user"></i> Ver Perfil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="quizzes-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-accent"></span> Quiz Educativo
+                </h2>
+                <p class="section-subtitle">
+                    Teste seus conhecimentos com nossos jogos educativos interativos
+                </p>
+            </div>
+
+            <div class="quizzes-grid animate-on-scroll">
+                <div class="quiz-card hover-lift">
+                    <div class="quiz-header">
+                        <div class="quiz-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="quiz-badge">Popular</div>
+                    </div>
+                    <div class="quiz-content">
+                        <h3>Quiz Misto</h3>
+                        <p>Avalie seus conhecimentos em programação e cultura geral com questões diversificadas e interativas.</p>
+                        <div class="quiz-stats">
+                            <div class="quiz-stat">
+                                <i class="fas fa-question-circle"></i>
+                                <span>10 Perguntas</span>
+                            </div>
+                            <div class="quiz-stat">
+                                <i class="fas fa-clock"></i>
+                                <span>~5 minutos</span>
+                            </div>
+                            <div class="quiz-stat">
+                                <i class="fas fa-trophy"></i>
+                                <span>Nível Fácil</span>
+                            </div>
+                        </div>
+                        <div class="quiz-topics">
+                            <span class="topic-tag">Programação</span>
+                            <span class="topic-tag">Geografia</span>
+                            <span class="topic-tag">História</span>
+                            <span class="topic-tag">Ciências</span>
+                        </div>
+                    </div>
+                    <div class="quiz-footer">
+                        <a href="quiz-misto.html" class="btn btn-quiz" target="_blank">
+                            <i class="fas fa-play"></i> Jogar Agora
+                        </a>
+                    </div>
+                </div>
+
+                <div class="quiz-card hover-lift">
+                    <div class="quiz-header">
+                        <div class="quiz-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="quiz-badge academic">Acadêmico</div>
+                    </div>
+                    <div class="quiz-content">
+                        <h3>Quiz de Português</h3>
+                        <p>Teste seus conhecimentos em gramática, literatura e interpretação de texto com conteúdo do 9º ano.</p>
+                        <div class="quiz-stats">
+                            <div class="quiz-stat">
+                                <i class="fas fa-question-circle"></i>
+                                <span>10 Perguntas</span>
+                            </div>
+                            <div class="quiz-stat">
+                                <i class="fas fa-clock"></i>
+                                <span>~6 minutos</span>
+                            </div>
+                            <div class="quiz-stat">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>9º Ano</span>
+                            </div>
+                        </div>
+                        <div class="quiz-topics">
+                            <span class="topic-tag">Gramática</span>
+                            <span class="topic-tag">Literatura</span>
+                            <span class="topic-tag">Sintaxe</span>
+                            <span class="topic-tag">Interpretação</span>
+                        </div>
+                    </div>
+                    <div class="quiz-footer">
+                        <a href="quiz-portugues.html" class="btn btn-quiz" target="_blank">
+                            <i class="fas fa-play"></i> Jogar Agora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contato" class="contact-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-accent"></span> Entre em Contato
+                </h2>
+                <p class="section-subtitle">
+                    Tem dúvidas? Nossa equipe está pronta para ajudar você
+                </p>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>contato@studyconnect.com</p>
+                            <span>Resposta em até 24h</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Telefone</h4>
+                            <p>(11) 9999-9999</p>
+                            <span>Seg-Sex: 9h às 18h</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Localização</h4>
+                            <p>São Paulo, SP</p>
+                            <span>Brasil</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Horário de Atendimento</h4>
+                            <p>Segunda a Sexta</p>
+                            <span>9:00 - 18:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">
+                            <i class="fas fa-user"></i>
+                            Nome Completo
+                        </label>
+                        <input type="text" id="name" name="name" placeholder="Digite seu nome completo" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">
+                            <i class="fas fa-tag"></i>
+                            Assunto
+                        </label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Selecione um assunto</option>
+                            <option value="curso">Informações sobre cursos</option>
+                            <option value="suporte">Suporte técnico</option>
+                            <option value="parceria">Parcerias</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">
+                            <i class="fas fa-comment"></i>
+                            Mensagem
+                        </label>
+                        <textarea id="message" name="message" rows="5" placeholder="Digite sua mensagem aqui..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-contact">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Enviar Mensagem</span>
+                        <div class="btn-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section id="faq" class="faq-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-accent"></span> FAQ - Assistente Virtual
+                </h2>
+                <p class="section-subtitle">
+                    Converse com nossa IA e tire suas dúvidas sobre a plataforma
+                </p>
+            </div>
+
+            <div class="faq-content">
+                <div class="faq-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>IA Inteligente</h3>
+                        <p>Respostas instantâneas sobre cursos</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>24/7 Online</h3>
+                        <p>Sempre disponível para ajudar</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Suporte Rápido</h3>
+                        <p>Informações precisas e ágeis</p>
+                    </div>
+                </div>
+                
+                <div class="chatbot-container">
+                    <div class="chat-header">
+                        <div class="bot-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="bot-info">
+                            <h3>StudyBot</h3>
+                            <span class="status online">Online</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Olá! 👋 Sou o StudyBot. Posso ajudar com dúvidas sobre cursos!</p>
+                                <div class="quick-questions">
+                                    <button class="quick-btn" data-question="Como funciona?">Como funciona?</button>
+                                    <button class="quick-btn" data-question="Cursos gratuitos?">Cursos gratuitos?</button>
+                                    <button class="quick-btn" data-question="Como me inscrever?">Como me inscrever?</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" id="userInput" placeholder="Digite sua pergunta..." maxlength="100">
+                        <button id="sendBtn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>StudyConnect+</span>
+                </div>
+                <p class="footer-description">
+                    Transformando vidas através da educação digital. 
+                    Cursos profissionais para acelerar sua carreira.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.instagram.com/studyconnectplus/?igsh=MXI0ZDNuM25sN2xhOQ%3D%3D#" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Cursos</h4>
+                <ul>
+                    <li><a href="#">Front-End Moderno</a></li>
+                    <li><a href="#">Back-End Avançado</a></li>
+                    <li><a href="#">Design UI/UX</a></li>
+                    <li><a href="#">Desenvolvimento Mobile</a></li>
+                    <li><a href="#">Todos os Cursos</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Nossa Equipe</a></li>
+                    <li><a href="#">Carreiras</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Imprensa</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Suporte</h4>
+                <ul>
+                    <li><a href="#">Central de Ajuda</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 StudyConnect+. Todos os direitos reservados.</p>
+            <div class="footer-badges">
+                <span class="badge">Certificado ISO 9001</span>
+                <span class="badge">Segurança SSL</span>
+                <span class="badge">Suporte 24/7</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+
+    <script src="script.js"></script>
+    <script src="scroll-progress.js"></script>
+    <script src="chatbot-fix.js"></script>
+    <script src="background-lines.js"></script>
+</body>
+</html>

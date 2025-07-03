@@ -1,0 +1,55 @@
+/* Correções para organização dos cards */
+
+.card-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-top: 1px solid var(--bg-secondary);
+}
+
+.course-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-course {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex: 1;
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+.btn-course:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  background: #3dd16b;
+}
+
+.like-btn:hover {
+  background: #f8f9fa;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}

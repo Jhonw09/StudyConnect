@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front-End Moderno | StudyConect+</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../animations.css">
+    <link rel="stylesheet" href="../legibilidade-fix.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <header>
+        <div class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">StudyConect+</span>
+        </div>
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="../index.html#cursos"><i class="fas fa-book"></i> Cursos</a></li>
+                <li><a href="../index.html#professores"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
+                <li><a href="../index.html#contato"><i class="fas fa-envelope"></i> Contato</a></li>
+            </ul>
+            <div class="header-controls">
+                <div class="toggle-dark" tabindex="0" id="darkModeToggle">
+                    <div class="toggle-slider">
+                        <i class="fas fa-sun sun-icon"></i>
+                        <i class="fas fa-moon moon-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="course-page">
+        <section class="course-hero">
+            <div class="course-hero-content">
+                <div class="course-info">
+                    <div class="course-badges">
+                        <span class="badge popular">Mais Popular</span>
+                        <span class="badge level">Iniciante</span>
+                    </div>
+                    <h1>Front-End Moderno</h1>
+                    <p class="course-description">
+                        Domine as tecnologias mais modernas do desenvolvimento front-end. 
+                        Aprenda HTML5, CSS3, JavaScript ES6+ e React para criar interfaces incríveis.
+                    </p>
+                    <div class="course-stats">
+                        <div class="stat">
+                            <i class="fas fa-clock"></i>
+                            <span>40 horas</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-users"></i>
+                            <span>250+ alunos</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 (127 avaliações)</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-certificate"></i>
+                            <span>Certificado</span>
+                        </div>
+                    </div>
+                    <div class="course-price">
+                        <span class="price-free">TOTALMENTE GRATUITO</span>
+                    </div>
+                    <div class="course-actions">
+                        <button class="btn btn-primary btn-large">
+                            <i class="fas fa-play"></i>
+                            Começar Agora
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-heart"></i>
+                            Favoritar
+                        </button>
+                    </div>
+                </div>
+                <div class="course-preview">
+                    <img src="../images/capa-front-end.jpg" alt="Front-End Moderno">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="course-content">
+            <div class="content-container">
+                <div class="main-content">
+                    <div class="course-curriculum">
+                        <h2>Conteúdo do Curso</h2>
+                        <div class="curriculum-stats">
+                            <span>8 módulos • 45 aulas • 40h de conteúdo</span>
+                        </div>
+                        
+                        <div class="module">
+                            <div class="module-header">
+                                <h3><i class="fas fa-play-circle"></i> Módulo 1: Fundamentos HTML5</h3>
+                                <span class="module-duration">5h</span>
+                            </div>
+                            <div class="module-lessons">
+                                <div class="lesson">
+                                    <i class="fas fa-play"></i>
+                                    <span>Introdução ao HTML5</span>
+                                    <span class="lesson-duration">15min</span>
+                                </div>
+                                <div class="lesson">
+                                    <i class="fas fa-play"></i>
+                                    <span>Estrutura semântica</span>
+                                    <span class="lesson-duration">20min</span>
+                                </div>
+                                <div class="lesson">
+                                    <i class="fas fa-play"></i>
+                                    <span>Formulários modernos</span>
+                                    <span class="lesson-duration">25min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="module">
+                            <div class="module-header">
+                                <h3><i class="fas fa-play-circle"></i> Módulo 2: CSS3 Avançado</h3>
+                                <span class="module-duration">8h</span>
+                            </div>
+                            <div class="module-lessons">
+                                <div class="lesson">
+                                    <i class="fas fa-play"></i>
+                                    <span>Flexbox e Grid</span>
+                                    <span class="lesson-duration">30min</span>
+                                </div>
+                                <div class="lesson">
+                                    <i class="fas fa-play"></i>
+                                    <span>Animações e Transições</span>
+                                    <span class="lesson-duration">25min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="module">
+                            <div class="module-header">
+                                <h3><i class="fas fa-play-circle"></i> Módulo 3: JavaScript ES6+</h3>
+                                <span class="module-duration">12h</span>
+                            </div>
+                        </div>
+
+                        <div class="module">
+                            <div class="module-header">
+                                <h3><i class="fas fa-play-circle"></i> Módulo 4: React Fundamentals</h3>
+                                <span class="module-duration">15h</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="course-description-full">
+                        <h2>Sobre o Curso</h2>
+                        <p>Este curso completo de Front-End Moderno foi desenvolvido para levar você do básico ao avançado nas principais tecnologias de desenvolvimento web.</p>
+                        
+                        <h3>O que você vai aprender:</h3>
+                        <ul>
+                            <li>HTML5 semântico e acessível</li>
+                            <li>CSS3 com Flexbox, Grid e animações</li>
+                            <li>JavaScript ES6+ moderno</li>
+                            <li>React.js e hooks</li>
+                            <li>Responsive Design</li>
+                            <li>Performance e otimização</li>
+                        </ul>
+
+                        <h3>Pré-requisitos:</h3>
+                        <ul>
+                            <li>Conhecimento básico de informática</li>
+                            <li>Vontade de aprender</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="instructor-card">
+                        <h3>Seu Instrutor</h3>
+                        <div class="instructor-info">
+                            <img src="../images/foto 3 do insta.jpg" alt="Maria Silva">
+                            <div>
+                                <h4>Maria Silva</h4>
+                                <p>Especialista Front-End</p>
+                                <div class="instructor-stats">
+                                    <span><i class="fas fa-star"></i> 4.9</span>
+                                    <span><i class="fas fa-users"></i> 1.2k alunos</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="../professores/maria-silva.html" class="btn btn-outline">Ver Perfil</a>
+                    </div>
+
+                    <div class="course-features">
+                        <h3>Este curso inclui:</h3>
+                        <ul>
+                            <li><i class="fas fa-video"></i> 40 horas de vídeo</li>
+                            <li><i class="fas fa-file-alt"></i> 25 artigos</li>
+                            <li><i class="fas fa-download"></i> Recursos para download</li>
+                            <li><i class="fas fa-mobile-alt"></i> Acesso mobile</li>
+                            <li><i class="fas fa-certificate"></i> Certificado de conclusão</li>
+                            <li><i class="fas fa-infinity"></i> Acesso vitalício</li>
+                        </ul>
+                    </div>
+
+                    <div class="related-courses">
+                        <h3>Cursos Relacionados</h3>
+                        <div class="related-course">
+                            <img src="../images/2.jpg" alt="Backend Avançado">
+                            <div>
+                                <h4>Backend Avançado</h4>
+                                <span class="price">R$ 299</span>
+                            </div>
+                        </div>
+                        <div class="related-course">
+                            <img src="../images/3.jpg" alt="Design UI/UX">
+                            <div>
+                                <h4>Design UI/UX</h4>
+                                <span class="price">R$ 179</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../config.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+/* Botão de voltar ao início */
+.quiz-nav {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.btn-home {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-home:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Porcentagem de acertos */
+.score-percentage {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #43e97b;
+    margin-bottom: 15px;
+}
+
+/* Ações dos resultados */
+.results-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.results-actions .btn {
+    min-width: 150px;
+}

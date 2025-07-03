@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Misto - Conhecimentos Gerais</title>
+    <link rel="stylesheet" href="quiz-style.css">
+    <link rel="stylesheet" href="quiz-extras.css">
+
+</head>
+<body>
+    <div class="quiz-container">
+        <header class="quiz-header">
+            <div class="quiz-nav">
+                <a href="index.html" class="btn-home">
+                    <i class="fas fa-home"></i> Voltar ao Início
+                </a>
+            </div>
+            <h1>🧠 Quiz Misto</h1>
+            <p>Teste seus conhecimentos em programação e cultura geral!</p>
+        </header>
+
+        <div class="quiz-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            
+            <div class="question-counter">
+                <span id="currentQuestion">1</span> de <span id="totalQuestions">10</span>
+            </div>
+
+            <div class="question-card" id="questionCard">
+                <h2 id="questionText"></h2>
+                <div class="options" id="optionsContainer"></div>
+            </div>
+
+            <div class="quiz-controls">
+                <button id="nextBtn" class="btn btn-primary" disabled>Próxima</button>
+            </div>
+
+            <div class="results" id="results" style="display: none;">
+                <h2>🎉 Quiz Concluído!</h2>
+                <div class="score">
+                    <span id="finalScore"></span>
+                </div>
+                <div class="score-percentage" id="scorePercentage"></div>
+                <div class="score-message" id="scoreMessage"></div>
+                <div class="results-actions">
+                    <button id="restartBtn" class="btn btn-secondary">Jogar Novamente</button>
+                    <a href="index.html" class="btn btn-primary">Voltar ao Início</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="quiz-misto.js"></script>
+</body>
+</html>
