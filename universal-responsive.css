@@ -1,0 +1,405 @@
+/* ===========================
+   RESPONSIVIDADE UNIVERSAL
+   Suporte para todos os dispositivos
+=========================== */
+
+/* Reset Universal */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===========================
+   BREAKPOINTS PRINCIPAIS
+=========================== */
+
+/* 8K e Ultra Wide (3840px+) */
+@media (min-width: 3840px) {
+  html { font-size: 24px; }
+  .container { max-width: 2400px; }
+  .courses-grid { grid-template-columns: repeat(6, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+/* 4K (2560px-3839px) */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  html { font-size: 20px; }
+  .container { max-width: 2000px; }
+  .courses-grid { grid-template-columns: repeat(5, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Desktop Large (1920px-2559px) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .container { max-width: 1600px; }
+  .courses-grid { grid-template-columns: repeat(4, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Desktop (1440px-1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .container { max-width: 1400px; }
+  .courses-grid { grid-template-columns: repeat(3, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Laptop (1024px-1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .hero-content { gap: 3rem; }
+  .courses-grid { grid-template-columns: repeat(2, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+  .floating-cards { display: none !important; }
+}
+
+/* Tablet Landscape (768px-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .courses-grid { grid-template-columns: repeat(2, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-container { grid-template-columns: 1fr; }
+  .footer-content { grid-template-columns: 1fr 1fr; }
+  
+  .courses-filter {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+/* ===========================
+   MOBILE DEVICES
+=========================== */
+
+/* Tablet Portrait & Mobile Large (481px-767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .mobile-menu { display: flex; }
+  
+  .nav-list {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 1000;
+  }
+  
+  .nav-list.active { display: flex; }
+  .nav-list a { width: 100%; padding: 1rem; justify-content: center; }
+  
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .hero-title { font-size: clamp(2.2rem, 6vw, 2.8rem); }
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .hero-buttons .btn { width: 100%; max-width: 320px; }
+  
+  .courses-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+  
+  .courses-filter {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+  
+  .filter-btn { min-width: 120px; }
+}
+
+/* Mobile Standard (361px-480px) */
+@media (min-width: 361px) and (max-width: 480px) {
+  .mobile-menu { display: flex; }
+  
+  .nav-list {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 1000;
+  }
+  
+  .nav-list.active { display: flex; }
+  
+  .hero-section {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding: 5rem 1rem 2rem;
+  }
+  
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .hero-title { font-size: clamp(2rem, 7vw, 2.5rem); }
+  .hero-subtitle { font-size: 1rem; }
+  
+  .hero-stats {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+    padding: 1rem 2rem;
+    min-height: 48px;
+  }
+  
+  .courses-grid { grid-template-columns: 1fr; }
+  .teachers-grid { grid-template-columns: 1fr; }
+  
+  .courses-filter {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  
+  .filter-btn {
+    width: 90%;
+    max-width: 250px;
+    justify-content: center;
+  }
+  
+  section { padding: 3rem 1rem; }
+  .section-title { font-size: clamp(1.8rem, 6vw, 2.2rem); }
+}
+
+/* Mobile Small (321px-360px) */
+@media (min-width: 321px) and (max-width: 360px) {
+  .hero-title { font-size: clamp(1.8rem, 8vw, 2.2rem); }
+  .hero-buttons .btn { max-width: 260px; font-size: 0.95rem; }
+  .filter-btn { max-width: 220px; font-size: 0.85rem; }
+  .section-title { font-size: clamp(1.6rem, 7vw, 2rem); }
+}
+
+/* Mobile Extra Small (240px-320px) */
+@media (max-width: 320px) {
+  html { font-size: 14px; }
+  
+  .hero-title { font-size: clamp(1.5rem, 10vw, 1.8rem); }
+  .hero-subtitle { font-size: 0.9rem; }
+  .hero-buttons .btn { max-width: 240px; padding: 0.8rem 1.5rem; }
+  
+  .stat-number { font-size: 1.5rem; }
+  .stat-label { font-size: 0.75rem; }
+  
+  .filter-btn { max-width: 200px; font-size: 0.8rem; }
+  .section-title { font-size: clamp(1.4rem, 8vw, 1.8rem); }
+  
+  .card-content { padding: 1rem; }
+  .card-content h3 { font-size: 1rem; }
+  .card-content p { font-size: 0.85rem; }
+}
+
+/* ===========================
+   DISPOSITIVOS ESPECÍFICOS
+=========================== */
+
+/* iPhone 16 Pro Max (430px) */
+@media (max-width: 430px) and (min-width: 415px) {
+  .hero-title { font-size: clamp(2.2rem, 7vw, 2.6rem); }
+  .hero-buttons .btn { max-width: 300px; }
+  .filter-btn { max-width: 240px; }
+}
+
+/* iPhone 14/15 Pro Max (414px) */
+@media (max-width: 414px) and (min-width: 394px) {
+  .hero-title { font-size: clamp(2rem, 8vw, 2.4rem); }
+  .hero-buttons .btn { max-width: 280px; }
+}
+
+/* iPhone 14/15 Pro (393px) */
+@media (max-width: 393px) and (min-width: 376px) {
+  .hero-title { font-size: clamp(1.9rem, 8vw, 2.3rem); }
+  .hero-buttons .btn { max-width: 270px; }
+}
+
+/* iPhone X/11/12/13 (375px) */
+@media (max-width: 375px) and (min-width: 361px) {
+  .hero-title { font-size: clamp(1.8rem, 8vw, 2.2rem); }
+  .hero-buttons .btn { max-width: 260px; }
+}
+
+/* Samsung Galaxy S (360px) */
+@media (max-width: 360px) and (min-width: 321px) {
+  .hero-title { font-size: clamp(1.7rem, 9vw, 2.1rem); }
+  .hero-buttons .btn { max-width: 250px; }
+}
+
+/* ===========================
+   ORIENTAÇÃO LANDSCAPE
+=========================== */
+
+/* Mobile Landscape */
+@media (max-width: 926px) and (orientation: landscape) and (max-height: 500px) {
+  .hero-section {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding: 2rem 1rem;
+  }
+  
+  .hero-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+  .hero-stats { flex-direction: row; justify-content: space-around; }
+  .hero-buttons { flex-direction: row; gap: 1rem; }
+  .hero-buttons .btn { max-width: 200px; }
+  
+  .nav-list { max-height: 60vh; overflow-y: auto; }
+}
+
+/* Tablet Landscape */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .hero-content { grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .courses-grid { grid-template-columns: repeat(3, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ===========================
+   SAFE AREA (iPhone X+)
+=========================== */
+@supports (padding: max(0px)) {
+  header {
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  
+  .hero-section {
+    padding-top: max(6rem, calc(env(safe-area-inset-top) + 6rem));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  
+  section {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  
+  .footer {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
+  }
+}
+
+/* ===========================
+   TOUCH DEVICES
+=========================== */
+@media (hover: none) and (pointer: coarse) {
+  .btn, .filter-btn, .course-card, .teacher-card {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .btn:active { transform: scale(0.98); }
+  .course-card:hover, .teacher-card:hover { transform: translateY(-2px); }
+  
+  /* Botões maiores para touch */
+  .btn { min-height: 48px; min-width: 48px; }
+  .filter-btn { min-height: 44px; }
+}
+
+/* ===========================
+   HIGH DPI DISPLAYS
+=========================== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .course-card img, .teacher-image img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* ===========================
+   ANDROID ESPECÍFICO
+=========================== */
+@supports (-webkit-touch-callout: none) {
+  .nav-list.active { animation: slideDown 0.3s ease; }
+  
+  input[type="text"], input[type="email"], input[type="password"], 
+  textarea, select { font-size: 16px; }
+}
+
+/* ===========================
+   PWA E STANDALONE
+=========================== */
+@media (display-mode: standalone) {
+  header { padding-top: max(1rem, env(safe-area-inset-top)); }
+  .hero-section { padding-top: max(6rem, calc(env(safe-area-inset-top) + 6rem)); }
+}
+
+/* ===========================
+   VIEWPORT HEIGHT FIX
+=========================== */
+@supports (-webkit-touch-callout: none) {
+  .hero-section {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  html { height: -webkit-fill-available; }
+}
+
+/* ===========================
+   REMOVE ELEMENTOS NO MOBILE
+=========================== */
+@media (max-width: 1023px) {
+  #particles-js, .floating-cards, .logo-glow, .image-glow { display: none !important; }
+}
+
+/* ===========================
+   CONTAINER RESPONSIVO
+=========================== */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 576px) { .container { max-width: 540px; } }
+@media (min-width: 768px) { .container { max-width: 720px; padding: 0 2rem; } }
+@media (min-width: 992px) { .container { max-width: 960px; } }
+@media (min-width: 1200px) { .container { max-width: 1140px; } }
+@media (min-width: 1400px) { .container { max-width: 1320px; } }
+@media (min-width: 1920px) { .container { max-width: 1600px; } }
+
+/* ===========================
+   PRINT STYLES
+=========================== */
+@media print {
+  * { box-shadow: none !important; }
+  header { position: static; background: white; }
+  .hero-section { min-height: auto; }
+  .floating-cards, #particles-js, .back-to-top { display: none; }
+  body { background: white; color: black; }
+}

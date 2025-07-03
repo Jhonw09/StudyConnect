@@ -2175,7 +2175,18 @@ body.dark-mode .scroll-progress {
 
 /* iPhone X/11/12/13/14 (375px) */
 @media (max-width: 414px) {
-  html { font-size: 15px; }
+  html { 
+    font-size: 15px;
+    height: 100%;
+    height: -webkit-fill-available;
+  }
+  
+  body {
+    height: 100%;
+    height: -webkit-fill-available;
+    overflow-x: hidden;
+    padding-bottom: 0 !important;
+  }
   
   header { 
     padding: 0.8rem 1rem;
@@ -2186,10 +2197,11 @@ body.dark-mode .scroll-progress {
   .logo-text { font-size: 1.1rem; }
   
   .hero-section { 
-    padding: 4rem 1rem 2rem;
+    padding: 4rem 1rem 0;
     /* Safe area para iPhone */
     padding-top: max(4rem, calc(env(safe-area-inset-top) + 4rem));
-    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
   }
   
   .hero-title { 
