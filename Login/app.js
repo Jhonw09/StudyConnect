@@ -60,14 +60,32 @@ if (loginForm) {
         // --- SIMULAÇÃO de Autenticação (IMPORTANTE: ISSO NÃO É SEGURO PARA PRODUÇÃO) ---
         // Em um aplicativo real, você enviaria 'email' e 'password' para um servidor
         // para validação de segurança. Esta é apenas uma simulação para fins de demonstração.
-        if (email === 'Rm95197@estudante.fieb.edu.br' && password === '11022009') { // Credenciais de exemplo
-            showAlert('Login bem-sucedido!', 'success'); // Usa o alerta personalizado para sucesso
-            // Atrasar o redirecionamento um pouco para o usuário ver o alerta
+        if (email === 'Rm95197@estudante.fieb.edu.br' && password === '11022009') {
+            showAlert('Login bem-sucedido!', 'success');
+            
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userName', 'Jonas');
+            localStorage.setItem('userEmail', email);
+            
+            if (!localStorage.getItem('joinDate')) {
+                localStorage.setItem('joinDate', new Date().toLocaleDateString('pt-BR'));
+            }
+            
             setTimeout(() => {
-                window.location.href = "../index.html" // Redireciona o usuário para a sua página principal
-            }, 1500); // Redireciona após 1.5 segundos
+                window.location.href = "../index.html"
+            }, 1500);
         } else {
             showAlert('Credenciais inválidas. Por favor, tente novamente.', 'error'); // Usa o alerta personalizado para erro
         }
     });
+}
+
+// Verificar se já está logado
+if (localStorage.getItem('userLoggedIn') === 'true') {
+    window.location.href = '../index.html';
+}
+
+// Definir nome padrão
+if (!localStorage.getItem('userName')) {
+    localStorage.setItem('userName', 'Jonas');
 }

@@ -53,15 +53,37 @@
                     <li><a href="#quiz"><i class="fas fa-brain"></i> Quiz</a></li>
                     <li><a href="#professores"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
                     <li><a href="#contato"><i class="fas fa-envelope"></i> Contato</a></li>
-                    <li><a href="Login/Login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                    <li><a href="Login/Login.html" class="login-btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                    <li class="profile-menu" id="profileMenu" style="display: none;">
+                        <div class="profile-btn" id="profileBtn">
+                            <img src="images/favicon.png" alt="Perfil" class="profile-avatar">
+                            <span class="profile-name" id="profileName">Jonas</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <a href="#" class="dropdown-item" id="editProfileBtn">
+                                <i class="fas fa-user-edit"></i> Editar Perfil
+                            </a>
+                            <a href="#" class="dropdown-item" id="progressBtn">
+                                <i class="fas fa-chart-line"></i> Meu Progresso
+                            </a>
+                            <a href="#" class="dropdown-item" id="certificatesBtn">
+                                <i class="fas fa-certificate"></i> Certificados
+                            </a>
+                            <a href="#" class="dropdown-item" id="favoritesBtn">
+                                <i class="fas fa-heart"></i> Favoritos
+                            </a>
+                            <a href="#" class="dropdown-item" id="configBtn">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item logout-btn" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </a>
+                        </div>
+                    </li>
                 </ul>
                 <div class="header-controls">
-                    <div class="toggle-dark" tabindex="0" id="darkModeToggle">
-                        <div class="toggle-slider">
-                            <i class="fas fa-sun sun-icon"></i>
-                            <i class="fas fa-moon moon-icon"></i>
-                        </div>
-                    </div>
                     <div class="mobile-menu" tabindex="0" id="mobileMenuToggle">
                         <span></span>
                         <span></span>
@@ -915,7 +937,9 @@
     <script src="mobile-viewport-fix.js"></script>
     <script src="config.js"></script>
 
+    <link rel="stylesheet" href="profile-styles.css" />
     <script src="script.js"></script>
+    <script src="profile-system.js"></script>
     <script src="scroll-progress.js"></script>
     <script src="chatbot-fix.js"></script>
     <script src="background-lines.js"></script>

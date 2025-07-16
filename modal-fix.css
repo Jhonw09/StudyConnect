@@ -1,0 +1,61 @@
+/* Correção para inputs do modal não fecharem */
+.profile-modal input,
+.profile-modal textarea,
+.profile-modal select,
+.profile-modal button {
+  pointer-events: auto;
+}
+
+.profile-modal .modal-content {
+  pointer-events: auto;
+}
+
+.profile-modal .modal-content * {
+  pointer-events: auto;
+}
+
+/* Prevenir fechamento ao clicar nos inputs */
+.form-group input:focus,
+.form-group input:active {
+  outline: 2px solid var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Garantir que o modal não feche ao interagir com elementos */
+.modal-content,
+.modal-content *,
+.form-group,
+.form-group *,
+.modal-footer,
+.modal-footer * {
+  pointer-events: auto !important;
+}

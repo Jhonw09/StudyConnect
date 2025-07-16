@@ -34,6 +34,9 @@ class StudyConnectApp {
             this.initContactForm();
             this.initBackToTop();
             this.initScrollEffects();
+            this.initProfileMenu();
+            
+            setTimeout(() => this.checkLoginStatus(), 100);
         });
 
         window.addEventListener('scroll', this.handleScroll.bind(this));
@@ -194,6 +197,107 @@ class StudyConnectApp {
         }, { threshold: 0.1 });
 
         elements.forEach(el => observer.observe(el));
+    }
+
+    // ===========================
+    //   MENU DE PERFIL
+    // ===========================
+    initProfileMenu() {
+        this.checkLoginStatus();
+        
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
+        }
+        
+        window.addEventListener('focus', () => {
+            this.checkLoginStatus();
+        });
+    }
+
+    checkLoginStatus() {
+        const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+        const userName = localStorage.getItem('userName') || 'Usuário';
+        
+        const loginBtn = document.querySelector('.login-btn');
+        const profileMenu = document.getElementById('profileMenu');
+        const profileName = document.getElementById('profileName');
+        
+        if (isLoggedIn) {
+            if (loginBtn) loginBtn.parentElement.style.display = 'none';
+            if (profileMenu) profileMenu.style.display = 'block';
+            if (profileName) profileName.textContent = userName;
+        } else {
+            if (loginBtn) loginBtn.parentElement.style.display = 'block';
+            if (profileMenu) profileMenu.style.display = 'none';
+        }
+    }
+
+    logout() {
+        localStorage.removeItem('userLoggedIn');
+        localStorage.removeItem('userName');
+        
+        this.showNotification('Logout realizado com sucesso!', 'success');
+        
+        setTimeout(() => {
+            this.checkLoginStatus();
+        }, 500);
+    }
+
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+                <button class="notification-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+
+        notification.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: ${type === 'success' ? '#43e97b' : type === 'error' ? '#ff6b6b' : '#667eea'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+
+        setTimeout(() => {
+            this.removeNotification(notification);
+        }, 3000);
+
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => {
+            this.removeNotification(notification);
+        });
+    }
+
+    removeNotification(notification) {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
     }
 
     handleScroll() {
@@ -755,6 +859,20 @@ class Utils {
 //   INICIALIZAÇÃO
 // ===========================
 const app = new StudyConnectApp();
+
+// ===========================
+//   FUNÇÃO GLOBAL PARA LOGIN
+// ===========================
+window.handleSuccessfulLogin = function(userName) {
+    localStorage.setItem('userLoggedIn', 'true');
+    localStorage.setItem('userName', userName);
+};
+
+window.addEventListener('storage', () => {
+    if (app && app.checkLoginStatus) {
+        app.checkLoginStatus();
+    }
+});
 
 // ===========================
 //   EASTER EGGS E EXTRAS
