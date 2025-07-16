@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desempenho | StudyConnect+</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-responsive.css">
+    <link rel="stylesheet" href="universal-responsive.css">
+    <link rel="stylesheet" href="quiz-styles-addon.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <link rel="stylesheet" href="faq-layout.css">
+    <link rel="stylesheet" href="course-fix.css">
+    <link rel="stylesheet" href="teacher-fix.css">
+    <link rel="stylesheet" href="scroll-progress.css">
+    <link rel="stylesheet" href="background-lines.css">
+    <link rel="stylesheet" href="avatar-fix.css">
+    <link rel="stylesheet" href="index.
+    <link rel="stylesheet" href="dropdown-center.css">
+    <link rel="stylesheet" href="profile-modals-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Sincronização com tema principal */
+        body {
+            transition: all 0.3s ease;
+        }
+
+        /* Estilos específicos da página de desempenho */
+        .performance-page {
+            padding-top: 80px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            animation: pageLoad 0.8s ease;
+        }
+
+        body.dark-mode .performance-page {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+        }
+
+        .performance-hero {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .performance-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(67, 233, 123, 0.1), rgba(56, 249, 215, 0.1));
+            z-index: 1;
+        }
+
+        .performance-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .performance-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInDown 0.8s ease;
+        }
+
+        .performance-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease 0.2s both;
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        @media (max-width: 1024px) {
+            .performance-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .performance-stats {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 2rem 1.5rem;
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: cardEntrance 0.8s ease forwards;
+            animation-delay: calc(var(--card-index) * 0.15s);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(67, 233, 123, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .stat-card:hover::after {
+            left: 100%;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(67, 233, 123, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(67, 233, 123, 0.3);
+            animation: cardFloat 2s ease-in-out infinite;
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            animation: iconPulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: var(--color-secondary);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .performance-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .performance-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--bg-card);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius-lg);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(67, 233, 123, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Meu Progresso */
+        .progress-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .progress-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .progress-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateX(-50px);
+            opacity: 0;
+            animation: slideInFromLeft 0.8s ease forwards;
+            animation-delay: calc(var(--card-index) * 0.2s);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-gradient);
+            transform: scaleY(0);
+            transition: transform 0.6s ease;
+            transform-origin: bottom;
+        }
+
+        .progress-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        @keyframes slideInFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .progress-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(67, 233, 123, 0.2);
+        }
+
+        .progress-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .progress-info h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .progress-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 6px;
+            transition: width 1s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%);
+            background-size: 20px 20px;
+            animation: progressPattern 2s linear infinite;
+        }
+
+        @keyframes progressPattern {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 0; }
+        }
+
+        .progress-percentage {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 1.1rem;
+        }
+
+        /* Certificados */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .certificate-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition-normal);
+            position: relative;
+            animation: slideInUp 0.6s ease;
+            animation-delay: calc(var(--card-index) * 0.1s);
+            animation-fill-mode: both;
+        }
+
+        .certificate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .certificate-image {
+            height: 200px;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            background-size: 20px 20px;
+        }
+
+        .certificate-icon {
+            font-size: 4rem;
+            color: white;
+            z-index: 2;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .certificate-content {
+            padding: 1.5rem;
+        }
+
+        .certificate-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .certificate-course {
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .certificate-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .certificate-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-certificate {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-download {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-share {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-certificate:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Favoritos */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .favorite-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition-normal);
+            position: relative;
+            animation: slideInUp 0.6s ease;
+            animation-delay: calc(var(--card-index) * 0.1s);
+            animation-fill-mode: both;
+        }
+
+        .favorite-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .favorite-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .favorite-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+
+        .favorite-card:hover .favorite-image img {
+            transform: scale(1.1);
+        }
+
+        .favorite-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .favorite-content {
+            padding: 1.5rem;
+        }
+
+        .favorite-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .favorite-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .favorite-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .favorite-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-remove-favorite {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--color-danger);
+            border: 1px solid var(--color-danger);
+        }
+
+        .btn-access {
+            background: var(--primary-gradient);
+            color: white;
+            flex: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-description {
+            margin-bottom: 2rem;
+        }
+
+        /* Animações */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .performance-hero {
+                padding: 2rem 1rem;
+            }
+
+            .performance-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .performance-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .progress-section,
+            .certificates-grid,
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .favorite-actions {
+                flex-direction: column;
+            }
+
+            .btn-certificate {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .performance-content {
+                padding: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .progress-card,
+            .certificate-card,
+            .favorite-card {
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">StudyConnect+</span>
+                <div class="logo-glow"></div>
+            </div>
+            <nav>
+                <ul class="nav-list" id="nav-list">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="index.html#cursos"><i class="fas fa-book"></i> Cursos</a></li>
+                    <li><a href="index.html#quiz"><i class="fas fa-brain"></i> Quiz</a></li>
+                    <li><a href="index.html#professores"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
+                    <li><a href="index.html#contato"><i class="fas fa-envelope"></i> Contato</a></li>
+                    <li><a href="Login/Login.html" class="login-btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                    <li class="profile-menu" id="profileMenu">
+                        <div class="profile-btn" id="profileBtn">
+                            <img src="images/favicon.png" alt="Perfil" class="profile-avatar">
+                            <span class="profile-name" id="profileName">Jonas</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="profile-dropdown-header">
+                                <h3 class="profile-dropdown-title">Meu Perfil</h3>
+                                <button class="profile-dropdown-close" id="profileDropdownClose">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="profile-dropdown-body">
+                                <a href="#" class="dropdown-item" id="editProfileBtn">
+                                    <i class="fas fa-user-edit"></i> Editar Perfil
+                                </a>
+                                <a href="Desempenho.html" class="dropdown-item">
+                                    <i class="fas fa-chart-line"></i> Desempenho
+                                </a>
+                                <a href="#" class="dropdown-item" id="configBtn">
+                                    <i class="fas fa-cog"></i> Configurações
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item logout-btn" id="logoutBtn">
+                                    <i class="fas fa-sign-out-alt"></i> Sair
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="header-controls">
+                    <div class="mobile-menu" tabindex="0" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="performance-page">
+        <section class="performance-hero">
+            <div class="performance-hero-content">
+                <h1 class="performance-title">Meu Desempenho</h1>
+                <p class="performance-subtitle">Acompanhe seu progresso e conquistas na jornada de aprendizado</p>
+                
+                <div class="performance-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line stat-icon"></i>
+                        <span class="stat-number" data-target="72">0</span>
+                        <span class="stat-label">Meu Progresso</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-certificate stat-icon"></i>
+                        <span class="stat-number" data-target="3">0</span>
+                        <span class="stat-label">Certificados</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart stat-icon"></i>
+                        <span class="stat-number" data-target="8">0</span>
+                        <span class="stat-label">Favoritos</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock stat-icon"></i>
+                        <span class="stat-number" data-target="156">0</span>
+                        <span class="stat-label">Horas Estudadas</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="performance-content">
+            <div class="performance-tabs">
+                <button class="tab-btn active" data-tab="progress">
+                    <i class="fas fa-chart-line"></i>
+                    Meu Progresso
+                </button>
+                <button class="tab-btn" data-tab="certificates">
+                    <i class="fas fa-certificate"></i>
+                    Certificados
+                </button>
+                <button class="tab-btn" data-tab="favorites">
+                    <i class="fas fa-heart"></i>
+                    Favoritos
+                </button>
+            </div>
+
+            <!-- Meu Progresso -->
+            <div class="tab-content active" id="progress">
+                <div class="progress-section">
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="progress-info">
+                                <h3>Front-End Moderno</h3>
+                                <p>HTML5, CSS3, JavaScript, React</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                        <div class="progress-percentage">85% Concluído</div>
+                    </div>
+
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="progress-info">
+                                <h3>Back-End Avançado</h3>
+                                <p>Node.js, MongoDB, Express, Docker</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        <div class="progress-percentage">60% Concluído</div>
+                    </div>
+
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="progress-info">
+                                <h3>Português</h3>
+                                <p>Gramática, Redação, Literatura</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <div class="progress-percentage">100% Concluído</div>
+                    </div>
+
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="progress-info">
+                                <h3>Matemática</h3>
+                                <p>Álgebra, Geometria, Cálculo</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                        <div class="progress-percentage">45% Concluído</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certificados -->
+            <div class="tab-content" id="certificates">
+                <div class="certificates-grid">
+                    <div class="certificate-card">
+                        <div class="certificate-image">
+                            <i class="fas fa-certificate certificate-icon"></i>
+                        </div>
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">Certificado de Conclusão</h3>
+                            <p class="certificate-course">Front-End Moderno</p>
+                            <p class="certificate-date">Concluído em 15 de Janeiro, 2025</p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-download">
+                                    <i class="fas fa-download"></i>
+                                    Baixar
+                                </button>
+                                <button class="btn-certificate btn-share">
+                                    <i class="fas fa-share"></i>
+                                    Compartilhar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="certificate-card">
+                        <div class="certificate-image">
+                            <i class="fas fa-certificate certificate-icon"></i>
+                        </div>
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">Certificado de Conclusão</h3>
+                            <p class="certificate-course">Português Completo</p>
+                            <p class="certificate-date">Concluído em 10 de Janeiro, 2025</p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-download">
+                                    <i class="fas fa-download"></i>
+                                    Baixar
+                                </button>
+                                <button class="btn-certificate btn-share">
+                                    <i class="fas fa-share"></i>
+                                    Compartilhar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="certificate-card">
+                        <div class="certificate-image">
+                            <i class="fas fa-certificate certificate-icon"></i>
+                        </div>
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">Certificado de Participação</h3>
+                            <p class="certificate-course">Workshop JavaScript</p>
+                            <p class="certificate-date">Concluído em 5 de Janeiro, 2025</p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-download">
+                                    <i class="fas fa-download"></i>
+                                    Baixar
+                                </button>
+                                <button class="btn-certificate btn-share">
+                                    <i class="fas fa-share"></i>
+                                    Compartilhar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favoritos -->
+            <div class="tab-content" id="favorites">
+                <div class="favorites-grid" id="favoritesContainer">
+                    <!-- Os favoritos serão carregados dinamicamente aqui -->
+                </div>
+                
+                <div class="empty-state" id="emptyFavorites" style="display: none;">
+                    <i class="fas fa-heart empty-icon"></i>
+                    <h3 class="empty-title">Nenhum favorito ainda</h3>
+                    <p class="empty-description">Clique no coração dos cursos na página principal para adicioná-los aos seus favoritos!</p>
+                    <a href="index.html#cursos" class="btn btn-primary">
+                        <i class="fas fa-book"></i>
+                        Explorar Cursos
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Sistema de favoritos
+        class FavoritesManager {
+            constructor() {
+                this.favorites = JSON.parse(localStorage.getItem('studyconnect_favorites') || '[]');
+                this.init();
+            }
+
+            init() {
+                this.syncTheme();
+                this.loadFavorites();
+                this.setupTabSwitching();
+                this.animateStats();
+                this.setupProgressBars();
+                this.setupAdvancedAnimations();
+                this.watchThemeChanges();
+            }
+
+            syncTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            }
+
+            watchThemeChanges() {
+                window.addEventListener('storage', (e) => {
+                    if (e.key === 'theme') {
+                        this.syncTheme();
+                    }
+                });
+            }
+
+            setupAdvancedAnimations() {
+                // Configurar índices para animações
+                const statCards = document.querySelectorAll('.stat-card');
+                statCards.forEach((card, index) => {
+                    card.style.setProperty('--card-index', index);
+                });
+
+                const progressCards = document.querySelectorAll('.progress-card');
+                progressCards.forEach((card, index) => {
+                    card.style.setProperty('--card-index', index);
+                });
+
+                // Animar título principal
+                const title = document.querySelector('.performance-title');
+                if (title) {
+                    title.style.transform = 'translateY(-50px)';
+                    title.style.opacity = '0';
+                    setTimeout(() => {
+                        title.style.transform = 'translateY(0)';
+                        title.style.opacity = '1';
+                    }, 200);
+                }
+
+                // Animar tabs com efeito wave
+                const tabs = document.querySelectorAll('.tab-btn');
+                tabs.forEach((tab, index) => {
+                    tab.style.opacity = '0';
+                    tab.style.transform = 'translateY(-30px) scale(0.8)';
+                    
+                    setTimeout(() => {
+                        tab.style.opacity = '1';
+                        tab.style.transform = 'translateY(0) scale(1)';
+                    }, 600 + (index * 150));
+                });
+
+                // Adicionar efeito de partículas
+                this.createFloatingParticles();
+            }
+
+            createFloatingParticles() {
+                const hero = document.querySelector('.performance-hero');
+                if (!hero) return;
+
+                for (let i = 0; i < 15; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: absolute;
+                        width: ${Math.random() * 6 + 2}px;
+                        height: ${Math.random() * 6 + 2}px;
+                        background: rgba(67, 233, 123, ${Math.random() * 0.5 + 0.2});
+                        border-radius: 50%;
+                        left: ${Math.random() * 100}%;
+                        top: ${Math.random() * 100}%;
+                        animation: floatParticle ${Math.random() * 10 + 5}s infinite linear;
+                        pointer-events: none;
+                        z-index: 1;
+                    `;
+                    hero.appendChild(particle);
+                }
+
+                // Adicionar CSS para partículas
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes floatParticle {
+                        0% {
+                            transform: translateY(0) rotate(0deg);
+                            opacity: 0;
+                        }
+                        10% {
+                            opacity: 1;
+                        }
+                        90% {
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateY(-100vh) rotate(360deg);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            loadFavorites() {
+                const container = document.getElementById('favoritesContainer');
+                const emptyState = document.getElementById('emptyFavorites');
+
+                if (this.favorites.length === 0) {
+                    container.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+
+                container.style.display = 'grid';
+                emptyState.style.display = 'none';
+
+                container.innerHTML = this.favorites.map((course, index) => `
+                    <div class="favorite-card" data-course-id="${course.id}" style="--card-index: ${index}">
+                        <div class="favorite-image">
+                            <img src="${course.image}" alt="${course.title}">
+                            <div class="favorite-badge">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="favorite-content">
+                            <h3 class="favorite-title">${course.title}</h3>
+                            <p class="favorite-description">${course.description}</p>
+                            <div class="favorite-meta">
+                                <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                                <span><i class="fas fa-users"></i> ${course.students}</span>
+                            </div>
+                            <div class="favorite-actions">
+                                <button class="btn-certificate btn-remove-favorite" onclick="favoritesManager.removeFavorite('${course.id}')">
+                                    <i class="fas fa-heart-broken"></i>
+                                    Remover
+                                </button>
+                                <a href="${course.link}" class="btn-certificate btn-access">
+                                    <i class="fas fa-play"></i>
+                                    Acessar Curso
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Animar novos cards
+                setTimeout(() => {
+                    const newCards = container.querySelectorAll('.favorite-card');
+                    newCards.forEach((card, index) => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(30px) scale(0.9)';
+                        
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0) scale(1)';
+                        }, index * 100);
+                    });
+                }, 50);
+            }
+
+            addFavorite(courseData) {
+                if (!this.favorites.find(fav => fav.id === courseData.id)) {
+                    this.favorites.push(courseData);
+                    this.saveFavorites();
+                    this.loadFavorites();
+                    this.updateFavoriteCount();
+                    // Não mostrar notificação aqui - já é mostrada na página principal
+                }
+            }
+
+            removeFavorite(courseId) {
+                const courseToRemove = this.favorites.find(fav => fav.id === courseId);
+                if (courseToRemove) {
+                    this.favorites = this.favorites.filter(fav => fav.id !== courseId);
+                    this.saveFavorites();
+                    this.loadFavorites();
+                    this.updateFavoriteCount();
+                    
+                    this.showNotification(`"${courseToRemove.title}" removido dos favoritos!`, 'warning');
+                    
+                    // Notificar página principal
+                    localStorage.setItem('favorite_update', JSON.stringify({
+                        type: 'removed',
+                        courseId: courseId,
+                        timestamp: Date.now()
+                    }));
+                    
+                    setTimeout(() => {
+                        localStorage.removeItem('favorite_update');
+                    }, 1000);
+                }
+            }
+
+            saveFavorites() {
+                localStorage.setItem('studyconnect_favorites', JSON.stringify(this.favorites));
+            }
+
+            updateFavoriteCount() {
+                const countElement = document.querySelector('[data-target="8"]');
+                if (countElement) {
+                    // Animar mudança do número
+                    countElement.style.transform = 'scale(1.2)';
+                    countElement.style.color = 'var(--color-primary)';
+                    
+                    setTimeout(() => {
+                        countElement.textContent = this.favorites.length;
+                        countElement.style.transform = 'scale(1)';
+                        countElement.style.color = '';
+                    }, 150);
+                }
+            }
+
+            setupTabSwitching() {
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetTab = btn.dataset.tab;
+
+                        // Remove active class from all tabs and contents
+                        tabBtns.forEach(b => b.classList.remove('active'));
+                        tabContents.forEach(c => {
+                            c.classList.remove('active');
+                            c.style.opacity = '0';
+                            c.style.transform = 'translateY(20px)';
+                        });
+
+                        // Add active class to clicked tab and corresponding content
+                        btn.classList.add('active');
+                        const targetContent = document.getElementById(targetTab);
+                        
+                        setTimeout(() => {
+                            targetContent.classList.add('active');
+                            targetContent.style.opacity = '1';
+                            targetContent.style.transform = 'translateY(0)';
+                            
+                            // Reanimar cards da aba ativa
+                            const cards = targetContent.querySelectorAll('.progress-card, .certificate-card, .favorite-card');
+                            cards.forEach((card, index) => {
+                                card.style.opacity = '0';
+                                card.style.transform = 'translateY(20px)';
+                                
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, index * 50);
+                            });
+                        }, 150);
+                    });
+                });
+            }
+
+            animateStats() {
+                const statNumbers = document.querySelectorAll('.stat-number');
+                
+                const animateNumber = (element, delay = 0) => {
+                    const target = parseInt(element.dataset.target);
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+
+                    setTimeout(() => {
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                                // Adicionar efeito de conclusão
+                                element.style.transform = 'scale(1.1)';
+                                setTimeout(() => {
+                                    element.style.transform = 'scale(1)';
+                                }, 200);
+                            }
+                            element.textContent = Math.floor(current) + (target === 72 ? '%' : '');
+                        }, 16);
+                    }, delay);
+                };
+
+                // Animate when page loads with staggered delay
+                setTimeout(() => {
+                    statNumbers.forEach((stat, index) => {
+                        animateNumber(stat, index * 200);
+                    });
+                }, 800);
+            }
+
+            setupProgressBars() {
+                const progressBars = document.querySelectorAll('.progress-fill');
+                
+                setTimeout(() => {
+                    progressBars.forEach((bar, index) => {
+                        const width = bar.style.width;
+                        const percentage = parseInt(width);
+                        
+                        bar.style.width = '0%';
+                        bar.style.transition = 'width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        
+                        setTimeout(() => {
+                            bar.style.width = width;
+                            
+                            // Efeito de conclusão baseado na porcentagem
+                            setTimeout(() => {
+                                if (percentage === 100) {
+                                    bar.style.boxShadow = '0 0 30px rgba(67, 233, 123, 0.8)';
+                                    bar.style.background = 'linear-gradient(90deg, #43e97b, #38f9d7, #43e97b)';
+                                    bar.style.backgroundSize = '200% 100%';
+                                    bar.style.animation = 'gradientShift 2s ease-in-out';
+                                } else {
+                                    bar.style.boxShadow = '0 0 15px rgba(67, 233, 123, 0.4)';
+                                }
+                                
+                                setTimeout(() => {
+                                    bar.style.boxShadow = 'none';
+                                }, 1000);
+                            }, 2000);
+                        }, 400 + (index * 400));
+                    });
+                }, 1500);
+
+                // Adicionar CSS para gradiente
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes gradientShift {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${type === 'success' ? 'heart' : type === 'warning' ? 'heart-broken' : 'info-circle'}"></i>
+                        <span>${message}</span>
+                        <button class="notification-close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 2rem;
+                    right: 2rem;
+                    background: ${type === 'success' ? '#43e97b' : type === 'warning' ? '#f39c12' : '#667eea'};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+                    z-index: 10000;
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                    max-width: 400px;
+                    font-weight: 500;
+                `;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 100);
+
+                setTimeout(() => {
+                    this.removeNotification(notification);
+                }, 3000);
+
+                const closeBtn = notification.querySelector('.notification-close');
+                closeBtn.addEventListener('click', () => {
+                    this.removeNotification(notification);
+                });
+            }
+
+            removeNotification(notification) {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }
+        }
+
+        // Inicializar o sistema de favoritos
+        const favoritesManager = new FavoritesManager();
+
+        // Inicializar sistema de login/perfil
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            const userName = localStorage.getItem('userName') || 'Jonas';
+            
+            const loginBtn = document.querySelector('.login-btn');
+            const profileMenu = document.getElementById('profileMenu');
+            const profileName = document.getElementById('profileName');
+            
+            if (isLoggedIn) {
+                if (loginBtn) loginBtn.parentElement.style.display = 'none';
+                if (profileMenu) profileMenu.style.display = 'block';
+                if (profileName) profileName.textContent = userName;
+            } else {
+                if (loginBtn) loginBtn.parentElement.style.display = 'block';
+                if (profileMenu) profileMenu.style.display = 'none';
+            }
+        }
+
+        // Verificar status de login ao carregar
+        setTimeout(checkLoginStatus, 100);
+        
+        // Configurar botões do perfil
+        const logoutBtn = document.getElementById('logoutBtn');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const configBtn = document.getElementById('configBtn');
+        
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('userLoggedIn');
+                localStorage.removeItem('userName');
+                favoritesManager.showNotification('Logout realizado com sucesso!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            });
+        }
+        
+        if (editProfileBtn) {
+            editProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Função original do editar perfil
+            });
+        }
+        
+        if (configBtn) {
+            configBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Função original das configurações
+            });
+        }
+
+        // Escutar mudanças no localStorage
+        window.addEventListener('storage', checkLoginStatus);
+
+        // Escutar mudanças nos favoritos
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'studyconnect_favorites') {
+                favoritesManager.favorites = JSON.parse(e.newValue || '[]');
+                favoritesManager.loadFavorites();
+                favoritesManager.updateFavoriteCount();
+            }
+            
+            if (e.key === 'favorite_update') {
+                const data = JSON.parse(e.newValue || '{}');
+                if (data.type === 'added') {
+                    favoritesManager.favorites = JSON.parse(localStorage.getItem('studyconnect_favorites') || '[]');
+                    favoritesManager.loadFavorites();
+                    favoritesManager.updateFavoriteCount();
+                }
+            }
+        });
+
+        // Escutar mensagens da página principal (fallback)
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'favoriteAdded') {
+                favoritesManager.addFavorite(event.data.courseData);
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                const navList = document.getElementById('nav-list');
+                if (navList) {
+                    navList.classList.toggle('active');
+                }
+            });
+        }
+
+        // Profile dropdown
+        const profileBtn = document.getElementById('profileBtn');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        if (profileBtn && profileDropdown) {
+            profileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                profileDropdown.classList.remove('show');
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="mobile-viewport-fix.js"></script>
+    <script src="config.js"></script>
+    <link rel="stylesheet" href="profile-styles.css" />
+    <script src="script.js"></script>
+    <script src="profile-system.js"></script>
+    <script src="profile-modals-simple.js"></script>
+    <script src="scroll-progress.js"></script>
+    <script src="chatbot-fix.js"></script>
+    <script src="background-lines.js"></script>
+</body>
+</html>

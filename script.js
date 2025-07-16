@@ -35,6 +35,7 @@ class StudyConnectApp {
             this.initBackToTop();
             this.initScrollEffects();
             this.initProfileMenu();
+            this.initFavorites();
             
             setTimeout(() => this.checkLoginStatus(), 100);
         });
@@ -48,13 +49,14 @@ class StudyConnectApp {
         this.navigationManager = new NavigationManager();
         this.animationManager = new AnimationManager();
         this.formManager = new FormManager();
+        this.favoritesManager = new FavoritesManager();
     }
 
     handlePageLoad() {
-        // Simula carregamento da página
+        // Carregamento mais rápido
         setTimeout(() => {
             this.hideLoadingScreen();
-        }, 2000);
+        }, 800);
     }
 
 
@@ -200,18 +202,30 @@ class StudyConnectApp {
     }
 
     // ===========================
+    //   SISTEMA DE FAVORITOS
+    // ===========================
+    initFavorites() {
+        this.favoritesManager.init();
+    }
+
+    // ===========================
     //   MENU DE PERFIL
     // ===========================
     initProfileMenu() {
         this.checkLoginStatus();
         
         const logoutBtn = document.getElementById('logoutBtn');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const configBtn = document.getElementById('configBtn');
+        
         if (logoutBtn) {
             logoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.logout();
             });
         }
+        
+        // Event listeners para editar perfil e configurações são tratados pelo profile-modals-simple.js
         
         window.addEventListener('focus', () => {
             this.checkLoginStatus();
@@ -396,6 +410,8 @@ class StudyConnectApp {
             this.initParticles();
         }
     }
+
+
 }
 
 // ===========================
@@ -856,9 +872,238 @@ class Utils {
 }
 
 // ===========================
+//   GERENCIADOR DE FAVORITOS
+// ===========================
+class FavoritesManager {
+    constructor() {
+        this.favorites = JSON.parse(localStorage.getItem('studyconnect_favorites') || '[]');
+        this.likeButtons = [];
+    }
+
+    init() {
+        this.setupLikeButtons();
+        this.updateLikeButtonsState();
+    }
+
+    setupLikeButtons() {
+        this.likeButtons = document.querySelectorAll('.like-btn');
+        
+        this.likeButtons.forEach((btn, index) => {
+            const courseCard = btn.closest('.course-card');
+            if (courseCard) {
+                const courseData = this.extractCourseData(courseCard, index);
+                
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.toggleFavorite(courseData, btn);
+                });
+            }
+        });
+    }
+
+    extractCourseData(courseCard, index) {
+        const title = courseCard.querySelector('h3')?.textContent || `Curso ${index + 1}`;
+        const description = courseCard.querySelector('p')?.textContent || 'Descrição do curso';
+        const image = courseCard.querySelector('img')?.src || 'images/default-course.jpg';
+        const duration = courseCard.querySelector('.course-duration')?.textContent || '40h';
+        const students = courseCard.querySelector('.course-students')?.textContent || '100+';
+        const link = courseCard.querySelector('.btn-course')?.href || '#';
+        const category = courseCard.dataset.category || 'geral';
+        
+        return {
+            id: `course-${category}-${index}`,
+            title,
+            description,
+            image,
+            duration,
+            students,
+            link,
+            category,
+            addedAt: new Date().toISOString()
+        };
+    }
+
+    toggleFavorite(courseData, button) {
+        const existingIndex = this.favorites.findIndex(fav => fav.id === courseData.id);
+        
+        if (existingIndex > -1) {
+            // Remove from favorites
+            const removedCourse = this.favorites[existingIndex];
+            this.favorites.splice(existingIndex, 1);
+            this.updateButtonState(button, false);
+            this.showNotification(`"${removedCourse.title}" removido dos favoritos!`, 'warning');
+        } else {
+            // Add to favorites
+            this.favorites.push(courseData);
+            this.updateButtonState(button, true);
+            this.showNotification(`"${courseData.title}" adicionado aos favoritos!`, 'success');
+            
+            // Enviar para página de desempenho se estiver aberta
+            this.notifyPerformancePage(courseData);
+        }
+        
+        this.saveFavorites();
+        this.updateLikeCount(button);
+    }
+
+    updateButtonState(button, isFavorited) {
+        const icon = button.querySelector('i');
+        if (isFavorited) {
+            button.classList.add('liked');
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+        } else {
+            button.classList.remove('liked');
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+        }
+    }
+
+    updateLikeButtonsState() {
+        this.likeButtons.forEach((btn, index) => {
+            const courseCard = btn.closest('.course-card');
+            if (courseCard) {
+                const courseData = this.extractCourseData(courseCard, index);
+                const isFavorited = this.favorites.some(fav => fav.id === courseData.id);
+                this.updateButtonState(btn, isFavorited);
+            }
+        });
+    }
+
+    updateLikeCount(button) {
+        const countSpan = button.querySelector('span');
+        if (countSpan) {
+            let currentCount = parseInt(countSpan.textContent.replace(/[^0-9]/g, '')) || 0;
+            const isLiked = button.classList.contains('liked');
+            
+            if (isLiked) {
+                currentCount += 1;
+            } else {
+                currentCount = Math.max(0, currentCount - 1);
+            }
+            
+            countSpan.textContent = this.formatCount(currentCount);
+        }
+    }
+
+    formatCount(count) {
+        if (count >= 1000) {
+            return (count / 1000).toFixed(1) + 'k';
+        }
+        return count.toString();
+    }
+
+    saveFavorites() {
+        localStorage.setItem('studyconnect_favorites', JSON.stringify(this.favorites));
+    }
+
+    notifyPerformancePage(courseData) {
+        // Tentar notificar todas as janelas abertas
+        const windows = [];
+        
+        // Verificar se há uma janela de desempenho aberta
+        try {
+            if (window.performanceWindow && !window.performanceWindow.closed) {
+                window.performanceWindow.postMessage({
+                    type: 'favoriteAdded',
+                    courseData: courseData
+                }, '*');
+            }
+        } catch (e) {
+            console.log('Não foi possível notificar a página de desempenho');
+        }
+        
+        // Broadcast para todas as abas
+        localStorage.setItem('favorite_update', JSON.stringify({
+            type: 'added',
+            courseData: courseData,
+            timestamp: Date.now()
+        }));
+        
+        // Limpar o broadcast após um tempo
+        setTimeout(() => {
+            localStorage.removeItem('favorite_update');
+        }, 1000);
+    }
+
+    showNotification(message, type = 'info') {
+        // Evitar notificações duplicadas
+        const existingNotifications = document.querySelectorAll('.notification');
+        for (let notif of existingNotifications) {
+            if (notif.textContent.includes(message.replace(/"/g, ''))) {
+                return; // Não criar duplicata
+            }
+        }
+
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${type === 'success' ? 'heart' : type === 'warning' ? 'heart-broken' : 'info-circle'}"></i>
+                <span>${message}</span>
+                <button class="notification-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+
+        notification.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: ${type === 'success' ? '#43e97b' : type === 'warning' ? '#f39c12' : '#667eea'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            font-weight: 500;
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+
+        setTimeout(() => {
+            this.removeNotification(notification);
+        }, 3000);
+
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => {
+            this.removeNotification(notification);
+        });
+    }
+
+    removeNotification(notification) {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }
+}
+
+// ===========================
 //   INICIALIZAÇÃO
 // ===========================
 const app = new StudyConnectApp();
+
+// Escutar mudanças no localStorage para sincronizar favoritos
+window.addEventListener('storage', (e) => {
+    if (e.key === 'favorite_update') {
+        const data = JSON.parse(e.newValue || '{}');
+        if (data.type === 'removed' && app.favoritesManager) {
+            app.favoritesManager.updateLikeButtonsState();
+        }
+    }
+});
 
 // ===========================
 //   FUNÇÃO GLOBAL PARA LOGIN

@@ -1,0 +1,16 @@
+/* Avatar Fix for Profile */
+.profile-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .profile-avatar {
+    width: 20px;
+    height: 20px;
+  }
+}
