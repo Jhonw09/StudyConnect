@@ -55,6 +55,7 @@ class ProfileSystem {
         this.setupEventListeners();
         this.updateProfileDisplay();
         this.checkLoginStatus();
+        this.setupFavoriteButtons();
     }
 
     setupEventListeners() {
@@ -75,19 +76,38 @@ class ProfileSystem {
             if (configBtn) configBtn.onclick = (e) => { e.preventDefault(); this.showConfigModal(); };
             if (logoutBtn) logoutBtn.onclick = (e) => { e.preventDefault(); this.logout(); };
             
-            // Mobile dropdown
+            // Profile dropdown
             if (profileBtn && profileDropdown) {
+                const profileDropdownClose = document.getElementById('profileDropdownClose');
+                
                 profileBtn.onclick = (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     profileDropdown.classList.toggle('show');
                 };
                 
-                document.onclick = (e) => {
-                    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                if (profileDropdownClose) {
+                    profileDropdownClose.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        profileDropdown.classList.remove('show');
+                    });
+                }
+                
+                profileDropdown.onclick = (e) => {
+                    if (e.target === profileDropdown) {
                         profileDropdown.classList.remove('show');
                     }
                 };
+                
+                const dropdownItems = profileDropdown.querySelectorAll('.dropdown-item');
+                dropdownItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        profileDropdown.classList.remove('show');
+                    });
+                });
             }
         });
     }
@@ -507,6 +527,53 @@ class ProfileSystem {
         this.showNotification('Removido dos favoritos!', 'success');
     }
 
+    setupFavoriteButtons() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const likeButtons = document.querySelectorAll('.like-btn');
+            likeButtons.forEach(btn => {
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.toggleFavorite(btn);
+                };
+            });
+        });
+    }
+    
+    toggleFavorite(button) {
+        const courseCard = button.closest('.course-card');
+        const courseName = courseCard.querySelector('h3').textContent;
+        const courseImage = courseCard.querySelector('img').src;
+        const courseTech = Array.from(courseCard.querySelectorAll('.tech-tag')).map(tag => tag.textContent).join(', ');
+        
+        const courseData = {
+            name: courseName,
+            tech: courseTech,
+            image: courseImage,
+            date: new Date().toLocaleDateString('pt-BR')
+        };
+        
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const existingIndex = favorites.findIndex(fav => fav.name === courseName);
+        
+        if (existingIndex > -1) {
+            favorites.splice(existingIndex, 1);
+            button.classList.remove('favorited');
+            button.querySelector('i').classList.remove('fas');
+            button.querySelector('i').classList.add('far');
+            this.showNotification('Removido dos favoritos!', 'info');
+        } else {
+            favorites.push(courseData);
+            button.classList.add('favorited');
+            button.querySelector('i').classList.remove('far');
+            button.querySelector('i').classList.add('fas');
+            this.showNotification('Adicionado aos favoritos!', 'success');
+        }
+        
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        this.userData.favorites = favorites;
+    }
+    
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
