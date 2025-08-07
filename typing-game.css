@@ -39,6 +39,8 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .game-card::before {
@@ -165,6 +167,7 @@
     justify-content: center;
     gap: 0.5rem;
     text-decoration: none;
+    margin-top: auto;
 }
 
 .btn-game:hover {
@@ -284,17 +287,22 @@
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 2rem;
-    min-height: 120px;
+    min-height: 180px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    display: flex;
+    align-items: flex-start;
 }
 
 .typing-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.8;
     font-family: 'Courier New', monospace;
     color: #2c3e50;
     user-select: none;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .typing-text .correct {
@@ -337,10 +345,12 @@
     display: flex;
     gap: 1rem;
     justify-content: center;
+    align-items: center;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
 }
 
-.btn-start, .btn-restart {
+.btn-start, .btn-restart, .btn-next-phase, .btn-back {
     padding: 1rem 2rem;
     border: none;
     border-radius: 12px;
@@ -350,7 +360,9 @@
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
+    min-width: 150px;
 }
 
 .btn-start {
@@ -363,7 +375,17 @@
     color: white;
 }
 
-.btn-start:hover, .btn-restart:hover {
+.btn-next-phase {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-back {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+}
+
+.btn-start:hover, .btn-restart:hover, .btn-next-phase:hover, .btn-back:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
@@ -374,6 +396,50 @@
     padding: 2rem;
     border-radius: 12px;
     text-align: center;
+    position: relative;
+}
+
+.phase-info {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.phase-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.phase-progress {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.phase-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.phase-dot.completed {
+    background: #43e97b;
+    box-shadow: 0 0 10px rgba(67, 233, 123, 0.5);
+}
+
+.phase-dot.current {
+    background: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    transform: scale(1.2);
 }
 
 .typing-results h3 {
@@ -546,7 +612,7 @@
     
     .typing-text-container {
         padding: 1.5rem;
-        min-height: 100px;
+        min-height: 140px;
     }
     
     .typing-controls {

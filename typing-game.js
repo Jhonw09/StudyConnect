@@ -4,29 +4,61 @@
 
 class TypingGame {
     constructor() {
-        this.texts = [
-            "A educação é a arma mais poderosa que você pode usar para mudar o mundo.",
-            "O conhecimento é o único bem que aumenta quando é compartilhado.",
-            "Aprender é descobrir aquilo que você já sabe. Fazer é demonstrar que você o sabe.",
-            "A mente que se abre a uma nova ideia jamais voltará ao seu tamanho original.",
-            "O futuro pertence àqueles que acreditam na beleza de seus sonhos.",
-            "Não é o mais forte que sobrevive, nem o mais inteligente, mas o que melhor se adapta às mudanças.",
-            "A única fonte de conhecimento é a experiência.",
-            "Investir em conhecimento rende sempre os melhores juros.",
-            "A educação é o passaporte para o futuro, pois o amanhã pertence àqueles que se preparam hoje.",
-            "Você nunca sabe que resultados virão da sua ação. Mas se você não fizer nada, não existirão resultados.",
-            "O sucesso é ir de fracasso em fracasso sem perder o entusiasmo.",
-            "A persistência é o caminho do êxito.",
-            "Grandes realizações requerem grandes ambições.",
-            "O único lugar onde o sucesso vem antes do trabalho é no dicionário.",
-            "A diferença entre o possível e o impossível está na determinação da pessoa.",
-            "Seja você mesmo; todos os outros já foram tomados.",
-            "A vida é o que acontece enquanto você está ocupado fazendo outros planos.",
-            "Duas coisas são infinitas: o universo e a estupidez humana; e não tenho certeza sobre o universo.",
-            "Seja a mudança que você quer ver no mundo.",
-            "A imaginação é mais importante que o conhecimento."
+        this.phases = [
+            {
+                name: "Fase 1 - Iniciante",
+                texts: [
+                    "A educação é a arma mais poderosa que você pode usar para mudar o mundo.",
+                    "O conhecimento é o único bem que aumenta quando é compartilhado.",
+                    "Aprender é descobrir aquilo que você já sabe."
+                ],
+                difficulty: "Fácil",
+                timeLimit: 60
+            },
+            {
+                name: "Fase 2 - Básico",
+                texts: [
+                    "A mente que se abre a uma nova ideia jamais voltará ao seu tamanho original.",
+                    "O futuro pertence àqueles que acreditam na beleza de seus sonhos.",
+                    "Não é o mais forte que sobrevive, nem o mais inteligente, mas o que melhor se adapta às mudanças."
+                ],
+                difficulty: "Básico",
+                timeLimit: 50
+            },
+            {
+                name: "Fase 3 - Intermediário",
+                texts: [
+                    "A única fonte de conhecimento é a experiência. Investir em conhecimento rende sempre os melhores juros.",
+                    "A educação é o passaporte para o futuro, pois o amanhã pertence àqueles que se preparam hoje.",
+                    "Você nunca sabe que resultados virão da sua ação. Mas se você não fizer nada, não existirão resultados."
+                ],
+                difficulty: "Intermediário",
+                timeLimit: 45
+            },
+            {
+                name: "Fase 4 - Avançado",
+                texts: [
+                    "O sucesso é ir de fracasso em fracasso sem perder o entusiasmo. A persistência é o caminho do êxito.",
+                    "Grandes realizações requerem grandes ambições. O único lugar onde o sucesso vem antes do trabalho é no dicionário.",
+                    "A diferença entre o possível e o impossível está na determinação da pessoa. Seja você mesmo; todos os outros já foram tomados."
+                ],
+                difficulty: "Avançado",
+                timeLimit: 40
+            },
+            {
+                name: "Fase 5 - Expert",
+                texts: [
+                    "A vida é o que acontece enquanto você está ocupado fazendo outros planos. Duas coisas são infinitas: o universo e a estupidez humana; e não tenho certeza sobre o universo.",
+                    "Seja a mudança que você quer ver no mundo. A imaginação é mais importante que o conhecimento, pois o conhecimento é limitado.",
+                    "O verdadeiro sinal de inteligência não é o conhecimento, mas a imaginação. A educação é aquilo que permanece depois que você esquece tudo o que aprendeu na escola."
+                ],
+                difficulty: "Expert",
+                timeLimit: 35
+            }
         ];
         
+        this.currentPhase = 0;
+        this.currentTextIndex = 0;
         this.currentText = '';
         this.currentIndex = 0;
         this.startTime = null;
@@ -39,6 +71,8 @@ class TypingGame {
         this.errors = 0;
         this.wpm = 0;
         this.accuracy = 100;
+        this.phaseCompleted = false;
+        this.completedPhases = [];
         
         this.initializeElements();
         this.setupEventListeners();
@@ -53,6 +87,8 @@ class TypingGame {
         this.accuracyElement = document.getElementById('accuracy');
         this.startBtn = document.getElementById('startBtn');
         this.restartBtn = document.getElementById('restartBtn');
+        this.nextPhaseBtn = document.getElementById('nextPhaseBtn');
+        this.backBtn = document.getElementById('backBtn');
         this.resultsDiv = document.getElementById('results');
         this.finalWPM = document.getElementById('finalWPM');
         this.finalAccuracy = document.getElementById('finalAccuracy');
@@ -60,12 +96,16 @@ class TypingGame {
         this.performanceMessage = document.getElementById('performanceMessage');
         this.playAgainBtn = document.getElementById('playAgainBtn');
         this.inputIndicator = document.getElementById('inputIndicator');
+        this.phaseInfo = document.getElementById('phaseInfo');
+        this.phaseProgress = document.getElementById('phaseProgress');
     }
     
     setupEventListeners() {
         // Botões
         this.startBtn?.addEventListener('click', () => this.startTest());
         this.restartBtn?.addEventListener('click', () => this.resetGame());
+        this.nextPhaseBtn?.addEventListener('click', () => this.nextPhase());
+        this.backBtn?.addEventListener('click', () => this.goBack());
         this.playAgainBtn?.addEventListener('click', () => this.resetGame());
         
         // Input de digitação
@@ -82,6 +122,9 @@ class TypingGame {
                 e.preventDefault();
                 this.resetGame();
             }
+            if (e.key === 'Enter' && this.phaseCompleted && !this.isGameActive) {
+                this.nextPhase();
+            }
         });
         
         // Prevenir seleção de texto
@@ -89,21 +132,26 @@ class TypingGame {
     }
     
     resetGame() {
-        this.currentText = this.getRandomText();
+        this.currentPhase = 0;
+        this.currentTextIndex = 0;
+        this.currentText = this.getCurrentText();
         this.currentIndex = 0;
         this.startTime = null;
         this.endTime = null;
-        this.timeLeft = 60;
+        this.timeLeft = this.phases[this.currentPhase].timeLimit;
         this.isGameActive = false;
         this.correctChars = 0;
         this.totalChars = 0;
         this.errors = 0;
         this.wpm = 0;
         this.accuracy = 100;
+        this.phaseCompleted = false;
+        this.completedPhases = [];
         
         this.stopTimer();
         this.displayText();
         this.updateStats();
+        this.updatePhaseInfo();
         this.resetUI();
         
         document.body.classList.remove('game-active', 'game-finished');
@@ -124,6 +172,10 @@ class TypingGame {
             this.restartBtn.style.display = 'none';
         }
         
+        if (this.nextPhaseBtn) {
+            this.nextPhaseBtn.style.display = 'none';
+        }
+        
         if (this.resultsDiv) {
             this.resultsDiv.style.display = 'none';
         }
@@ -133,8 +185,61 @@ class TypingGame {
         }
     }
     
-    getRandomText() {
-        return this.texts[Math.floor(Math.random() * this.texts.length)];
+    getCurrentText() {
+        const phase = this.phases[this.currentPhase];
+        return phase.texts[this.currentTextIndex % phase.texts.length];
+    }
+    
+    nextPhase() {
+        if (this.currentPhase < this.phases.length - 1) {
+            this.completedPhases.push(this.currentPhase);
+            this.currentPhase++;
+            this.currentTextIndex = 0;
+            this.currentText = this.getCurrentText();
+            this.currentIndex = 0;
+            this.startTime = null;
+            this.endTime = null;
+            this.timeLeft = this.phases[this.currentPhase].timeLimit;
+            this.isGameActive = false;
+            this.correctChars = 0;
+            this.totalChars = 0;
+            this.errors = 0;
+            this.wpm = 0;
+            this.accuracy = 100;
+            this.phaseCompleted = false;
+            
+            this.stopTimer();
+            this.displayText();
+            this.updateStats();
+            this.updatePhaseInfo();
+            this.resetUI();
+            
+            document.body.classList.remove('game-active', 'game-finished');
+        } else {
+            this.showFinalResults();
+        }
+    }
+    
+    goBack() {
+        window.location.href = 'index.html#quiz';
+    }
+    
+    updatePhaseInfo() {
+        if (this.phaseInfo) {
+            const phase = this.phases[this.currentPhase];
+            this.phaseInfo.innerHTML = `
+                <h3><i class="fas fa-layer-group"></i> ${phase.name}</h3>
+                <p>Dificuldade: ${phase.difficulty} | Tempo: ${phase.timeLimit}s</p>
+                <div class="phase-progress" id="phaseProgress">
+                    ${this.phases.map((_, index) => 
+                        `<div class="phase-dot ${
+                            this.completedPhases.includes(index) ? 'completed' : 
+                            index === this.currentPhase ? 'current' : ''
+                        }"></div>`
+                    ).join('')}
+                </div>
+            `;
+        }
     }
     
     displayText() {
@@ -181,6 +286,7 @@ class TypingGame {
     }
     
     startTimer() {
+        this.timeLeft = this.phases[this.currentPhase].timeLimit;
         this.timer = setInterval(() => {
             this.timeLeft--;
             this.updateStats();
@@ -211,6 +317,7 @@ class TypingGame {
         document.body.classList.add('game-finished');
         
         this.calculateFinalStats();
+        this.phaseCompleted = true;
         this.showResults();
         this.saveScore();
     }
@@ -257,8 +364,16 @@ class TypingGame {
     handleKeyDown(e) {
         if (!this.isGameActive) return;
         
-        // Prevenir algumas teclas especiais
-        if (['Tab', 'Enter'].includes(e.key)) {
+        // Prevenir algumas teclas especiais durante o jogo
+        if (['Tab'].includes(e.key)) {
+            e.preventDefault();
+        }
+        
+        // Permitir Enter apenas quando o texto estiver completo
+        if (e.key === 'Enter') {
+            if (this.typingInput.value === this.currentText) {
+                this.endTest();
+            }
             e.preventDefault();
         }
         
@@ -326,9 +441,37 @@ class TypingGame {
         // Mostrar mensagem de performance
         this.showPerformanceMessage();
         
+        // Mostrar botão apropriado
+        if (this.currentPhase < this.phases.length - 1) {
+            if (this.nextPhaseBtn) {
+                this.nextPhaseBtn.style.display = 'inline-flex';
+            }
+        } else {
+            if (this.playAgainBtn) {
+                this.playAgainBtn.style.display = 'inline-flex';
+            }
+        }
+        
         // Mostrar resultados
         this.resultsDiv.style.display = 'block';
         this.resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    showFinalResults() {
+        if (this.performanceMessage) {
+            this.performanceMessage.innerHTML = `
+                <h3>🎉 Parabéns! Você completou todas as 5 fases!</h3>
+                <p>Você demonstrou excelente habilidade de digitação em todos os níveis de dificuldade!</p>
+            `;
+        }
+        
+        if (this.playAgainBtn) {
+            this.playAgainBtn.style.display = 'inline-flex';
+        }
+        
+        if (this.nextPhaseBtn) {
+            this.nextPhaseBtn.style.display = 'none';
+        }
     }
     
     showPerformanceMessage() {
@@ -336,22 +479,27 @@ class TypingGame {
         
         let message = '';
         let className = '';
+        const phase = this.phases[this.currentPhase];
         
         if (this.wpm >= 60 && this.accuracy >= 95) {
-            message = `🚀 Excelente! Você é um digitador profissional! ${this.wpm} WPM com ${this.accuracy}% de precisão é impressionante!`;
+            message = `🚀 Excelente! ${this.wpm} WPM com ${this.accuracy}% de precisão na ${phase.name}!`;
             className = 'performance-excellent';
         } else if (this.wpm >= 40 && this.accuracy >= 90) {
-            message = `👍 Muito bom! Você tem uma velocidade acima da média! Continue praticando para chegar aos 60 WPM!`;
+            message = `👍 Muito bom! Ótimo desempenho na ${phase.name}!`;
             className = 'performance-good';
         } else if (this.wpm >= 25 && this.accuracy >= 80) {
-            message = `📈 Bom trabalho! Você está no caminho certo. Foque em manter a precisão enquanto aumenta a velocidade!`;
+            message = `📈 Bom trabalho na ${phase.name}! Continue praticando!`;
             className = 'performance-average';
         } else {
-            message = `💪 Continue praticando! A digitação rápida é uma habilidade que melhora com o tempo. Foque primeiro na precisão!`;
+            message = `💪 Continue praticando! A ${phase.name} foi um bom treino!`;
             className = 'performance-needs-improvement';
         }
         
-        this.performanceMessage.textContent = message;
+        if (this.currentPhase < this.phases.length - 1) {
+            message += ` Pressione Enter ou clique em "Próxima Fase" para continuar!`;
+        }
+        
+        this.performanceMessage.innerHTML = message;
         this.performanceMessage.className = 'performance-message ' + className;
     }
     
@@ -364,6 +512,9 @@ class TypingGame {
                 correctChars: this.correctChars,
                 totalChars: this.totalChars,
                 errors: this.errors,
+                phase: this.currentPhase + 1,
+                phaseName: this.phases[this.currentPhase].name,
+                difficulty: this.phases[this.currentPhase].difficulty,
                 date: new Date().toISOString(),
                 timestamp: Date.now()
             };
@@ -446,6 +597,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mostrar dica inicial
     showInitialTip();
+    
+    // Atualizar informações da fase inicial
+    if (typingGame) {
+        typingGame.updatePhaseInfo();
+    }
 });
 
 // ===========================

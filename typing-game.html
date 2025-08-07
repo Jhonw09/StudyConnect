@@ -13,12 +13,25 @@
     <div class="quiz-container typing-container">
         <header class="quiz-header typing-header">
             <div class="quiz-nav">
-                <a href="index.html#quiz" class="btn-home">
-                    <i class="fas fa-gamepad"></i> Voltar aos Jogos
-                </a>
+                <button id="backBtn" class="btn-home">
+                    <i class="fas fa-arrow-left"></i> Voltar aos Jogos
+                </button>
             </div>
             <h1><i class="fas fa-keyboard"></i> Digitação Rápida</h1>
-            <p>Teste sua velocidade e precisão de digitação!</p>
+            <p>Teste sua velocidade e precisão de digitação em 5 fases!</p>
+            
+            <!-- Informações da Fase -->
+            <div class="phase-info" id="phaseInfo">
+                <h3><i class="fas fa-layer-group"></i> Fase 1 - Iniciante</h3>
+                <p>Dificuldade: Fácil | Tempo: 60s</p>
+                <div class="phase-progress" id="phaseProgress">
+                    <div class="phase-dot current"></div>
+                    <div class="phase-dot"></div>
+                    <div class="phase-dot"></div>
+                    <div class="phase-dot"></div>
+                    <div class="phase-dot"></div>
+                </div>
+            </div>
         </header>
 
         <div class="quiz-content typing-content">
@@ -68,11 +81,14 @@
 
             <!-- Controles do jogo -->
             <div class="quiz-controls typing-controls">
-                <button id="startBtn" class="btn btn-primary">
-                    <i class="fas fa-play"></i> Iniciar Teste
+                <button id="startBtn" class="btn btn-start">
+                    <i class="fas fa-play"></i> Iniciar Fase
                 </button>
-                <button id="restartBtn" class="btn btn-secondary" style="display: none;">
-                    <i class="fas fa-redo"></i> Reiniciar Teste
+                <button id="restartBtn" class="btn btn-restart" style="display: none;">
+                    <i class="fas fa-redo"></i> Reiniciar
+                </button>
+                <button id="nextPhaseBtn" class="btn btn-next-phase" style="display: none;">
+                    <i class="fas fa-arrow-right"></i> Próxima Fase
                 </button>
             </div>
 
@@ -115,12 +131,9 @@
                 <div class="performance-message" id="performanceMessage"></div>
 
                 <div class="results-actions">
-                    <button id="playAgainBtn" class="btn btn-secondary">
-                        <i class="fas fa-redo"></i> Jogar Novamente
+                    <button id="playAgainBtn" class="btn btn-secondary" style="display: none;">
+                        <i class="fas fa-redo"></i> Recomeçar Jogo
                     </button>
-                    <a href="index.html#quiz" class="btn btn-primary">
-                        <i class="fas fa-gamepad"></i> Voltar aos Jogos
-                    </a>
                 </div>
             </div>
         </div>
