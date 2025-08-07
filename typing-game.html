@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Digitação Rápida - StudyConnect+</title>
+    <link rel="stylesheet" href="quiz-style.css">
+    <link rel="stylesheet" href="typing-game-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="quiz-container typing-container">
+        <header class="quiz-header typing-header">
+            <div class="quiz-nav">
+                <a href="index.html#quiz" class="btn-home">
+                    <i class="fas fa-gamepad"></i> Voltar aos Jogos
+                </a>
+            </div>
+            <h1><i class="fas fa-keyboard"></i> Digitação Rápida</h1>
+            <p>Teste sua velocidade e precisão de digitação!</p>
+        </header>
+
+        <div class="quiz-content typing-content">
+            <!-- Estatísticas em tempo real -->
+            <div class="typing-stats">
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Tempo</span>
+                        <span class="stat-value" id="timeLeft">60</span>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">WPM</span>
+                        <span class="stat-value" id="wpm">0</span>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-target"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Precisão</span>
+                        <span class="stat-value" id="accuracy">100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área do texto para digitação -->
+            <div class="typing-text-container">
+                <div class="typing-text" id="typingText">
+                    Clique em "Iniciar" para começar o teste de digitação!
+                </div>
+            </div>
+
+            <!-- Campo de entrada -->
+            <div class="typing-input-container">
+                <input type="text" id="typingInput" placeholder="Comece a digitar aqui..." disabled>
+                <div class="input-indicator" id="inputIndicator"></div>
+            </div>
+
+            <!-- Controles do jogo -->
+            <div class="quiz-controls typing-controls">
+                <button id="startBtn" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Iniciar Teste
+                </button>
+                <button id="restartBtn" class="btn btn-secondary" style="display: none;">
+                    <i class="fas fa-redo"></i> Reiniciar Teste
+                </button>
+            </div>
+
+            <!-- Resultados finais -->
+            <div class="results typing-results" id="results" style="display: none;">
+                <h2><i class="fas fa-trophy"></i> Resultado Final!</h2>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="result-info">
+                            <span class="result-label">Velocidade</span>
+                            <span class="result-value" id="finalWPM">0 WPM</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="result-info">
+                            <span class="result-label">Precisão</span>
+                            <span class="result-value" id="finalAccuracy">100%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <div class="result-info">
+                            <span class="result-label">Caracteres</span>
+                            <span class="result-value" id="finalChars">0/0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="performance-message" id="performanceMessage"></div>
+
+                <div class="results-actions">
+                    <button id="playAgainBtn" class="btn btn-secondary">
+                        <i class="fas fa-redo"></i> Jogar Novamente
+                    </button>
+                    <a href="index.html#quiz" class="btn btn-primary">
+                        <i class="fas fa-gamepad"></i> Voltar aos Jogos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="typing-game.js"></script>
+</body>
+</html>

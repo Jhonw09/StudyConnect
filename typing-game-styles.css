@@ -1,0 +1,530 @@
+/* ===========================
+   ESTILOS ESPECÍFICOS DO JOGO DE DIGITAÇÃO
+=========================== */
+
+/* Container principal */
+.typing-container {
+    max-width: 800px;
+}
+
+.typing-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.typing-content {
+    padding: 40px;
+}
+
+/* Estatísticas em tempo real */
+.typing-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.stat-box:hover::before {
+    left: 100%;
+}
+
+.stat-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+    border-color: #667eea;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Área do texto para digitação */
+.typing-text-container {
+    background: #f8fafc;
+    border: 3px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 25px;
+    min-height: 150px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.typing-text {
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #2c3e50;
+    user-select: none;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+/* Estados dos caracteres */
+.typing-text .char {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.typing-text .char.correct {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+    border-radius: 3px;
+    padding: 2px 1px;
+}
+
+.typing-text .char.incorrect {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+    border-radius: 3px;
+    padding: 2px 1px;
+    animation: shake 0.3s ease-in-out;
+}
+
+.typing-text .char.current {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 3px;
+    padding: 2px 1px;
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+}
+
+/* Campo de entrada */
+.typing-input-container {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+#typingInput {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-family: 'Courier New', 'Monaco', monospace;
+    border: 3px solid #e2e8f0;
+    border-radius: 15px;
+    background: white;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+#typingInput:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+#typingInput:disabled {
+    background: #f1f5f9;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.input-indicator {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #43e97b, #38f9d7);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Controles do jogo */
+.typing-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.typing-controls .btn {
+    min-width: 150px;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Resultados */
+.typing-results {
+    animation: slideUp 0.6s ease-out;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.result-card {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(67, 233, 123, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.result-card:hover::before {
+    left: 100%;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border-color: #43e97b;
+}
+
+.result-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3);
+}
+
+.result-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-label {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.result-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Mensagem de performance */
+.performance-message {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 25px 0;
+    box-shadow: 0 10px 25px rgba(67, 233, 123, 0.3);
+}
+
+.results-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.results-actions .btn {
+    min-width: 180px;
+}
+
+/* Animações */
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estados especiais */
+.game-active .typing-text-container {
+    border-color: #43e97b;
+    box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1), inset 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.game-finished .typing-text-container {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+}
+
+/* Tema escuro */
+.dark-mode .stat-box {
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    border-color: #4a5568;
+}
+
+.dark-mode .stat-label {
+    color: #a0aec0;
+}
+
+.dark-mode .stat-value {
+    color: #ffffff;
+}
+
+.dark-mode .typing-text-container {
+    background: #2d3748;
+    border-color: #4a5568;
+}
+
+.dark-mode .typing-text {
+    color: #ffffff;
+}
+
+.dark-mode #typingInput {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #ffffff;
+}
+
+.dark-mode #typingInput::placeholder {
+    color: #a0aec0;
+}
+
+.dark-mode .result-card {
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    border-color: #4a5568;
+}
+
+.dark-mode .result-label {
+    color: #a0aec0;
+}
+
+.dark-mode .result-value {
+    color: #ffffff;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .typing-content {
+        padding: 25px;
+    }
+    
+    .typing-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .stat-box {
+        padding: 15px;
+    }
+    
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .typing-text-container {
+        padding: 20px;
+        min-height: 120px;
+    }
+    
+    .typing-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    
+    #typingInput {
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+    
+    .typing-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .typing-controls .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .result-card {
+        padding: 20px;
+    }
+    
+    .result-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .result-value {
+        font-size: 1.4rem;
+    }
+    
+    .results-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .results-actions .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .typing-content {
+        padding: 20px;
+    }
+    
+    .typing-text {
+        font-size: 1rem;
+    }
+    
+    #typingInput {
+        font-size: 1rem;
+        padding: 12px;
+    }
+    
+    .performance-message {
+        font-size: 1rem;
+        padding: 15px;
+    }
+}
+
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    .stat-box::before,
+    .result-card::before,
+    .char.current,
+    .char.incorrect {
+        animation: none;
+        transition: none;
+    }
+    
+    .typing-results {
+        animation: none;
+    }
+}
+
+/* Estados de foco para acessibilidade */
+.btn:focus,
+#typingInput:focus {
+    outline: 3px solid #43e97b;
+    outline-offset: 2px;
+}
+
+/* Indicadores visuais para diferentes níveis de performance */
+.performance-excellent .performance-message {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+.performance-good .performance-message {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.performance-average .performance-message {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.performance-needs-improvement .performance-message {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="device-specific.css" />
     <link rel="stylesheet" href="desktop-fix.css" />
     <link rel="stylesheet" href="quiz-styles-addon.css" />
+    <link rel="stylesheet" href="typing-game.css" />
     <link rel="stylesheet" href="chatbot.css" />
     <link rel="stylesheet" href="faq-layout.css" />
     <link rel="stylesheet" href="course-fix.css" />
@@ -53,7 +54,7 @@
                 <ul class="nav-list" id="nav-list">
                     <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#cursos"><i class="fas fa-book"></i> Cursos</a></li>
-                    <li><a href="#quiz"><i class="fas fa-brain"></i> Quiz</a></li>
+                    <li><a href="#quiz"><i class="fas fa-gamepad"></i> Jogos</a></li>
                     <li><a href="#professores"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
                     <li><a href="#contato"><i class="fas fa-envelope"></i> Contato</a></li>
                     <li><a href="Login/Login.html" class="login-btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
@@ -583,93 +584,117 @@
             </div>
         </section>
 
-        <section id="quiz" class="quizzes-section">
+        <section id="quiz" class="games-section">
             <div class="section-header">
                 <h2 class="section-title">
-                    <span class="title-accent"></span> Quiz Educativo
+                    <span class="title-accent"></span> Jogos Educativos
                 </h2>
                 <p class="section-subtitle">
-                    Teste seus conhecimentos com nossos jogos educativos interativos
+                    Aprenda brincando com nossos jogos educativos interativos
                 </p>
             </div>
 
-            <div class="quizzes-grid animate-on-scroll">
-                <div class="quiz-card hover-lift">
-                    <div class="quiz-header">
-                        <div class="quiz-icon">
-                            <i class="fas fa-brain"></i>
+            <div class="games-grid animate-on-scroll">
+                <!-- Jogo de Digitação Rápida -->
+                <div class="game-card typing-game-card hover-lift">
+                    <div class="game-header">
+                        <div class="game-icon">
+                            <i class="fas fa-keyboard"></i>
                         </div>
-                        <div class="quiz-badge">Popular</div>
+                        <div class="game-badge featured">Destaque</div>
                     </div>
-                    <div class="quiz-content">
-                        <h3>Quiz Misto</h3>
-                        <p>Avalie seus conhecimentos em programação e cultura geral com questões diversificadas e interativas.</p>
-                        <div class="quiz-stats">
-                            <div class="quiz-stat">
-                                <i class="fas fa-question-circle"></i>
-                                <span>10 Perguntas</span>
+                    <div class="game-content">
+                        <h3>Digitação Rápida</h3>
+                        <p>Melhore sua velocidade de digitação com palavras e frases desafiadoras. Teste seus reflexos!</p>
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>WPM</span>
                             </div>
-                            <div class="quiz-stat">
+                            <div class="game-stat">
                                 <i class="fas fa-clock"></i>
-                                <span>~5 minutos</span>
+                                <span>60s</span>
                             </div>
-                            <div class="quiz-stat">
-                                <i class="fas fa-trophy"></i>
-                                <span>Nível Fácil</span>
+                            <div class="game-stat">
+                                <i class="fas fa-target"></i>
+                                <span>Precisão</span>
                             </div>
-                        </div>
-                        <div class="quiz-topics">
-                            <span class="topic-tag">Programação</span>
-                            <span class="topic-tag">Geografia</span>
-                            <span class="topic-tag">História</span>
-                            <span class="topic-tag">Ciências</span>
                         </div>
                     </div>
-                    <div class="quiz-footer">
-                        <a href="quiz-misto.html" class="btn btn-quiz" target="_blank">
+                    <div class="game-footer">
+                        <a href="typing-game.html" class="btn btn-game" target="_blank">
                             <i class="fas fa-play"></i> Jogar Agora
                         </a>
                     </div>
                 </div>
 
-                <div class="quiz-card hover-lift">
-                    <div class="quiz-header">
-                        <div class="quiz-icon">
-                            <i class="fas fa-book-open"></i>
+                <!-- Quiz Cards Existentes -->
+                <div class="game-card quiz-card hover-lift">
+                    <div class="game-header">
+                        <div class="game-icon">
+                            <i class="fas fa-brain"></i>
                         </div>
-                        <div class="quiz-badge academic">Acadêmico</div>
+                        <div class="game-badge">Popular</div>
                     </div>
-                    <div class="quiz-content">
-                        <h3>Quiz de Português</h3>
-                        <p>Teste seus conhecimentos em gramática, literatura e interpretação de texto com conteúdo do 9º ano.</p>
-                        <div class="quiz-stats">
-                            <div class="quiz-stat">
+                    <div class="game-content">
+                        <h3>Quiz Misto</h3>
+                        <p>Avalie seus conhecimentos em programação e cultura geral com questões diversificadas.</p>
+                        <div class="game-stats">
+                            <div class="game-stat">
                                 <i class="fas fa-question-circle"></i>
                                 <span>10 Perguntas</span>
                             </div>
-                            <div class="quiz-stat">
+                            <div class="game-stat">
                                 <i class="fas fa-clock"></i>
-                                <span>~6 minutos</span>
+                                <span>~5 min</span>
                             </div>
-                            <div class="quiz-stat">
+                            <div class="game-stat">
+                                <i class="fas fa-trophy"></i>
+                                <span>Fácil</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-footer">
+                        <a href="quiz-misto.html" class="btn btn-game" target="_blank">
+                            <i class="fas fa-play"></i> Jogar Agora
+                        </a>
+                    </div>
+                </div>
+
+                <div class="game-card quiz-card hover-lift">
+                    <div class="game-header">
+                        <div class="game-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="game-badge academic">Acadêmico</div>
+                    </div>
+                    <div class="game-content">
+                        <h3>Quiz de Português</h3>
+                        <p>Teste seus conhecimentos em gramática, literatura e interpretação de texto.</p>
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <i class="fas fa-question-circle"></i>
+                                <span>10 Perguntas</span>
+                            </div>
+                            <div class="game-stat">
+                                <i class="fas fa-clock"></i>
+                                <span>~6 min</span>
+                            </div>
+                            <div class="game-stat">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span>9º Ano</span>
                             </div>
                         </div>
-                        <div class="quiz-topics">
-                            <span class="topic-tag">Gramática</span>
-                            <span class="topic-tag">Literatura</span>
-                            <span class="topic-tag">Sintaxe</span>
-                            <span class="topic-tag">Interpretação</span>
-                        </div>
                     </div>
-                    <div class="quiz-footer">
-                        <a href="quiz-portugues.html" class="btn btn-quiz" target="_blank">
+                    <div class="game-footer">
+                        <a href="quiz-portugues.html" class="btn btn-game" target="_blank">
                             <i class="fas fa-play"></i> Jogar Agora
                         </a>
                     </div>
                 </div>
             </div>
+
+
         </section>
         
         <section id="contato" class="contact-section">
@@ -943,6 +968,7 @@
     <script src="config.js"></script>
 
     <link rel="stylesheet" href="profile-styles.css" />
+    <link rel="stylesheet" href="typing-game.css" />
     <script src="script.js"></script>
     <script src="profile-system.js"></script>
     <script src="profile-modals-simple.js"></script>
