@@ -737,6 +737,287 @@ input:-webkit-autofill
 
 
 
+/* Modal de recuperação de senha */
+.forgot-password-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.4s ease;
+}
+
+.forgot-password-modal.show {
+    display: flex;
+}
+
+.forgot-password-content {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: white;
+    box-shadow: 0 10px 30px rgba(67, 233, 123, 0.3);
+}
+
+.modal-icon.success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+}
+
+.forgot-password-content h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.forgot-password-content p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #43e97b;
+    z-index: 2;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #43e97b;
+    box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
+    transform: translateY(-2px);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #43e97b;
+}
+
+.verification-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.code-input {
+    width: 50px !important;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 0 !important;
+}
+
+.code-input:focus {
+    border-color: #43e97b;
+    box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
+}
+
+.password-strength {
+    margin-bottom: 1.5rem;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.strength-text {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.forgot-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-recover, .btn-cancel, .btn-secondary {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.btn-recover {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3);
+}
+
+.btn-recover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(67, 233, 123, 0.4);
+}
+
+.btn-cancel {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.btn-cancel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* Validações */
+.validation-message {
+    display: block;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    min-height: 1rem;
+}
+
+.label-input.error input {
+    border-color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+.label-input.error .validation-message {
+    color: #e74c3c;
+}
+
+.label-input.success input {
+    border-color: #43e97b;
+    background-color: rgba(67, 233, 123, 0.05);
+}
+
+.label-input.success .validation-message {
+    color: #43e97b;
+}
+
+/* Botões com loading */
+.btn-loading {
+    display: none;
+}
+
+.btn.loading .btn-text {
+    display: none;
+}
+
+.btn.loading .btn-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 /* Estilos específicos para iPhone X e dispositivos com notch */
 @media screen and (max-width: 414px) and (max-height: 896px) {
     .container {

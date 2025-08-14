@@ -250,6 +250,13 @@ function showConfigModal() {
                     </div>
                     <button class="btn-setting" onclick="clearCache()">Limpar</button>
                 </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Excluir Conta</div>
+                        <div class="setting-desc">Remover permanentemente sua conta e todos os dados</div>
+                    </div>
+                    <button class="btn-setting" onclick="openDeleteConfirmation()" style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">Excluir</button>
+                </div>
             </div>
         </div>
     `, `
@@ -434,4 +441,99 @@ function showNotification(message, type = 'info') {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
+}
+
+function openDeleteConfirmation() {
+    closeModal(); // Fechar modal atual primeiro
+    setTimeout(() => {
+        showDeleteAccountConfirmation();
+    }, 300);
+}
+
+function showDeleteAccountConfirmation() {
+    const modal = createModal('Excluir Conta', 'fas fa-exclamation-triangle', `
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="font-size: 4rem; color: #ff6b6b; margin-bottom: 1rem;">
+                <i class="fas fa-user-times"></i>
+            </div>
+            <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Tem certeza?</h4>
+            <p style="color: var(--text-secondary); line-height: 1.6;">Esta ação não pode ser desfeita. Todos os seus dados, progresso e certificados serão permanentemente removidos.</p>
+        </div>
+        
+        <div style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.2); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+            <h5 style="color: #ff6b6b; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-info-circle"></i> O que será excluído:
+            </h5>
+            <ul style="color: var(--text-secondary); margin: 0; padding-left: 1.5rem;">
+                <li>Dados pessoais e de login</li>
+                <li>Progresso em todos os cursos</li>
+                <li>Certificados obtidos</li>
+                <li>Histórico de atividades</li>
+            </ul>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Digite "EXCLUIR" para confirmar:</label>
+            <input type="text" id="confirmDeleteInput" placeholder="Digite EXCLUIR" style="width: 100%; padding: 1rem; border: 2px solid rgba(255, 107, 107, 0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.05); color: var(--text-primary); font-size: 1rem;">
+        </div>
+    `, `
+        <button class="btn-modal btn-secondary-modal" onclick="closeModal()">Cancelar</button>
+        <button class="btn-modal" id="confirmDeleteBtn" onclick="deleteUserAccount()" disabled style="background: #ff6b6b; opacity: 0.5; color: white;">Excluir Conta</button>
+    `);
+    
+    showModal(modal);
+    
+    const confirmInput = document.getElementById('confirmDeleteInput');
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    
+    confirmInput.addEventListener('input', () => {
+        if (confirmInput.value === 'EXCLUIR') {
+            confirmBtn.disabled = false;
+            confirmBtn.style.opacity = '1';
+        } else {
+            confirmBtn.disabled = true;
+            confirmBtn.style.opacity = '0.5';
+        }
+    });
+}
+
+async function deleteUserAccount() {
+    const confirmInput = document.getElementById('confirmDeleteInput');
+    const deleteBtn = document.getElementById('confirmDeleteBtn');
+    
+    if (confirmInput.value !== 'EXCLUIR') {
+        showNotification('Digite "EXCLUIR" para confirmar', 'error');
+        return;
+    }
+    
+    // Mostrar loading
+    deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Excluindo...';
+    deleteBtn.disabled = true;
+    
+    // Simular processo de exclusão
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const userEmail = localStorage.getItem('userEmail');
+    
+    if (userEmail) {
+        const users = JSON.parse(localStorage.getItem('studyconnect_users') || '[]');
+        const updatedUsers = users.filter(user => user.email !== userEmail);
+        localStorage.setItem('studyconnect_users', JSON.stringify(updatedUsers));
+    }
+    
+    // Limpar todos os dados do usuário
+    const keysToRemove = [
+        'userLoggedIn', 'userName', 'userEmail', 'joinDate',
+        'userPhone', 'userLocation', 'userBirthdate', 'userAvatar',
+        'theme', 'notifications', 'emailNews', 'sounds', 'language', 'autoSave'
+    ];
+    
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+    
+    showNotification('Conta excluída permanentemente!', 'success');
+    closeModal();
+    
+    setTimeout(() => {
+        window.location.href = 'Login/Login.html';
+    }, 2000);
 }

@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
+    const configBtn = document.getElementById('configBtn');
     
     if (profileBtn && profileDropdown) {
         // Toggle dropdown
@@ -24,10 +25,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Se for um link válido (não #), permitir navegação
                 if (this.getAttribute('href') !== '#' && this.getAttribute('href') !== '') {
                     profileDropdown.classList.remove('show');
-                    // Não prevenir o comportamento padrão para permitir navegação
                     return true;
                 }
             });
         });
     }
-});
+    
+    // Conectar botão de configurações
+    if (configBtn) {
+        configBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            profileDropdown.classList.remove('show');
+            showConfigModal();
