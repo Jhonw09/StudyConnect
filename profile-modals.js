@@ -124,15 +124,74 @@ function showConfigModal() {
                 <div class="settings-container">
                     <div class="settings-section">
                         <div class="section-header">
+                            <i class="fas fa-palette"></i>
+                            <h4>Aparência</h4>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Tema Escuro</div>
+                                <div class="setting-desc">Alternar entre tema claro e escuro</div>
+                            </div>
+                            <div class="theme-toggle" id="modalThemeToggle">
+                                <div class="theme-slider">
+                                    <i class="fas fa-sun"></i>
+                                    <i class="fas fa-moon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Idioma do Sistema</div>
+                                <div class="setting-desc">Escolha o idioma de exibição da plataforma</div>
+                            </div>
+                            <select class="setting-select" id="languageSelect">
+                                <option value="pt-BR">🇧🇷 Português (Brasil)</option>
+                                <option value="en-US">🇺🇸 English (US)</option>
+                                <option value="es-ES">🇪🇸 Español (España)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <i class="fas fa-bell"></i>
+                            <h4>Notificações</h4>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Notificações Push</div>
+                                <div class="setting-desc">Receber notificações sobre novos cursos e atualizações</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="pushNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Email Marketing</div>
+                                <div class="setting-desc">Receber emails sobre promoções e novidades</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="emailMarketing">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="section-header">
                             <i class="fas fa-user-cog"></i>
                             <h4>Conta</h4>
                         </div>
                         <div class="setting-item">
                             <div class="setting-info">
                                 <div class="setting-label">Excluir Conta</div>
-                                <div class="setting-desc">Remover permanentemente sua conta e todos os dados</div>
+                                <div class="setting-desc">Remover permanentemente sua conta e todos os dados associados</div>
                             </div>
-                            <button class="btn-setting" id="deleteAccountBtn">Excluir</button>
+                            <button class="btn-setting" id="deleteAccountBtn">
+                                <i class="fas fa-trash-alt"></i> Excluir
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -151,9 +210,72 @@ function showConfigModal() {
     modal.querySelector('#closeConfigModal').onclick = closeModal;
     modal.onclick = (e) => e.target === modal && closeModal();
     
+    // Funcionalidade do botão excluir
     modal.querySelector('#deleteAccountBtn').onclick = () => {
         showDeleteAccountConfirmation();
     };
+    
+    // Funcionalidade do toggle de tema
+    const themeToggle = modal.querySelector('#modalThemeToggle');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    if (isDarkMode) {
+        themeToggle.classList.add('dark');
+    }
+    
+    themeToggle.onclick = () => {
+        document.body.classList.toggle('dark-mode');
+        themeToggle.classList.toggle('dark');
+        
+        const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+        
+        showAlert('Tema alterado com sucesso!', 'success');
+    };
+    
+    // Funcionalidade do seletor de idioma
+    const languageSelect = modal.querySelector('#languageSelect');
+    const savedLanguage = localStorage.getItem('userLanguage') || 'pt-BR';
+    languageSelect.value = savedLanguage;
+    
+    languageSelect.addEventListener('change', () => {
+        const selectedLanguage = languageSelect.value;
+        localStorage.setItem('userLanguage', selectedLanguage);
+        showAlert('Idioma alterado com sucesso!', 'success');
+    });
+    
+    // Funcionalidade dos toggles de notificação
+    const pushToggle = modal.querySelector('#pushNotifications');
+    const emailToggle = modal.querySelector('#emailMarketing');
+    
+    // Carregar configurações salvas
+    const savedSettings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+    pushToggle.checked = savedSettings.pushNotifications !== false;
+    emailToggle.checked = savedSettings.emailMarketing === true;
+    
+    // Salvar configurações quando alteradas
+    [pushToggle, emailToggle].forEach(toggle => {
+        toggle.addEventListener('change', () => {
+            const settings = {
+                pushNotifications: pushToggle.checked,
+                emailMarketing: emailToggle.checked
+            };
+            localStorage.setItem('userSettings', JSON.stringify(settings));
+            showAlert('Configurações salvas!', 'success');
+        });
+    });
+    
+    // Função para mostrar alertas
+    function showAlert(message, type) {
+        const alert = document.createElement('div');
+        alert.className = `custom-alert ${type} show`;
+        alert.textContent = message;
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+            alert.classList.remove('show');
+            setTimeout(() => alert.remove(), 300);
+        }, 2000);
+    }
 }
 
 function showDeleteAccountConfirmation() {

@@ -178,16 +178,16 @@ function showConfigModal() {
                         </div>
                     </div>
                 </div>
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-label">Idioma</div>
-                        <div class="setting-desc">Idioma da interface</div>
+                <div class="setting-item" style="justify-content: center; text-align: center;">
+                    <div style="width: 100%; text-align: center;">
+                        <div class="setting-label" style="margin-bottom: 0.5rem;">Idioma do Sistema</div>
+                        <div class="setting-desc" style="margin-bottom: 1rem;">Escolha o idioma de exibição da plataforma</div>
+                        <select id="languageSelect" class="setting-select" style="margin: 0 auto;">
+                            <option value="pt-BR" ${settings.language === 'pt-BR' ? 'selected' : ''}> Português (Brasil)</option>
+                            <option value="en-US" ${settings.language === 'en-US' ? 'selected' : ''}>🇺🇸 English (US)</option>
+                            <option value="es-ES" ${settings.language === 'es-ES' ? 'selected' : ''}>🇪🇸 Español (España)</option>
+                        </select>
                     </div>
-                    <select id="languageSelect" class="setting-select">
-                        <option value="pt-BR" ${settings.language === 'pt-BR' ? 'selected' : ''}>Português (BR)</option>
-                        <option value="en-US" ${settings.language === 'en-US' ? 'selected' : ''}>English (US)</option>
-                        <option value="es-ES" ${settings.language === 'es-ES' ? 'selected' : ''}>Español</option>
-                    </select>
                 </div>
             </div>
             
