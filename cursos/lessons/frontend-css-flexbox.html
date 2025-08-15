@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox e Grid | StudyConnect+</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../course-design.css">
+    <link rel="stylesheet" href="../lesson-layout.css">
+    <link rel="stylesheet" href="../professional-layout.css">
+    <link rel="stylesheet" href="../navbar-fix.css">
+    <link rel="stylesheet" href="../video-player.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">StudyConnect+</span>
+        </div>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="../../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="../frontend-moderno.html"><i class="fas fa-arrow-left"></i> Voltar ao Curso</a></li>
+            </ul>
+            <div class="header-controls">
+                <div class="toggle-dark" tabindex="0" id="darkModeToggle">
+                    <div class="toggle-slider">
+                        <i class="fas fa-sun sun-icon"></i>
+                        <i class="fas fa-moon moon-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="lesson-container">
+        <div class="lesson-header">
+            <h1>Flexbox e Grid Layout</h1>
+            <p>Módulo 2 • Aula 1 • 30 minutos</p>
+        </div>
+
+        <!-- Player de Vídeo -->
+        <div class="video-player">
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <i class="fas fa-play-circle"></i>
+                    <h3>Flexbox e Grid Layout</h3>
+                    <p>Aprenda os layouts mais modernos do CSS</p>
+                    <button class="btn btn-primary" onclick="startVideo()">
+                        <i class="fas fa-play"></i> Iniciar Aula
+                    </button>
+                </div>
+            </div>
+            <div class="video-controls">
+                <div class="controls-row">
+                    <button class="play-pause-btn" onclick="togglePlay()">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <span class="time-display">0:00 / 30:00</span>
+                    <div class="progress-container" onclick="seekVideo(event)">
+                        <div class="progress-bar" id="progressBar"></div>
+                        <div class="progress-handle"></div>
+                    </div>
+                    <div class="volume-control">
+                        <button class="volume-btn" onclick="toggleMute()">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <input type="range" class="volume-slider" min="0" max="100" value="100">
+                    </div>
+                    <div class="speed-control">
+                        <button class="speed-btn">1x</button>
+                        <div class="speed-menu">
+                            <div class="speed-option" onclick="setSpeed(0.5)">0.5x</div>
+                            <div class="speed-option" onclick="setSpeed(0.75)">0.75x</div>
+                            <div class="speed-option active" onclick="setSpeed(1)">1x</div>
+                            <div class="speed-option" onclick="setSpeed(1.25)">1.25x</div>
+                            <div class="speed-option" onclick="setSpeed(1.5)">1.5x</div>
+                            <div class="speed-option" onclick="setSpeed(2)">2x</div>
+                        </div>
+                    </div>
+                    <button class="fullscreen-btn" onclick="toggleFullscreen()">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Abas de Conteúdo -->
+        <div class="lesson-tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Visão Geral</button>
+            <button class="tab-button" onclick="showTab('notes')">Minhas Notas</button>
+            <button class="tab-button" onclick="showTab('transcript')">Transcrição</button>
+            <button class="tab-button" onclick="showTab('resources')">Recursos</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Visão Geral -->
+            <div class="tab-panel active" id="overview">
+                <h2>Flexbox vs Grid: Quando usar cada um?</h2>
+                <p>Nesta aula, você aprenderá as diferenças fundamentais entre Flexbox e CSS Grid, e quando usar cada tecnologia para criar layouts modernos e responsivos.</p>
+
+                <h3>🎯 Objetivos da Aula</h3>
+                <ul>
+                    <li>Entender os conceitos fundamentais do Flexbox</li>
+                    <li>Dominar as propriedades principais do CSS Grid</li>
+                    <li>Saber quando usar Flexbox vs Grid</li>
+                    <li>Criar layouts responsivos modernos</li>
+                </ul>
+
+                <h3>📋 Conteúdo Programático</h3>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <strong>Parte 1: Flexbox (0:00 - 15:00)</strong>
+                    <ul>
+                        <li>Conceitos básicos e terminologia</li>
+                        <li>Propriedades do container flex</li>
+                        <li>Propriedades dos itens flex</li>
+                        <li>Exemplos práticos</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(67, 233, 123, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <strong>Parte 2: CSS Grid (15:00 - 30:00)</strong>
+                    <ul>
+                        <li>Sistema de grade bidimensional</li>
+                        <li>Definindo linhas e colunas</li>
+                        <li>Posicionamento de itens</li>
+                        <li>Grid areas e templates</li>
+                    </ul>
+                </div>
+
+                <h3>💻 Exemplo Prático: Layout de Card</h3>
+                <div class="code-example">
+/* Flexbox para alinhamento de itens */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid para layout de cards */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+                </div>
+            </div>
+
+            <!-- Notas -->
+            <div class="tab-panel" id="notes">
+                <h3>✏️ Minhas Anotações</h3>
+                <p>Use este espaço para fazer suas anotações durante a aula. Suas notas são salvas automaticamente.</p>
+                <textarea class="notes-area" placeholder="Digite suas anotações aqui..." id="notesArea"></textarea>
+                <div style="margin-top: 15px;">
+                    <button class="btn btn-primary" onclick="saveNotes()">
+                        <i class="fas fa-save"></i> Salvar Notas
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearNotes()">
+                        <i class="fas fa-trash"></i> Limpar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Transcrição -->
+            <div class="tab-panel" id="transcript">
+                <h3>📝 Transcrição da Aula</h3>
+                <div class="transcript">
+                    <p><span class="timestamp">0:00</span>Olá! Bem-vindos à aula sobre Flexbox e CSS Grid. Hoje vamos aprender as duas tecnologias mais importantes para criar layouts modernos.</p>
+                    <p><span class="timestamp">0:30</span>Primeiro, vamos entender o que é o Flexbox. O Flexbox é um método de layout unidimensional que nos permite distribuir espaço entre itens em um container.</p>
+                    <p><span class="timestamp">1:15</span>As principais propriedades do Flexbox incluem display: flex, justify-content, align-items, flex-direction e flex-wrap.</p>
+                    <p><span class="timestamp">2:00</span>Agora vamos ver um exemplo prático. Imagine que queremos centralizar um elemento tanto horizontal quanto verticalmente...</p>
+                    <p><span class="timestamp">15:00</span>Agora vamos falar sobre CSS Grid. Diferente do Flexbox, o Grid é um sistema bidimensional que trabalha com linhas e colunas simultaneamente.</p>
+                    <p><span class="timestamp">15:45</span>Para criar um grid, usamos display: grid e definimos as colunas com grid-template-columns e as linhas com grid-template-rows.</p>
+                </div>
+            </div>
+
+            <!-- Recursos -->
+            <div class="tab-panel" id="resources">
+                <h3>📚 Recursos da Aula</h3>
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <h4><i class="fas fa-file-code"></i> Código da Aula</h4>
+                        <p>Todos os exemplos de código mostrados na aula em um arquivo HTML completo.</p>
+                        <button class="download-btn" onclick="downloadResource('code')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                    <div class="resource-card">
+                        <h4><i class="fas fa-images"></i> Assets de Design</h4>
+                        <p>Imagens e recursos visuais utilizados nos exemplos práticos.</p>
+                        <button class="download-btn" onclick="downloadResource('assets')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                    <div class="resource-card">
+                        <h4><i class="fas fa-book"></i> Guia de Referência</h4>
+                        <p>PDF com todas as propriedades do Flexbox e Grid para consulta rápida.</p>
+                        <button class="download-btn" onclick="downloadResource('guide')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                    <div class="resource-card">
+                        <h4><i class="fas fa-gamepad"></i> Exercícios Práticos</h4>
+                        <p>Desafios para praticar os conceitos aprendidos na aula.</p>
+                        <button class="download-btn" onclick="downloadResource('exercises')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comentários -->
+        <div class="lesson-comments">
+            <h3>💬 Comentários da Aula</h3>
+            <div class="comment-form">
+                <textarea class="comment-input" placeholder="Deixe seu comentário ou dúvida sobre a aula..." id="commentInput"></textarea>
+                <button class="comment-submit" onclick="addComment()">
+                    <i class="fas fa-paper-plane"></i> Enviar Comentário
+                </button>
+            </div>
+            
+            <div id="commentsContainer">
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="comment-avatar">JS</div>
+                        <div>
+                            <div class="comment-author">João Silva</div>
+                            <div class="comment-time">há 2 horas</div>
+                        </div>
+                    </div>
+                    <div class="comment-text">
+                        Excelente aula! Finalmente entendi a diferença entre Flexbox e Grid. Os exemplos práticos foram muito esclarecedores.
+                    </div>
+                </div>
+                
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="comment-avatar">MF</div>
+                        <div>
+                            <div class="comment-author">Maria Fernanda</div>
+                            <div class="comment-time">há 5 horas</div>
+                        </div>
+                    </div>
+                    <div class="comment-text">
+                        Poderia fazer uma aula específica sobre Grid Areas? Achei o conceito interessante mas gostaria de ver mais exemplos.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="../frontend-moderno.html" class="btn btn-secondary">← Voltar ao Curso</a>
+            <a href="frontend-js-intro.html" class="btn btn-primary">Próxima Aula →</a>
+        </div>
+    </main>
+
+    <script>
+        let isPlaying = false;
+        let currentTime = 0;
+        let duration = 1800; // 30 minutos em segundos
+        let playInterval;
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function startVideo() {
+            document.querySelector('.video-placeholder').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--color-primary); margin-bottom: 20px;"></i>
+                    <h3>Aula em Reprodução</h3>
+                    <p>Flexbox e Grid Layout - Conceitos Fundamentais</p>
+                    <div style="margin-top: 20px;">
+                        <div style="width: 200px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; margin: 0 auto;">
+                            <div id="videoProgress" style="width: 0%; height: 100%; background: var(--color-primary); border-radius: 2px; transition: width 0.1s;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            togglePlay();
+        }
+
+        function togglePlay() {
+            const playBtn = document.querySelector('.play-pause-btn i');
+            
+            if (isPlaying) {
+                clearInterval(playInterval);
+                playBtn.className = 'fas fa-play';
+                isPlaying = false;
+            } else {
+                playInterval = setInterval(updateProgress, 1000);
+                playBtn.className = 'fas fa-pause';
+                isPlaying = true;
+            }
+        }
+
+        function updateProgress() {
+            currentTime++;
+            const progressPercent = (currentTime / duration) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            
+            const videoProgress = document.getElementById('videoProgress');
+            if (videoProgress) {
+                videoProgress.style.width = progressPercent + '%';
+            }
+            
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = currentTime % 60;
+            const totalMinutes = Math.floor(duration / 60);
+            const totalSeconds = duration % 60;
+            
+            document.querySelector('.time-display').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')} / ${totalMinutes}:${totalSeconds.toString().padStart(2, '0')}`;
+            
+            if (currentTime >= duration) {
+                clearInterval(playInterval);
+                isPlaying = false;
+                document.querySelector('.play-pause-btn i').className = 'fas fa-play';
+                alert('Aula concluída! 🎉');
+            }
+        }
+
+        function seekVideo(event) {
+            const rect = event.target.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const width = rect.width;
+            const newTime = Math.floor((clickX / width) * duration);
+            
+            currentTime = newTime;
+            updateProgress();
+        }
+
+        function saveNotes() {
+            const notes = document.getElementById('notesArea').value;
+            localStorage.setItem('lesson-notes-flexbox', notes);
+            alert('Notas salvas com sucesso! 💾');
+        }
+
+        function clearNotes() {
+            if (confirm('Tem certeza que deseja limpar suas anotações?')) {
+                document.getElementById('notesArea').value = '';
+                localStorage.removeItem('lesson-notes-flexbox');
+            }
+        }
+
+        function downloadResource(type) {
+            const resources = {
+                code: 'flexbox-grid-examples.html',
+                assets: 'design-assets.zip',
+                guide: 'flexbox-grid-reference.pdf',
+                exercises: 'layout-exercises.zip'
+            };
+            
+            alert(`Download iniciado: ${resources[type]} 📥`);
+        }
+
+        function addComment() {
+            const commentText = document.getElementById('commentInput').value.trim();
+            if (!commentText) return;
+            
+            const container = document.getElementById('commentsContainer');
+            const newComment = document.createElement('div');
+            newComment.className = 'comment';
+            newComment.innerHTML = `
+                <div class="comment-header">
+                    <div class="comment-avatar">EU</div>
+                    <div>
+                        <div class="comment-author">Você</div>
+                        <div class="comment-time">agora</div>
+                    </div>
+                </div>
+                <div class="comment-text">${commentText}</div>
+            `;
+            
+            container.insertBefore(newComment, container.firstChild);
+            document.getElementById('commentInput').value = '';
+            
+            // Animação de entrada
+            newComment.style.opacity = '0';
+            newComment.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                newComment.style.transition = 'all 0.3s ease';
+                newComment.style.opacity = '1';
+                newComment.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        // Carregar notas salvas
+        window.addEventListener('load', () => {
+            const savedNotes = localStorage.getItem('lesson-notes-flexbox');
+            if (savedNotes) {
+                document.getElementById('notesArea').value = savedNotes;
+            }
+        });
+
+        // Auto-save das notas
+        document.getElementById('notesArea').addEventListener('input', () => {
+            const notes = document.getElementById('notesArea').value;
+            localStorage.setItem('lesson-notes-flexbox', notes);
+        });
+    </script>
+    <script src="../../theme-fix.js"></script>
+    <script src="../advanced-interactions.js"></script>
+</body>
+</html>

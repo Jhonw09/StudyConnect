@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução ao Node.js | StudyConnect+</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../course-design.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .lesson-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .lesson-header { text-align: center; margin-bottom: 40px; }
+        .lesson-content { background: var(--card-bg); padding: 30px; border-radius: 15px; margin-bottom: 30px; }
+        .code-example { background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; margin: 20px 0; overflow-x: auto; }
+        .terminal { background: #000; color: #00ff00; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; }
+        .exercise { background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--color-primary); }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">StudyConnect+</span>
+        </div>
+        <nav>
+            <a href="../backend-avancado.html" class="btn btn-outline">← Voltar ao Curso</a>
+        </nav>
+    </header>
+
+    <main class="lesson-container">
+        <div class="lesson-header">
+            <h1>Introdução ao Node.js</h1>
+            <p>Módulo 1 • Aula 1 • 20 minutos</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>O que é Node.js?</h2>
+            <p>Node.js é um ambiente de execução JavaScript construído no motor V8 do Chrome. Permite executar JavaScript no servidor, criando aplicações backend escaláveis.</p>
+
+            <h3>Instalação do Node.js</h3>
+            <p>1. Acesse <a href="https://nodejs.org" target="_blank">nodejs.org</a></p>
+            <p>2. Baixe a versão LTS (recomendada)</p>
+            <p>3. Execute o instalador</p>
+            <p>4. Verifique a instalação:</p>
+            
+            <div class="terminal">
+$ node --version<br>
+v18.17.0<br><br>
+$ npm --version<br>
+9.6.7
+            </div>
+
+            <h3>Primeiro Programa em Node.js</h3>
+            <div class="code-example">
+// app.js
+console.log('Olá, Node.js!');
+
+// Criando um servidor HTTP simples
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end('&lt;h1&gt;Meu primeiro servidor Node.js!&lt;/h1&gt;');
+});
+
+server.listen(3000, () => {
+    console.log('Servidor rodando em http://localhost:3000');
+});
+            </div>
+
+            <h3>Executando o Programa</h3>
+            <div class="terminal">
+$ node app.js<br>
+Olá, Node.js!<br>
+Servidor rodando em http://localhost:3000
+            </div>
+
+            <div class="exercise">
+                <h4>💡 Exercício Prático</h4>
+                <p>Crie um arquivo chamado <code>hello.js</code> que exiba seu nome e idade no console.</p>
+                <details>
+                    <summary>Ver solução</summary>
+                    <div class="code-example">
+// hello.js
+const nome = 'Seu Nome';
+const idade = 25;
+
+console.log(`Olá! Eu sou ${nome} e tenho ${idade} anos.`);
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="../backend-avancado.html" class="btn btn-secondary">← Voltar</a>
+            <a href="backend-npm.html" class="btn btn-primary">Próxima Aula →</a>
+        </div>
+    </main>
+</body>
+</html>

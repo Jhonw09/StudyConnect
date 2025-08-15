@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../animations.css">
     <link rel="stylesheet" href="../legibilidade-fix.css">
     <link rel="stylesheet" href="course-design.css">
+    <link rel="stylesheet" href="professional-layout.css">
+    <link rel="stylesheet" href="navbar-fix.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -105,17 +107,17 @@
                                 <span class="module-duration">5h</span>
                             </div>
                             <div class="module-lessons">
-                                <div class="lesson">
+                                <div class="lesson" onclick="window.location.href='lessons/frontend-html-intro.html'">
                                     <i class="fas fa-play"></i>
                                     <span>Introdução ao HTML5</span>
                                     <span class="lesson-duration">15min</span>
                                 </div>
-                                <div class="lesson">
+                                <div class="lesson" onclick="window.location.href='lessons/frontend-html-semantica.html'">
                                     <i class="fas fa-play"></i>
                                     <span>Estrutura semântica</span>
                                     <span class="lesson-duration">20min</span>
                                 </div>
-                                <div class="lesson">
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
                                     <i class="fas fa-play"></i>
                                     <span>Formulários modernos</span>
                                     <span class="lesson-duration">25min</span>
@@ -129,12 +131,12 @@
                                 <span class="module-duration">8h</span>
                             </div>
                             <div class="module-lessons">
-                                <div class="lesson">
+                                <div class="lesson" onclick="window.location.href='lessons/frontend-css-flexbox.html'">
                                     <i class="fas fa-play"></i>
                                     <span>Flexbox e Grid</span>
                                     <span class="lesson-duration">30min</span>
                                 </div>
-                                <div class="lesson">
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
                                     <i class="fas fa-play"></i>
                                     <span>Animações e Transições</span>
                                     <span class="lesson-duration">25min</span>
@@ -183,7 +185,7 @@
                     <div class="instructor-card">
                         <h3>Seu Instrutor</h3>
                         <div class="instructor-info">
-                            <img src="../images/sitep1.jpg" alt="Maria Silva">
+                            <img src="../images/profa.jpg" alt="Maria Silva">
                             <div>
                                 <h4>Maria Silva</h4>
                                 <p>Desenvolvedora Front-End Sênior</p>
@@ -225,5 +227,7 @@
     <script src="../config.js"></script>
     <script src="../script.js"></script>
     <script src="course-interactions.js"></script>
+    <script src="../theme-fix.js"></script>
+    <script src="advanced-interactions.js"></script>
 </body>
 </html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes de Palavras | StudyConnect+</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../course-design.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .lesson-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .lesson-header { text-align: center; margin-bottom: 40px; }
+        .lesson-content { background: var(--card-bg); padding: 30px; border-radius: 15px; margin-bottom: 30px; }
+        .word-class { background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 4px solid var(--color-primary); }
+        .example { background: rgba(67, 233, 123, 0.1); padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .exercise-box { background: var(--card-bg); padding: 25px; border-radius: 15px; margin: 20px 0; border: 2px solid rgba(102, 126, 234, 0.3); }
+        .word-game { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+        .word-card { padding: 15px; background: rgba(102, 126, 234, 0.1); border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .word-card:hover { transform: translateY(-2px); border-color: var(--color-primary); }
+        .word-card.selected { background: rgba(67, 233, 123, 0.2); border-color: #43e97b; }
+        .class-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+        .class-btn { padding: 10px 20px; background: var(--color-primary); color: white; border: none; border-radius: 25px; cursor: pointer; transition: all 0.3s; }
+        .class-btn:hover { transform: scale(1.05); }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">StudyConnect+</span>
+        </div>
+        <nav>
+            <a href="../Port.html" class="btn btn-outline">← Voltar ao Curso</a>
+        </nav>
+    </header>
+
+    <main class="lesson-container">
+        <div class="lesson-header">
+            <h1>Classes de Palavras</h1>
+            <p>Módulo 1 • Aula 1 • 35 minutos</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>O que são Classes de Palavras?</h2>
+            <p>As classes de palavras, também chamadas de classes gramaticais, são grupos que classificam as palavras de acordo com suas características e funções na frase.</p>
+
+            <div class="word-class">
+                <h3>1. Substantivo</h3>
+                <p><strong>Função:</strong> Nomeia seres, objetos, lugares, sentimentos, etc.</p>
+                <div class="example">
+                    <strong>Exemplos:</strong> casa, João, amor, Brasil, felicidade
+                </div>
+            </div>
+
+            <div class="word-class">
+                <h3>2. Adjetivo</h3>
+                <p><strong>Função:</strong> Caracteriza ou qualifica o substantivo.</p>
+                <div class="example">
+                    <strong>Exemplos:</strong> bonito, inteligente, azul, grande, brasileiro
+                </div>
+            </div>
+
+            <div class="word-class">
+                <h3>3. Verbo</h3>
+                <p><strong>Função:</strong> Indica ação, estado ou fenômeno.</p>
+                <div class="example">
+                    <strong>Exemplos:</strong> correr, ser, chover, estudar, pensar
+                </div>
+            </div>
+
+            <div class="word-class">
+                <h3>4. Advérbio</h3>
+                <p><strong>Função:</strong> Modifica verbo, adjetivo ou outro advérbio.</p>
+                <div class="example">
+                    <strong>Exemplos:</strong> rapidamente, muito, aqui, ontem, talvez
+                </div>
+            </div>
+
+            <div class="word-class">
+                <h3>5. Pronome</h3>
+                <p><strong>Função:</strong> Substitui ou acompanha o substantivo.</p>
+                <div class="example">
+                    <strong>Exemplos:</strong> eu, ele, meu, este, que, alguém
+                </div>
+            </div>
+
+            <div class="word-class">
+                <h3>6. Preposição</h3>
+                <p><strong>Função:</strong> Liga palavras estabelecendo relações.</p>
+                <div class="example">
+                    <strong>Exemplos:</strong> de, em, para, com, sobre, entre
+                </div>
+            </div>
+
+            <h2>Jogo Interativo: Classifique as Palavras</h2>
+            <div class="exercise-box">
+                <p>Clique nas palavras abaixo e depois no botão da classe correspondente:</p>
+                
+                <div class="word-game" id="wordGame">
+                    <div class="word-card" data-word="cachorro" data-class="substantivo">cachorro</div>
+                    <div class="word-card" data-word="correr" data-class="verbo">correr</div>
+                    <div class="word-card" data-word="bonito" data-class="adjetivo">bonito</div>
+                    <div class="word-card" data-word="rapidamente" data-class="advérbio">rapidamente</div>
+                    <div class="word-card" data-word="ele" data-class="pronome">ele</div>
+                    <div class="word-card" data-word="para" data-class="preposição">para</div>
+                    <div class="word-card" data-word="felicidade" data-class="substantivo">felicidade</div>
+                    <div class="word-card" data-word="estudar" data-class="verbo">estudar</div>
+                </div>
+
+                <div class="class-buttons">
+                    <button class="class-btn" onclick="checkAnswer('substantivo')">Substantivo</button>
+                    <button class="class-btn" onclick="checkAnswer('adjetivo')">Adjetivo</button>
+                    <button class="class-btn" onclick="checkAnswer('verbo')">Verbo</button>
+                    <button class="class-btn" onclick="checkAnswer('advérbio')">Advérbio</button>
+                    <button class="class-btn" onclick="checkAnswer('pronome')">Pronome</button>
+                    <button class="class-btn" onclick="checkAnswer('preposição')">Preposição</button>
+                </div>
+
+                <div id="feedback" style="margin-top: 20px; font-weight: bold;"></div>
+                <div id="score">Pontuação: <span id="scoreValue">0</span>/8</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="../Port.html" class="btn btn-secondary">← Voltar</a>
+            <a href="portugues-sintaxe.html" class="btn btn-primary">Próxima Aula →</a>
+        </div>
+    </main>
+
+    <script>
+        let selectedWord = null;
+        let score = 0;
+        let completedWords = new Set();
+
+        document.querySelectorAll('.word-card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (completedWords.has(this.dataset.word)) return;
+                
+                document.querySelectorAll('.word-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedWord = this;
+                document.getElementById('feedback').textContent = '';
+            });
+        });
+
+        function checkAnswer(selectedClass) {
+            if (!selectedWord) {
+                document.getElementById('feedback').textContent = 'Selecione uma palavra primeiro!';
+                document.getElementById('feedback').style.color = '#ff6b6b';
+                return;
+            }
+
+            const correctClass = selectedWord.dataset.class;
+            const word = selectedWord.dataset.word;
+            const feedback = document.getElementById('feedback');
+
+            if (selectedClass === correctClass) {
+                feedback.textContent = `Correto! "${word}" é um ${correctClass}.`;
+                feedback.style.color = '#43e97b';
+                selectedWord.style.background = 'rgba(67, 233, 123, 0.3)';
+                selectedWord.style.pointerEvents = 'none';
+                completedWords.add(word);
+                score++;
+                document.getElementById('scoreValue').textContent = score;
+                
+                if (score === 8) {
+                    setTimeout(() => {
+                        alert('Parabéns! Você completou o exercício! 🎉');
+                    }, 500);
+                }
+            } else {
+                feedback.textContent = `Incorreto. "${word}" não é um ${selectedClass}. Tente novamente!`;
+                feedback.style.color = '#ff6b6b';
+            }
+
+            selectedWord.classList.remove('selected');
+            selectedWord = null;
+        }
+    </script>
+</body>
+</html>

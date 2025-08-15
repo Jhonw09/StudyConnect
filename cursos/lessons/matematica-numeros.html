@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Números e Operações Básicas | StudyConnect+</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../course-design.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .lesson-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .lesson-header { text-align: center; margin-bottom: 40px; }
+        .lesson-content { background: var(--card-bg); padding: 30px; border-radius: 15px; margin-bottom: 30px; }
+        .math-example { background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center; font-size: 1.2rem; }
+        .calculator { background: var(--card-bg); padding: 20px; border-radius: 15px; margin: 20px 0; }
+        .calc-display { background: #000; color: #00ff00; padding: 15px; border-radius: 8px; font-size: 1.5rem; text-align: right; margin-bottom: 15px; }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .calc-btn { padding: 15px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; }
+        .calc-btn:hover { transform: scale(1.05); }
+        .calc-btn.operator { background: #ff6b6b; }
+        .calc-btn.equals { background: #43e97b; color: #333; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">StudyConnect+</span>
+        </div>
+        <nav>
+            <a href="../Matematica.html" class="btn btn-outline">← Voltar ao Curso</a>
+        </nav>
+    </header>
+
+    <main class="lesson-container">
+        <div class="lesson-header">
+            <h1>Números e Operações Básicas</h1>
+            <p>Módulo 1 • Aula 1 • 30 minutos</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Conjuntos Numéricos</h2>
+            <p>Os números são classificados em diferentes conjuntos:</p>
+
+            <h3>1. Números Naturais (ℕ)</h3>
+            <div class="math-example">
+                ℕ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ...}
+            </div>
+            <p>São os números usados para contar objetos.</p>
+
+            <h3>2. Números Inteiros (ℤ)</h3>
+            <div class="math-example">
+                ℤ = {..., -3, -2, -1, 0, 1, 2, 3, ...}
+            </div>
+            <p>Incluem os números naturais e seus opostos (negativos).</p>
+
+            <h3>3. Números Racionais (ℚ)</h3>
+            <div class="math-example">
+                ℚ = {a/b | a, b ∈ ℤ, b ≠ 0}
+            </div>
+            <p>Números que podem ser expressos como fração.</p>
+
+            <h2>Operações Fundamentais</h2>
+            
+            <h3>Adição (+)</h3>
+            <div class="math-example">
+                5 + 3 = 8<br>
+                (-2) + 7 = 5<br>
+                1/2 + 1/4 = 3/4
+            </div>
+
+            <h3>Subtração (-)</h3>
+            <div class="math-example">
+                10 - 4 = 6<br>
+                3 - 8 = -5<br>
+                5/6 - 1/3 = 1/2
+            </div>
+
+            <h3>Multiplicação (×)</h3>
+            <div class="math-example">
+                6 × 4 = 24<br>
+                (-3) × 5 = -15<br>
+                2/3 × 3/4 = 1/2
+            </div>
+
+            <h3>Divisão (÷)</h3>
+            <div class="math-example">
+                15 ÷ 3 = 5<br>
+                20 ÷ (-4) = -5<br>
+                2/3 ÷ 1/2 = 4/3
+            </div>
+
+            <h2>Calculadora Interativa</h2>
+            <div class="calculator">
+                <div class="calc-display" id="display">0</div>
+                <div class="calc-buttons">
+                    <button class="calc-btn" onclick="clearDisplay()">C</button>
+                    <button class="calc-btn" onclick="deleteLast()">⌫</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('/')">/</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('*')">×</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('7')">7</button>
+                    <button class="calc-btn" onclick="appendToDisplay('8')">8</button>
+                    <button class="calc-btn" onclick="appendToDisplay('9')">9</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('-')">-</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('4')">4</button>
+                    <button class="calc-btn" onclick="appendToDisplay('5')">5</button>
+                    <button class="calc-btn" onclick="appendToDisplay('6')">6</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('+')">+</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('1')">1</button>
+                    <button class="calc-btn" onclick="appendToDisplay('2')">2</button>
+                    <button class="calc-btn" onclick="appendToDisplay('3')">3</button>
+                    <button class="calc-btn equals" onclick="calculate()" rowspan="2">=</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('0')" style="grid-column: span 2;">0</button>
+                    <button class="calc-btn" onclick="appendToDisplay('.')">.</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="../Matematica.html" class="btn btn-secondary">← Voltar</a>
+            <a href="matematica-fracoes.html" class="btn btn-primary">Próxima Aula →</a>
+        </div>
+    </main>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentInput = '0';
+        let shouldResetDisplay = false;
+
+        function appendToDisplay(value) {
+            if (shouldResetDisplay) {
+                currentInput = '';
+                shouldResetDisplay = false;
+            }
+            
+            if (currentInput === '0' && value !== '.') {
+                currentInput = value;
+            } else {
+                currentInput += value;
+            }
+            
+            display.textContent = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = '0';
+            display.textContent = currentInput;
+        }
+
+        function deleteLast() {
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            display.textContent = currentInput;
+        }
+
+        function calculate() {
+            try {
+                let result = eval(currentInput.replace('×', '*'));
+                currentInput = result.toString();
+                display.textContent = currentInput;
+                shouldResetDisplay = true;
+            } catch (error) {
+                display.textContent = 'Erro';
+                currentInput = '0';
+                shouldResetDisplay = true;
+            }
+        }
+    </script>
+</body>
+</html>
