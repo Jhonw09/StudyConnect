@@ -1,0 +1,594 @@
+/* ===========================
+   ANIMAÇÕES OTIMIZADAS E FLUIDAS
+=========================== */
+
+/* Performance optimizations */
+* {
+    will-change: auto;
+}
+
+.animate-element {
+    will-change: transform, opacity;
+}
+
+/* Smooth transitions for all elements */
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===========================
+   ANIMAÇÕES DE ENTRADA
+=========================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -30px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-30px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(30px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.8, 0.8, 1);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* ===========================
+   CLASSES DE ANIMAÇÃO
+=========================== */
+
+.fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.fade-in-down {
+    animation: fadeInDown 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.fade-in-left {
+    animation: fadeInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.fade-in-right {
+    animation: fadeInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.scale-in {
+    animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slide-in-up {
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ===========================
+   ANIMAÇÕES DE HOVER OTIMIZADAS
+=========================== */
+
+.hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.hover-scale {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-glow {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+}
+
+/* ===========================
+   ANIMAÇÕES DE TEXTO
+=========================== */
+
+@keyframes typewriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    0%, 50% {
+        border-color: transparent;
+    }
+    51%, 100% {
+        border-color: var(--color-primary);
+    }
+}
+
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid var(--color-primary);
+    white-space: nowrap;
+    animation: typewriter 3s steps(40, end), blink 1s step-end infinite;
+}
+
+.text-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.text-reveal:nth-child(1) { animation-delay: 0.1s; }
+.text-reveal:nth-child(2) { animation-delay: 0.2s; }
+.text-reveal:nth-child(3) { animation-delay: 0.3s; }
+.text-reveal:nth-child(4) { animation-delay: 0.4s; }
+.text-reveal:nth-child(5) { animation-delay: 0.5s; }
+
+/* ===========================
+   ANIMAÇÕES DE LOADING
+=========================== */
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    40%, 43% {
+        transform: translate3d(0, -15px, 0);
+    }
+    70% {
+        transform: translate3d(0, -7px, 0);
+    }
+    90% {
+        transform: translate3d(0, -2px, 0);
+    }
+}
+
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.bounce {
+    animation: bounce 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ===========================
+   TRANSIÇÕES DE SEÇÃO
+=========================== */
+
+.section-transition {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-transition.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stagger-animation > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stagger-animation.visible > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-animation.visible > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-animation.visible > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-animation.visible > *:nth-child(4) { transition-delay: 0.4s; }
+.stagger-animation.visible > *:nth-child(5) { transition-delay: 0.5s; }
+.stagger-animation.visible > *:nth-child(6) { transition-delay: 0.6s; }
+
+.stagger-animation.visible > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===========================
+   ANIMAÇÕES DE CARDS
+=========================== */
+
+.card-entrance {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-entrance.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.card-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.card-3d:hover {
+    transform: rotateY(5deg) rotateX(5deg);
+}
+
+/* ===========================
+   ANIMAÇÕES DE BOTÕES
+=========================== */
+
+.btn-animated {
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
+.btn-animated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-animated:hover::before {
+    left: 100%;
+}
+
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ===========================
+   ANIMAÇÕES DE NAVEGAÇÃO
+=========================== */
+
+.nav-item {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+}
+
+.nav-item:hover::after,
+.nav-item.active::after {
+    width: 100%;
+}
+
+/* ===========================
+   ANIMAÇÕES DE SCROLL
+=========================== */
+
+.parallax {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===========================
+   ANIMAÇÕES DE FORMULÁRIO
+=========================== */
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-input {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-input:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.form-label {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+    transform: translateY(-25px) scale(0.8);
+    color: var(--color-primary);
+}
+
+/* ===========================
+   ANIMAÇÕES DE MODAL
+=========================== */
+
+.modal-overlay {
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.show {
+    opacity: 1;
+}
+
+.modal-content {
+    transform: scale(0.8) translateY(50px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.show .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+/* ===========================
+   ANIMAÇÕES DE NOTIFICAÇÃO
+=========================== */
+
+.notification {
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.hide {
+    transform: translateX(100%);
+}
+
+/* ===========================
+   OTIMIZAÇÕES DE PERFORMANCE
+=========================== */
+
+/* Reduzir animações em dispositivos com preferência por movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Otimizações para dispositivos móveis */
+@media (max-width: 768px) {
+    .hover-lift:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .card-3d:hover {
+        transform: none;
+    }
+    
+    /* Reduzir complexidade das animações em mobile */
+    .stagger-animation.visible > * {
+        transition-delay: 0s;
+    }
+}
+
+/* ===========================
+   ANIMAÇÕES DE LOADING SCREEN
+=========================== */
+
+.loading-screen {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+}
+
+.loading-content {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ===========================
+   ANIMAÇÕES DE PROGRESSO
+=========================== */
+
+@keyframes progressBar {
+    from {
+        width: 0%;
+    }
+    to {
+        width: var(--progress-width, 100%);
+    }
+}
+
+.progress-bar {
+    animation: progressBar 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ===========================
+   ANIMAÇÕES DE CONTADOR
+=========================== */
+
+.counter {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.counter.counting {
+    transform: scale(1.1);
+    color: var(--color-primary);
+}
+
+/* ===========================
+   EFEITOS DE GLASSMORPHISM
+=========================== */
+
+.glass-effect {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-effect:hover {
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ===========================
+   ANIMAÇÕES DE PARTÍCULAS
+=========================== */
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+    66% {
+        transform: translateY(-5px) rotate(-1deg);
+    }
+}
+
+.floating-element {
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-element:nth-child(2) { animation-delay: 1s; }
+.floating-element:nth-child(3) { animation-delay: 2s; }
+.floating-element:nth-child(4) { animation-delay: 3s; }
+
+/* ===========================
+   TRANSIÇÕES DE TEMA
+=========================== */
+
+body {
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-transition * {
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

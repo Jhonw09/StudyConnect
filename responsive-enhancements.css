@@ -1,0 +1,592 @@
+/* ===========================
+   MELHORIAS DE RESPONSIVIDADE MODERNA
+=========================== */
+
+/* Container fluido moderno */
+.container-fluid {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+/* Grid responsivo inteligente */
+.smart-grid {
+    display: grid;
+    gap: clamp(1rem, 3vw, 2rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+}
+
+/* Tipografia responsiva */
+.responsive-text {
+    font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+    line-height: 1.6;
+}
+
+.responsive-title {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    line-height: 1.2;
+}
+
+.responsive-subtitle {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    line-height: 1.4;
+}
+
+/* Espaçamento responsivo */
+.responsive-spacing {
+    padding: clamp(1rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem);
+    margin: clamp(0.5rem, 2vw, 1.5rem) 0;
+}
+
+/* Cards responsivos modernos */
+.responsive-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: clamp(12px, 2vw, 20px);
+    padding: clamp(1rem, 3vw, 2rem);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Botões responsivos */
+.responsive-btn {
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    border-radius: clamp(8px, 1.5vw, 12px);
+    min-height: 44px; /* Acessibilidade touch */
+}
+
+/* Navegação responsiva moderna */
+@media (max-width: 1024px) {
+    .nav-list {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(400px, 80vw);
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 2rem 1rem;
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-list.active {
+        right: 0;
+    }
+    
+    .nav-list li {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .nav-list a {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 12px;
+        justify-content: flex-start;
+    }
+    
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .mobile-menu span {
+        width: 25px;
+        height: 3px;
+        background: var(--primary-color);
+        border-radius: 2px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .mobile-menu.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .mobile-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .mobile-menu.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+}
+
+/* Hero section responsiva */
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .hero-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+/* Grids responsivos */
+@media (min-width: 1920px) {
+    .courses-grid {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1800px;
+    }
+    
+    .teachers-grid {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1800px;
+    }
+}
+
+@media (min-width: 1440px) and (max-width: 1919px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1400px;
+    }
+    
+    .teachers-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1400px;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 1200px;
+    }
+    
+    .teachers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .teachers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .teachers-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .games-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Formulários responsivos */
+@media (max-width: 1024px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .contact-info {
+        order: 2;
+    }
+    
+    .contact-form {
+        order: 1;
+    }
+}
+
+/* Footer responsivo */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+/* Otimizações para dispositivos pequenos */
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 4rem 1rem 2rem;
+        min-height: 100vh;
+    }
+    
+    .hero-title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .hero-stats {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 1rem;
+    }
+    
+    .stat-item {
+        min-width: 80px;
+        padding: 1rem 0.5rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+    
+    section {
+        padding: 2rem 1rem;
+    }
+    
+    .section-title {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+    
+    .courses-filter {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .filter-btn {
+        width: 100%;
+        max-width: 200px;
+        justify-content: center;
+    }
+}
+
+/* Otimizações para dispositivos muito pequenos */
+@media (max-width: 360px) {
+    .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .stat-item {
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .courses-filter {
+        padding: 0 0.5rem;
+    }
+    
+    .filter-btn {
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+    }
+}
+
+/* Orientação landscape em mobile */
+@media (max-width: 926px) and (orientation: landscape) {
+    .hero-section {
+        min-height: 100vh;
+        padding: 1rem;
+    }
+    
+    .hero-content {
+        gap: 1rem;
+    }
+    
+    .hero-title {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+    
+    .hero-stats {
+        flex-direction: row;
+        justify-content: center;
+        gap: 2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: center;
+    }
+    
+    .hero-buttons .btn {
+        max-width: 180px;
+    }
+}
+
+/* Melhorias para tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .teachers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .contact-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
+
+/* Melhorias para laptops pequenos */
+@media (min-width: 1024px) and (max-width: 1366px) {
+    .hero-content {
+        max-width: 1200px;
+        gap: 3rem;
+    }
+    
+    .courses-grid {
+        max-width: 1200px;
+    }
+    
+    .teachers-grid {
+        max-width: 1200px;
+    }
+}
+
+/* Safe area para dispositivos com notch */
+@supports (padding: max(0px)) {
+    .hero-section {
+        padding-top: max(4rem, calc(env(safe-area-inset-top) + 4rem));
+    }
+    
+    header {
+        padding-top: max(1rem, env(safe-area-inset-top));
+        padding-left: max(2rem, env(safe-area-inset-left));
+        padding-right: max(2rem, env(safe-area-inset-right));
+    }
+    
+    .footer {
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+}
+
+/* Otimizações para dispositivos com pouca memória */
+@media (max-width: 768px) {
+    .course-card:hover,
+    .teacher-card:hover {
+        transform: translateY(-3px) scale(1.01);
+    }
+    
+    .floating-cards {
+        display: none !important;
+    }
+    
+    .logo-glow {
+        display: none;
+    }
+}
+
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1a1a2e;
+        --bg-secondary: #16213e;
+        --text-primary: #ffffff;
+        --text-secondary: #e0e0e0;
+    }
+}
+
+/* Melhorias para telas de alta densidade */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .course-card img,
+    .teacher-image img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Container queries (suporte futuro) */
+@container (min-width: 400px) {
+    .course-card {
+        padding: 1.5rem;
+    }
+}
+
+@container (min-width: 600px) {
+    .course-card {
+        padding: 2rem;
+    }
+}
+
+/* Utilitários responsivos */
+.hide-mobile {
+    display: block;
+}
+
+.show-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none;
+    }
+    
+    .show-mobile {
+        display: block;
+    }
+}
+
+.hide-tablet {
+    display: block;
+}
+
+.show-tablet {
+    display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .hide-tablet {
+        display: none;
+    }
+    
+    .show-tablet {
+        display: block;
+    }
+}
+
+.hide-desktop {
+    display: block;
+}
+
+.show-desktop {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .hide-desktop {
+        display: none;
+    }
+    
+    .show-desktop {
+        display: block;
+    }
+}
+
+/* Flexbox responsivo */
+.flex-responsive {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .flex-responsive {
+        flex-direction: column;
+    }
+}
+
+/* Grid responsivo avançado */
+.grid-responsive-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+}
+
+.grid-responsive-fill {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+}
+
+/* Aspect ratio responsivo */
+.aspect-ratio-16-9 {
+    aspect-ratio: 16 / 9;
+}
+
+.aspect-ratio-4-3 {
+    aspect-ratio: 4 / 3;
+}
+
+.aspect-ratio-1-1 {
+    aspect-ratio: 1 / 1;
+}
+
+@supports not (aspect-ratio: 1 / 1) {
+    .aspect-ratio-16-9 {
+        padding-bottom: 56.25%;
+        height: 0;
+        position: relative;
+    }
+    
+    .aspect-ratio-16-9 > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Áudio - StudyConnect+</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .test-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background: #43e97b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #38f9d7;
+            transform: translateY(-2px);
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔊 Teste do Sistema de Áudio</h1>
+        <p>Use este teste para verificar se o sistema de áudio está funcionando corretamente.</p>
+        
+        <div class="status" id="status">
+            Status: Carregando...
+        </div>
+        
+        <h3>Testes de Som:</h3>
+        <button onclick="testCorrectKey()">✅ Som de Tecla Correta</button>
+        <button onclick="testErrorKey()">❌ Som de Tecla Incorreta</button>
+        <button onclick="testGameStart()">🚀 Som de Início</button>
+        <button onclick="testGameFinish()">🏁 Som de Fim</button>
+        <button onclick="testWarning()">⚠️ Som de Aviso</button>
+        <button onclick="testLevelUp()">⬆️ Som de Nível</button>
+        <button onclick="testSuccess()">🎉 Som de Sucesso</button>
+        
+        <h3>Controles:</h3>
+        <button onclick="toggleAudio()" id="toggleBtn">🔊 Desativar Áudio</button>
+        <button onclick="testSequence()">🎵 Testar Sequência</button>
+        
+        <div class="status">
+            <strong>Instruções:</strong><br>
+            1. Clique nos botões para testar cada som<br>
+            2. Se não ouvir nada, clique em qualquer lugar da página primeiro<br>
+            3. Verifique se o volume do seu dispositivo está ligado<br>
+            4. Use o botão "Desativar/Ativar Áudio" para testar o controle
+        </div>
+    </div>
+
+    <script src="audio-manager.js"></script>
+    <script>
+        let audioEnabled = true;
+        
+        // Verificar status do áudio
+        function updateStatus() {
+            const statusEl = document.getElementById('status');
+            if (window.audioManager) {
+                if (window.audioManager.isInitialized) {
+                    statusEl.innerHTML = `
+                        <strong>Status:</strong> ✅ Sistema de áudio inicializado<br>
+                        <strong>Contexto:</strong> ${window.audioManager.audioContext ? window.audioManager.audioContext.state : 'N/A'}<br>
+                        <strong>Habilitado:</strong> ${window.audioManager.isAudioEnabled() ? 'Sim' : 'Não'}
+                    `;
+                } else {
+                    statusEl.innerHTML = '<strong>Status:</strong> ❌ Sistema de áudio não inicializado';
+                }
+            } else {
+                statusEl.innerHTML = '<strong>Status:</strong> ❌ Gerenciador de áudio não encontrado';
+            }
+        }
+        
+        // Funções de teste
+        function testCorrectKey() {
+            if (window.audioManager) {
+                window.audioManager.playCorrectKey();
+                console.log('Testando som de tecla correta');
+            }
+        }
+        
+        function testErrorKey() {
+            if (window.audioManager) {
+                window.audioManager.playErrorKey();
+                console.log('Testando som de tecla incorreta');
+            }
+        }
+        
+        function testGameStart() {
+            if (window.audioManager) {
+                window.audioManager.playGameStart();
+                console.log('Testando som de início');
+            }
+        }
+        
+        function testGameFinish() {
+            if (window.audioManager) {
+                window.audioManager.playGameFinish();
+                console.log('Testando som de fim');
+            }
+        }
+        
+        function testWarning() {
+            if (window.audioManager) {
+                window.audioManager.playWarning();
+                console.log('Testando som de aviso');
+            }
+        }
+        
+        function testLevelUp() {
+            if (window.audioManager) {
+                window.audioManager.playLevelUp();
+                console.log('Testando som de nível');
+            }
+        }
+        
+        function testSuccess() {
+            if (window.audioManager) {
+                window.audioManager.playSuccess();
+                console.log('Testando som de sucesso');
+            }
+        }
+        
+        function toggleAudio() {
+            if (window.audioManager) {
+                audioEnabled = !audioEnabled;
+                window.audioManager.setEnabled(audioEnabled);
+                
+                const btn = document.getElementById('toggleBtn');
+                btn.textContent = audioEnabled ? '🔊 Desativar Áudio' : '🔇 Ativar Áudio';
+                
+                updateStatus();
+                
+                if (audioEnabled) {
+                    setTimeout(() => window.audioManager.playCorrectKey(), 100);
+                }
+            }
+        }
+        
+        function testSequence() {
+            if (window.audioManager && window.audioManager.isAudioEnabled()) {
+                console.log('Iniciando sequência de teste...');
+                setTimeout(() => window.audioManager.playGameStart(), 0);
+                setTimeout(() => window.audioManager.playCorrectKey(), 1000);
+                setTimeout(() => window.audioManager.playCorrectKey(), 1200);
+                setTimeout(() => window.audioManager.playErrorKey(), 1400);
+                setTimeout(() => window.audioManager.playWarning(), 2000);
+                setTimeout(() => window.audioManager.playLevelUp(), 3000);
+                setTimeout(() => window.audioManager.playGameFinish(), 4000);
+            }
+        }
+        
+        // Atualizar status periodicamente
+        setInterval(updateStatus, 1000);
+        
+        // Ativar áudio na primeira interação
+        document.addEventListener('click', () => {
+            if (window.audioManager) {
+                window.audioManager.activate();
+                setTimeout(updateStatus, 100);
+            }
+        }, { once: true });
+        
+        // Status inicial
+        setTimeout(updateStatus, 500);
+    </script>
+</body>
+</html>

@@ -94,6 +94,10 @@ class StudyConnectApp {
     // ===========================
     initAnimations() {
         this.animationManager.init();
+        // Inicializar animações suaves se disponível
+        if (window.smoothAnimations) {
+            window.smoothAnimations.init();
+        }
     }
 
     // ===========================
@@ -188,6 +192,11 @@ class StudyConnectApp {
     //   EFEITOS DE SCROLL
     // ===========================
     initScrollEffects() {
+        // Usar o sistema de animações suaves se disponível
+        if (window.smoothAnimations) {
+            return; // O sistema de animações suaves já cuida disso
+        }
+        
         const elements = document.querySelectorAll('.animate-on-scroll');
         
         const observer = new IntersectionObserver((entries) => {

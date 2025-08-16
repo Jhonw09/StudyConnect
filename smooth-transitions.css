@@ -1,0 +1,262 @@
+/* ===========================
+   TRANSIÇÕES SUAVES ENTRE SEÇÕES
+=========================== */
+
+/* Transições globais suaves */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Efeito de fade-in para seções */
+section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+section.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay progressivo para elementos dentro das seções */
+.section-header {
+  transition-delay: 0.1s;
+}
+
+.courses-grid,
+.teachers-grid,
+.games-grid {
+  transition-delay: 0.2s;
+}
+
+.contact-container,
+.faq-content {
+  transition-delay: 0.2s;
+}
+
+/* Efeito de respiração para o background */
+body {
+  background-attachment: fixed;
+  transition: background-color 0.3s ease;
+}
+
+/* Transições específicas por seção */
+.hero-section {
+  background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+  transition: all 1s ease;
+}
+
+.courses-section {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  transition: all 1s ease;
+}
+
+.teachers-section {
+  background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+  transition: all 1s ease;
+}
+
+.games-section {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  transition: all 1s ease;
+}
+
+.contact-section {
+  background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+  transition: all 1s ease;
+}
+
+.faq-section {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  transition: all 1s ease;
+}
+
+/* Tema escuro - transições */
+body.dark-mode .hero-section,
+body.dark-mode .teachers-section,
+body.dark-mode .contact-section {
+  background: var(--bg-primary);
+}
+
+body.dark-mode .courses-section,
+body.dark-mode .games-section,
+body.dark-mode .faq-section {
+  background: var(--bg-darker);
+}
+
+/* Efeito de blur suave durante transições */
+.section-transitioning {
+  filter: blur(2px);
+  transition: filter 0.3s ease;
+}
+
+.section-transitioning.complete {
+  filter: blur(0);
+}
+
+/* Animação de entrada para cards */
+.course-card,
+.teacher-card,
+.game-card {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.course-card.card-visible,
+.teacher-card.card-visible,
+.game-card.card-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Delay escalonado para cards */
+.course-card:nth-child(1) { transition-delay: 0.1s; }
+.course-card:nth-child(2) { transition-delay: 0.2s; }
+.course-card:nth-child(3) { transition-delay: 0.3s; }
+.course-card:nth-child(4) { transition-delay: 0.4s; }
+
+.teacher-card:nth-child(1) { transition-delay: 0.1s; }
+.teacher-card:nth-child(2) { transition-delay: 0.2s; }
+.teacher-card:nth-child(3) { transition-delay: 0.3s; }
+.teacher-card:nth-child(4) { transition-delay: 0.4s; }
+
+.game-card:nth-child(1) { transition-delay: 0.1s; }
+.game-card:nth-child(2) { transition-delay: 0.2s; }
+.game-card:nth-child(3) { transition-delay: 0.3s; }
+
+/* Efeito de ondulação no scroll */
+.scroll-wave {
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-wave::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(67, 233, 123, 0.1), 
+    transparent
+  );
+  transition: left 0.8s ease;
+}
+
+.scroll-wave.wave-active::before {
+  left: 100%;
+}
+
+/* Transições para elementos de contato */
+.contact-item {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s ease;
+}
+
+.contact-item.item-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.contact-item:nth-child(1) { transition-delay: 0.1s; }
+.contact-item:nth-child(2) { transition-delay: 0.2s; }
+.contact-item:nth-child(3) { transition-delay: 0.3s; }
+.contact-item:nth-child(4) { transition-delay: 0.4s; }
+
+/* Transições para FAQ */
+.info-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.info-card.card-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.info-card:nth-child(1) { transition-delay: 0.1s; }
+.info-card:nth-child(2) { transition-delay: 0.2s; }
+.info-card:nth-child(3) { transition-delay: 0.3s; }
+
+/* Efeito de respiração para seções ativas */
+.section-breathing {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.002); }
+}
+
+/* Transições suaves para filtros */
+.courses-filter .filter-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de parallax sutil */
+.parallax-section {
+  transform: translateZ(0);
+  transition: transform 0.1s ease-out;
+}
+
+/* Otimizações de performance */
+.course-card,
+.teacher-card,
+.game-card,
+section {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Reduzir animações em dispositivos com preferência por movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .section-breathing {
+    animation: none;
+  }
+}
+
+/* Responsividade para transições */
+@media (max-width: 768px) {
+  section {
+    transform: translateY(20px);
+  }
+  
+  .course-card,
+  .teacher-card,
+  .game-card {
+    transform: translateY(20px) scale(0.98);
+  }
+  
+  /* Reduzir delays em mobile */
+  .course-card,
+  .teacher-card,
+  .game-card,
+  .contact-item,
+  .info-card {
+    transition-delay: 0.05s;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Transições mais rápidas em telas pequenas */
+  section,
+  .course-card,
+  .teacher-card,
+  .game-card {
+    transition-duration: 0.4s;
+  }
+}
