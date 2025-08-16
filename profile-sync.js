@@ -1,7 +1,10 @@
 // Sistema de sincronização de perfil entre páginas
 class ProfileSync {
     constructor() {
-        this.profileData = {
+        // Primeiro tenta carregar dados existentes do localStorage
+        const savedData = localStorage.getItem('studyconnect_profile');
+        
+        this.profileData = savedData ? JSON.parse(savedData) : {
             name: 'Jonas Arruda',
             email: 'jonas.arruda@email.com',
             phone: '(11) 99999-9999',
@@ -48,12 +51,17 @@ class ProfileSync {
     }
     
     saveProfile() {
-        localStorage.setItem('studyconnect_profile', JSON.stringify(this.profileData));
-        
-        // Disparar evento customizado para outras abas
-        window.dispatchEvent(new CustomEvent('profileUpdated', {
-            detail: this.profileData
-        }));
+        try {
+            localStorage.setItem('studyconnect_profile', JSON.stringify(this.profileData));
+            console.log('Dados salvos:', this.profileData); // Debug
+            
+            // Disparar evento de atualização
+            window.dispatchEvent(new CustomEvent('profileUpdated', {
+                detail: this.profileData
+            }));
+        } catch (error) {
+            console.error('Erro ao salvar no localStorage:', error);
+        }
     }
     
     updateProfile(data) {
@@ -140,13 +148,119 @@ class ProfileSync {
     
     // Método para ser chamado quando o formulário for submetido
     handleFormSubmit(formData) {
-        this.updateProfile({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            location: formData.location,
-            bio: formData.bio
-        });
+        const updatedData = {
+            name: document.getElementById('editName').value,
+            email: document.getElementById('editEmail').value,
+            phone: document.getElementById('editPhone').value,
+            location: document.getElementById('editLocation').value,
+            bio: document.getElementById('editBio').value
+        };
+
+        // Manter dados existentes e atualizar apenas os campos modificados
+        this.profileData = {
+            ...this.profileData,
+            ...updatedData
+        };
+        
+        // Salvar no localStorage
+        this.saveProfile();
+        
+        // Atualizar UI
+        this.syncCurrentPage();
+        
+        // Feedback visual
+        this.showSaveConfirmation();
+    }
+
+    showSaveConfirmation() {
+        const saveBtn = document.querySelector('.btn-save');
+        if (saveBtn) {
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-check"></i> Salvo!';
+            saveBtn.style.backgroundColor = '#4CAF50';
+            
+            // Criar notificação
+            const notification = document.createElement('div');
+            notification.className = 'save-notification';
+            notification.textContent = 'Dados salvos com sucesso!';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+                saveBtn.style.backgroundColor = '';
+                notification.remove();
+                
+                // Fechar modal de edição
+                const editSection = document.querySelector('.edit-section');
+                if (editSection) {
+                    editSection.style.display = 'none';
+                }
+            }, 2000);
+        }
+    }
+    
+    syncMainPage() {
+        // Atualizar nome no dropdown
+        const profileNameEl = document.getElementById('profileName');
+        if (profileNameEl) {
+            profileNameEl.textContent = this.profileData.name.split(' ')[0];
+        }
+        
+        // Atualizar avatar se existir
+        const profileAvatar = document.querySelector('.profile-avatar');
+        if (profileAvatar && this.profileData.avatar) {
+            profileAvatar.src = this.profileData.avatar;
+        }
+    }
+    
+    syncProfilePage() {
+        // Atualizar informações básicas
+        const elements = {
+            profileName: document.getElementById('profileName'),
+            profileEmail: document.getElementById('profileEmail'),
+            profilePhone: document.getElementById('profilePhone'),
+            profileLocation: document.getElementById('profileLocation'),
+            profileJoinDate: document.getElementById('profileJoinDate'),
+            avatarText: document.getElementById('avatarText')
+        };
+        
+        if (elements.profileName) elements.profileName.textContent = this.profileData.name;
+        if (elements.profileEmail) elements.profileEmail.textContent = this.profileData.email;
+        if (elements.profilePhone) elements.profilePhone.textContent = this.profileData.phone;
+        if (elements.profileLocation) elements.profileLocation.textContent = this.profileData.location;
+        if (elements.profileJoinDate) elements.profileJoinDate.textContent = this.profileData.joinDate;
+        
+        // Atualizar iniciais do avatar
+        if (elements.avatarText) {
+            const initials = this.profileData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            elements.avatarText.textContent = initials;
+        }
+        
+        // Atualizar avatar se existir
+        if (this.profileData.avatar) {
+            const avatar = document.querySelector('.profile-avatar');
+            if (avatar) {
+                avatar.style.backgroundImage = `url(${this.profileData.avatar})`;
+                avatar.style.backgroundSize = 'cover';
+                avatar.style.backgroundPosition = 'center';
+                if (elements.avatarText) elements.avatarText.style.display = 'none';
+            }
+        }
+        
+        // Atualizar campos do formulário de edição
+        const formElements = {
+            editName: document.getElementById('editName'),
+            editEmail: document.getElementById('editEmail'),
+            editPhone: document.getElementById('editPhone'),
+            editLocation: document.getElementById('editLocation'),
+            editBio: document.getElementById('editBio')
+        };
+        
+        if (formElements.editName) formElements.editName.value = this.profileData.name;
+        if (formElements.editEmail) formElements.editEmail.value = this.profileData.email;
+        if (formElements.editPhone) formElements.editPhone.value = this.profileData.phone;
+        if (formElements.editLocation) formElements.editLocation.value = this.profileData.location;
+        if (formElements.editBio) formElements.editBio.value = this.profileData.bio;
     }
     
     // Método para atualizar avatar
@@ -160,11 +274,36 @@ class ProfileSync {
     }
 }
 
-// Inicializar sistema de sincronização
-const profileSync = new ProfileSync();
+// Inicializar quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+    window.profileSync = new ProfileSync();
+    
+    // Adicionar listener para o formulário
+    const editForm = document.getElementById('editForm');
+    if (editForm) {
+        editForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.profileSync.handleFormSubmit();
+        });
+    }
 
-// Tornar disponível globalmente
-window.profileSync = profileSync;
+    // Adicionar listener para upload de avatar
+    const avatarInput = document.getElementById('avatarInput');
+    if (avatarInput) {
+        avatarInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const dataUrl = await handleProfileImage(file);
+                    window.profileSync.updateAvatar(dataUrl);
+                } catch (error) {
+                    console.error('Erro ao processar imagem:', error);
+                    alert('Erro ao processar imagem. Tente novamente.');
+                }
+            }
+        });
+    }
+});
 
 // Função para carregar os dados do usuário do localStorage
 function loadUserProfile() {
