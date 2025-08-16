@@ -4,442 +4,419 @@
 
 class PerformanceOptimizer {
     constructor() {
-        this.isLowEndDevice = this.detectLowEndDevice();
-        this.prefersReducedMotion = this.checkReducedMotion();
+        this.imageObserver = null;
         this.init();
     }
 
     init() {
-        this.optimizeForDevice();
-        this.setupPerformanceMonitoring();
-        this.optimizeImages();
+        this.setupLazyLoading();
+        this.setupLoadingSkeletons();
+        this.preloadCriticalResources();
         this.optimizeAnimations();
-        this.setupIntersectionObserver();
-    }
-
-    // ===========================
-    //   DETECÇÃO DE DISPOSITIVO
-    // ===========================
-    detectLowEndDevice() {
-        // Verificar hardware
-        const hardwareConcurrency = navigator.hardwareConcurrency || 2;
-        const deviceMemory = navigator.deviceMemory || 2;
-        
-        // Verificar conexão
-        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
-        
-        // Verificar user agent para dispositivos móveis antigos
-        const isOldMobile = /Android [1-4]|iPhone OS [1-9]_|iPad.*OS [1-9]_/.test(navigator.userAgent);
-        
-        return hardwareConcurrency <= 2 || deviceMemory <= 2 || slowConnection || isOldMobile;
-    }
-
-    checkReducedMotion() {
-        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-
-    // ===========================
-    //   OTIMIZAÇÕES POR DISPOSITIVO
-    // ===========================
-    optimizeForDevice() {
-        if (this.isLowEndDevice || this.prefersReducedMotion) {
-            this.applyLowEndOptimizations();
-        }
-
-        // Otimizações específicas para mobile
-        if (window.innerWidth <= 768) {
-            this.applyMobileOptimizations();
-        }
-    }
-
-    applyLowEndOptimizations() {
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Reduzir animações para dispositivos lentos */
-            *, *::before, *::after {
-                animation-duration: 0.2s !important;
-                transition-duration: 0.2s !important;
-            }
-            
-            /* Desabilitar efeitos pesados */
-            .floating-cards,
-            #particles-js,
-            .logo-glow,
-            .image-glow {
-                display: none !important;
-            }
-            
-            /* Simplificar sombras */
-            .course-card,
-            .teacher-card {
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-            }
-            
-            /* Desabilitar transformações 3D */
-            .course-card:hover,
-            .teacher-card:hover {
-                transform: translateY(-3px) !important;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    applyMobileOptimizations() {
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Otimizações para mobile */
-            .course-card,
-            .teacher-card {
-                will-change: auto;
-                backface-visibility: visible;
-            }
-            
-            /* Reduzir blur effects */
-            header {
-                backdrop-filter: none !important;
-                background: rgba(255, 255, 255, 0.95) !important;
-            }
-            
-            body.dark-mode header {
-                background: rgba(26, 26, 46, 0.95) !important;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    // ===========================
-    //   MONITORAMENTO DE PERFORMANCE
-    // ===========================
-    setupPerformanceMonitoring() {
-        // Monitorar FPS
-        this.monitorFPS();
-        
-        // Monitorar uso de memória
-        if ('memory' in performance) {
-            this.monitorMemory();
-        }
-        
-        // Monitorar long tasks
-        if ('PerformanceObserver' in window) {
-            this.monitorLongTasks();
-        }
-    }
-
-    monitorFPS() {
-        let lastTime = performance.now();
-        let frames = 0;
-        let fps = 60;
-
-        const measureFPS = (currentTime) => {
-            frames++;
-            if (currentTime >= lastTime + 1000) {
-                fps = Math.round((frames * 1000) / (currentTime - lastTime));
-                frames = 0;
-                lastTime = currentTime;
-                
-                // Se FPS baixo, aplicar otimizações
-                if (fps < 30 && !this.isLowEndDevice) {
-                    this.applyLowEndOptimizations();
-                    this.isLowEndDevice = true;
-                }
-            }
-            requestAnimationFrame(measureFPS);
-        };
-
-        requestAnimationFrame(measureFPS);
-    }
-
-    monitorMemory() {
-        setInterval(() => {
-            const memory = performance.memory;
-            const usedMB = memory.usedJSHeapSize / 1048576;
-            const limitMB = memory.jsHeapSizeLimit / 1048576;
-            
-            // Se uso de memória alto, limpar recursos
-            if (usedMB / limitMB > 0.8) {
-                this.cleanupResources();
-            }
-        }, 10000);
-    }
-
-    monitorLongTasks() {
-        const observer = new PerformanceObserver((list) => {
-            for (const entry of list.getEntries()) {
-                if (entry.duration > 50) {
-                    console.warn('Long task detected:', entry.duration + 'ms');
-                    // Aplicar otimizações se muitas long tasks
-                    this.longTaskCount = (this.longTaskCount || 0) + 1;
-                    if (this.longTaskCount > 5) {
-                        this.applyLowEndOptimizations();
-                    }
-                }
-            }
-        });
-        
-        observer.observe({ entryTypes: ['longtask'] });
-    }
-
-    // ===========================
-    //   OTIMIZAÇÃO DE IMAGENS
-    // ===========================
-    optimizeImages() {
-        // Lazy loading para imagens
-        if ('IntersectionObserver' in window) {
-            this.setupLazyLoading();
-        }
-        
-        // Otimizar qualidade baseado na conexão
-        this.optimizeImageQuality();
     }
 
     setupLazyLoading() {
-        const images = document.querySelectorAll('img[data-src]');
-        
-        const imageObserver = new IntersectionObserver((entries) => {
+        // Lazy loading apenas para imagens com data-src (novas imagens)
+        this.imageObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
+                    this.loadImage(entry.target);
+                    this.imageObserver.unobserve(entry.target);
                 }
             });
-        }, {
-            rootMargin: '50px'
+        }, { rootMargin: '50px' });
+
+        // Observar apenas imagens com data-src (não afetar imagens existentes)
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            this.imageObserver.observe(img);
         });
 
-        images.forEach(img => imageObserver.observe(img));
-    }
-
-    optimizeImageQuality() {
-        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        
-        if (connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
-            // Reduzir qualidade das imagens para conexões lentas
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                if (img.src && !img.dataset.optimized) {
-                    // Adicionar parâmetros de otimização se usando um CDN
-                    img.dataset.optimized = 'true';
-                }
-            });
-        }
-    }
-
-    // ===========================
-    //   OTIMIZAÇÃO DE ANIMAÇÕES
-    // ===========================
-    optimizeAnimations() {
-        // Pausar animações quando fora da viewport
-        this.setupAnimationPausing();
-        
-        // Reduzir animações baseado na bateria
-        if ('getBattery' in navigator) {
-            this.optimizeForBattery();
-        }
-    }
-
-    setupAnimationPausing() {
-        const animatedElements = document.querySelectorAll('[class*="animate"], [class*="animation"]');
-        
-        const animationObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                } else {
-                    entry.target.style.animationPlayState = 'paused';
-                }
-            });
+        // Garantir que imagens existentes estejam visíveis
+        document.querySelectorAll('img:not([data-src])').forEach(img => {
+            img.style.opacity = '1';
+            img.classList.add('loaded');
         });
 
-        animatedElements.forEach(el => animationObserver.observe(el));
+        // Lazy loading para seções
+        this.setupSectionLazyLoading();
     }
 
-    async optimizeForBattery() {
-        try {
-            const battery = await navigator.getBattery();
-            
-            const checkBattery = () => {
-                if (battery.level < 0.2 || !battery.charging) {
-                    // Bateria baixa - reduzir animações
-                    this.applyLowEndOptimizations();
-                }
-            };
-            
-            battery.addEventListener('levelchange', checkBattery);
-            battery.addEventListener('chargingchange', checkBattery);
-            checkBattery();
-        } catch (error) {
-            console.log('Battery API not supported');
-        }
-    }
+    loadImage(img) {
+        // Criar skeleton enquanto carrega
+        const skeleton = this.createImageSkeleton(img);
+        img.parentNode.insertBefore(skeleton, img);
 
-    // ===========================
-    //   INTERSECTION OBSERVER OTIMIZADO
-    // ===========================
-    setupIntersectionObserver() {
-        // Observer otimizado para elementos que entram na viewport
-        const observerOptions = {
-            threshold: [0, 0.1, 0.5],
-            rootMargin: '0px 0px -50px 0px'
+        img.src = img.dataset.src;
+        img.onload = () => {
+            img.classList.add('loaded');
+            skeleton.remove();
         };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const element = entry.target;
-                
-                if (entry.isIntersecting) {
-                    // Elemento visível - ativar animações
-                    element.classList.add('in-viewport');
-                    
-                    // Aplicar animação baseada na classe
-                    if (element.classList.contains('fade-in-up')) {
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                    }
-                    
-                    if (element.classList.contains('scale-in')) {
-                        element.style.opacity = '1';
-                        element.style.transform = 'scale(1)';
-                    }
-                    
-                    // Desconectar após animar (performance)
-                    observer.unobserve(element);
-                } else {
-                    element.classList.remove('in-viewport');
-                }
-            });
-        }, observerOptions);
-
-        // Observar elementos com classes de animação
-        const elementsToObserve = document.querySelectorAll(`
-            .fade-in-up,
-            .fade-in-down,
-            .fade-in-left,
-            .fade-in-right,
-            .scale-in,
-            .section-transition,
-            .card-entrance,
-            .scroll-reveal
-        `);
-
-        elementsToObserve.forEach(el => {
-            // Preparar elemento para animação
-            if (el.classList.contains('fade-in-up')) {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-            }
-            
-            if (el.classList.contains('scale-in')) {
-                el.style.opacity = '0';
-                el.style.transform = 'scale(0.8)';
-                el.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            }
-            
-            observer.observe(el);
-        });
+        img.onerror = () => {
+            skeleton.remove();
+            img.src = '/images/placeholder.jpg'; // Fallback
+        };
     }
 
-    // ===========================
-    //   LIMPEZA DE RECURSOS
-    // ===========================
-    cleanupResources() {
-        // Limpar event listeners não utilizados
-        this.cleanupEventListeners();
-        
-        // Limpar elementos DOM desnecessários
-        this.cleanupDOM();
-        
-        // Forçar garbage collection se disponível
-        if (window.gc) {
-            window.gc();
-        }
-    }
-
-    cleanupEventListeners() {
-        // Remover listeners de elementos que não estão mais visíveis
-        const hiddenElements = document.querySelectorAll('[style*="display: none"]');
-        hiddenElements.forEach(el => {
-            const newEl = el.cloneNode(true);
-            el.parentNode.replaceChild(newEl, el);
-        });
-    }
-
-    cleanupDOM() {
-        // Remover elementos temporários
-        const tempElements = document.querySelectorAll('.temp, .temporary, [data-temp="true"]');
-        tempElements.forEach(el => el.remove());
-        
-        // Limpar cache de imagens não utilizadas
-        const unusedImages = document.querySelectorAll('img[data-loaded="false"]');
-        unusedImages.forEach(img => {
-            if (!this.isElementVisible(img)) {
-                img.src = '';
-            }
-        });
-    }
-
-    isElementVisible(element) {
-        const rect = element.getBoundingClientRect();
-        return rect.top < window.innerHeight && rect.bottom > 0;
-    }
-
-    // ===========================
-    //   MÉTODOS PÚBLICOS
-    // ===========================
-    enableHighPerformanceMode() {
-        this.applyLowEndOptimizations();
-        this.applyMobileOptimizations();
-    }
-
-    disableAnimations() {
-        const style = document.createElement('style');
-        style.id = 'disable-animations';
-        style.textContent = `
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+    createImageSkeleton(img) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'image-skeleton';
+        skeleton.style.cssText = `
+            width: ${img.offsetWidth || 300}px;
+            height: ${img.offsetHeight || 200}px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
         `;
-        document.head.appendChild(style);
+        return skeleton;
     }
 
-    enableAnimations() {
-        const disableStyle = document.getElementById('disable-animations');
-        if (disableStyle) {
-            disableStyle.remove();
+    setupSectionLazyLoading() {
+        const sections = document.querySelectorAll('.lazy-section');
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.loadSection(entry.target);
+                    sectionObserver.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '100px' });
+
+        sections.forEach(section => sectionObserver.observe(section));
+    }
+
+    loadSection(section) {
+        const content = section.dataset.content;
+        if (content) {
+            // Simular carregamento de conteúdo dinâmico
+            setTimeout(() => {
+                section.innerHTML = this.generateSectionContent(content);
+                section.classList.add('loaded');
+            }, 300);
         }
     }
 
-    getPerformanceMetrics() {
-        return {
-            isLowEndDevice: this.isLowEndDevice,
-            prefersReducedMotion: this.prefersReducedMotion,
-            memory: performance.memory ? {
-                used: Math.round(performance.memory.usedJSHeapSize / 1048576),
-                total: Math.round(performance.memory.totalJSHeapSize / 1048576),
-                limit: Math.round(performance.memory.jsHeapSizeLimit / 1048576)
-            } : null,
-            connection: navigator.connection ? {
-                effectiveType: navigator.connection.effectiveType,
-                downlink: navigator.connection.downlink
-            } : null
+    setupLoadingSkeletons() {
+        // Adicionar skeletons para cards de curso
+        this.addSkeletonsToCards();
+        
+        // Skeleton para estatísticas
+        this.addSkeletonsToStats();
+    }
+
+    addSkeletonsToCards() {
+        const courseCards = document.querySelectorAll('.course-card');
+        courseCards.forEach(card => {
+            if (!card.classList.contains('skeleton-added')) {
+                const skeleton = this.createCardSkeleton();
+                card.appendChild(skeleton);
+                card.classList.add('skeleton-added');
+                
+                // Remover skeleton após carregamento
+                setTimeout(() => {
+                    skeleton.classList.add('fade-out');
+                    setTimeout(() => skeleton.remove(), 300);
+                }, 1000);
+            }
+        });
+    }
+
+    createCardSkeleton() {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'card-skeleton';
+        skeleton.innerHTML = `
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+                <div class="skeleton-title"></div>
+                <div class="skeleton-text"></div>
+                <div class="skeleton-text short"></div>
+                <div class="skeleton-footer">
+                    <div class="skeleton-price"></div>
+                    <div class="skeleton-rating"></div>
+                </div>
+            </div>
+        `;
+        return skeleton;
+    }
+
+    addSkeletonsToStats() {
+        const stats = document.querySelectorAll('.stat-number');
+        stats.forEach(stat => {
+            const skeleton = document.createElement('div');
+            skeleton.className = 'stat-skeleton';
+            stat.parentNode.insertBefore(skeleton, stat);
+            
+            setTimeout(() => {
+                skeleton.remove();
+                stat.style.opacity = '1';
+            }, 800);
+        });
+    }
+
+    preloadCriticalResources() {
+        // Preload de fontes críticas
+        const fonts = [
+            'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
+            'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap'
+        ];
+
+        fonts.forEach(font => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'style';
+            link.href = font;
+            document.head.appendChild(link);
+        });
+
+        // Preload de imagens críticas
+        const criticalImages = [
+            '/images/hero-bg.jpg',
+            '/images/logo.png'
+        ];
+
+        criticalImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }
+
+    optimizeAnimations() {
+        // Reduzir animações se o usuário preferir
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.style.setProperty('--animation-duration', '0.01s');
+            return;
+        }
+
+        // Pausar animações quando não visível
+        document.addEventListener('visibilitychange', () => {
+            const animations = document.querySelectorAll('.animated');
+            if (document.hidden) {
+                animations.forEach(el => el.style.animationPlayState = 'paused');
+            } else {
+                animations.forEach(el => el.style.animationPlayState = 'running');
+            }
+        });
+    }
+
+    // Debounce para eventos de scroll/resize
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
         };
+    }
+
+    // Throttle para eventos frequentes
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
+    generateSectionContent(type) {
+        const templates = {
+            courses: `
+                <div class="course-grid">
+                    ${Array(6).fill().map(() => `
+                        <div class="course-card fade-in">
+                            <div class="course-image">
+                                <img data-src="/images/course-${Math.floor(Math.random() * 5) + 1}.jpg" alt="Curso">
+                            </div>
+                            <div class="course-content">
+                                <h3>Curso Dinâmico</h3>
+                                <p>Conteúdo carregado dinamicamente</p>
+                                <div class="course-meta">
+                                    <span class="price">R$ 99</span>
+                                    <span class="rating">⭐ 4.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+            testimonials: `
+                <div class="testimonial-grid">
+                    ${Array(3).fill().map(() => `
+                        <div class="testimonial-card fade-in">
+                            <p>"Conteúdo excelente, recomendo!"</p>
+                            <div class="testimonial-author">
+                                <img data-src="/images/avatar-${Math.floor(Math.random() * 3) + 1}.jpg" alt="Avatar">
+                                <span>Usuário Satisfeito</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `
+        };
+        return templates[type] || '<p>Conteúdo carregado!</p>';
     }
 }
 
-// ===========================
-//   INICIALIZAÇÃO
-// ===========================
-let performanceOptimizer;
+// CSS para skeletons e otimizações
+const performanceStyles = `
+<style>
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
 
+.image-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.card-skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1rem;
+    z-index: 1;
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.skeleton-content {
+    padding: 0.5rem 0;
+}
+
+.skeleton-title {
+    height: 20px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+    width: 80%;
+}
+
+.skeleton-text {
+    height: 14px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+.skeleton-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.skeleton-price,
+.skeleton-rating {
+    height: 16px;
+    width: 60px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+.stat-skeleton {
+    height: 40px;
+    width: 80px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+img[data-src] {
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+img[data-src].loaded,
+img:not([data-src]) {
+    opacity: 1;
+}
+
+.lazy-section {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    margin: 2rem 0;
+}
+
+.lazy-section:not(.loaded)::before {
+    content: 'Carregando...';
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+/* Otimizações para animações */
+.will-change-transform {
+    will-change: transform;
+}
+
+.will-change-opacity {
+    will-change: opacity;
+}
+
+/* GPU acceleration */
+.gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+`;
+
+document.head.insertAdjacentHTML('beforeend', performanceStyles);
+
+// Inicializar otimizador
 document.addEventListener('DOMContentLoaded', () => {
-    performanceOptimizer = new PerformanceOptimizer();
+    window.performanceOptimizer = new PerformanceOptimizer();
 });
-
-// Export para uso global
-window.PerformanceOptimizer = PerformanceOptimizer;
-window.performanceOptimizer = performanceOptimizer;
