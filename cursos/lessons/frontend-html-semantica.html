@@ -12,17 +12,322 @@
     <link rel="stylesheet" href="../video-player.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .semantic-demo { background: var(--card-bg); padding: 25px; border-radius: 15px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .html-structure { background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; margin: 15px 0; overflow-x: auto; position: relative; }
-        .html-structure::before { content: 'HTML'; position: absolute; top: 10px; right: 15px; background: #ff6b6b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; }
-        .visual-demo { background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); padding: 20px; border-radius: 10px; margin: 15px 0; border: 2px dashed var(--color-primary); }
-        .semantic-element { background: rgba(102, 126, 234, 0.2); padding: 10px; margin: 5px 0; border-radius: 5px; border-left: 4px solid var(--color-primary); }
-        .interactive-builder { background: var(--card-bg); padding: 25px; border-radius: 15px; margin: 20px 0; }
-        .element-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
-        .element-btn { background: var(--color-primary); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: all 0.3s; }
-        .element-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
-        .builder-output { background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; min-height: 200px; font-family: 'Courier New', monospace; }
-        .accessibility-tips { background: rgba(67, 233, 123, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #43e97b; }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .lesson-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            margin-top: 120px;
+        }
+        
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .lesson-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .lesson-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .video-player {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .lesson-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lesson-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #4facfe);
+        }
+        
+        .lesson-content h2 {
+            color: #2d3748;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .lesson-content h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        .lesson-content h3 {
+            color: #4a5568;
+            font-size: 1.6rem;
+            margin: 30px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .semantic-demo {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .html-structure {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            line-height: 1.6;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .html-structure::before {
+            content: 'HTML';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(102, 126, 234, 0.8);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .visual-demo {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px dashed #667eea;
+            backdrop-filter: blur(5px);
+        }
+        
+        .semantic-element {
+            background: rgba(102, 126, 234, 0.08);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .semantic-element:hover {
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+        
+        .semantic-element h4 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .interactive-builder {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .element-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .element-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .element-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .builder-output {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 15px;
+            min-height: 250px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            line-height: 1.6;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            white-space: pre-wrap;
+        }
+        
+        .accessibility-tips {
+            background: rgba(67, 233, 123, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid #43e97b;
+            box-shadow: 0 10px 30px rgba(67, 233, 123, 0.1);
+        }
+        
+        .accessibility-tips h3 {
+            color: #22543d;
+            margin-bottom: 15px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            gap: 20px;
+        }
+        
+        .navigation .btn {
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+        }
+        
+        .navigation .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #4a5568;
+        }
+        
+        .navigation .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .navigation .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .navigation .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .lesson-container {
+                padding: 20px 15px;
+                margin-top: 80px;
+            }
+            
+            .lesson-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .lesson-header p {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .lesson-content,
+            .semantic-demo,
+            .interactive-builder {
+                padding: 25px 20px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .element-buttons {
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -49,8 +354,12 @@
 
     <main class="lesson-container">
         <div class="lesson-header">
-            <h1>Estrutura Semântica HTML5</h1>
-            <p>Módulo 1 • Aula 2 • 20 minutos</p>
+            <h1><i class="fas fa-sitemap" style="color: #e34c26; margin-right: 15px;"></i>Estrutura Semântica HTML5</h1>
+            <p>
+                <span><i class="fas fa-book"></i> Módulo 1</span>
+                <span><i class="fas fa-play-circle"></i> Aula 2</span>
+                <span><i class="fas fa-clock"></i> 20 minutos</span>
+            </p>
         </div>
 
         <div class="video-player">
@@ -67,7 +376,7 @@
         </div>
 
         <div class="lesson-content">
-            <h2>Por que usar HTML Semântico?</h2>
+            <h2><i class="fas fa-lightbulb" style="color: #667eea; margin-right: 10px;"></i>Por que usar HTML Semântico?</h2>
             <p>O HTML semântico não apenas estrutura o conteúdo, mas também comunica o <strong>significado</strong> de cada seção para navegadores, leitores de tela e mecanismos de busca.</p>
 
             <div class="semantic-demo">
@@ -104,7 +413,7 @@
                 </div>
             </div>
 
-            <h3>📋 Principais Elementos Semânticos</h3>
+            <h3><i class="fas fa-list-ul" style="color: #667eea; margin-right: 10px;"></i>Principais Elementos Semânticos</h3>
             
             <div class="semantic-element">
                 <h4>&lt;header&gt;</h4>
@@ -141,7 +450,7 @@
                 <p>Rodapé da página ou seção com informações de contato, copyright, links relacionados.</p>
             </div>
 
-            <h3>🛠️ Construtor Interativo de Estrutura</h3>
+            <h3><i class="fas fa-tools" style="color: #667eea; margin-right: 10px;"></i>Construtor Interativo de Estrutura</h3>
             <div class="interactive-builder">
                 <p>Clique nos elementos abaixo para construir uma estrutura HTML semântica:</p>
                 
@@ -180,7 +489,7 @@
                 </ul>
             </div>
 
-            <h3>💡 Exemplo Prático: Blog Post</h3>
+            <h3><i class="fas fa-code" style="color: #667eea; margin-right: 10px;"></i>Exemplo Prático: Blog Post</h3>
             <div class="visual-demo">
                 <div class="html-structure">
 &lt;article&gt;

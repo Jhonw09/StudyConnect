@@ -510,4 +510,7 @@ class AuthSystem {
 // Inicializar sistema
 document.addEventListener('DOMContentLoaded', () => {
     new AuthSystem();
+
+
+    
 });

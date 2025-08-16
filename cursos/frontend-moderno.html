@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front-End Moderno | StudyConect+</title>
+    <title>Front-End Moderno | StudyConnect+</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../animations.css">
     <link rel="stylesheet" href="../legibilidade-fix.css">
@@ -18,7 +18,7 @@
     <header>
         <div class="logo">
             <i class="fas fa-graduation-cap logo-icon"></i>
-            <span class="logo-text">StudyConect+</span>
+            <span class="logo-text">StudyConnect+</span>
         </div>
         <nav>
             <ul class="nav-list" id="nav-list">
@@ -41,7 +41,7 @@
     <main class="course-page">
         <section class="course-hero">
             <div class="course-hero-content">
-                <div class="course-info">
+                <div class="course-info fade-in-left">
                     <div class="course-badges">
                         <span class="badge popular">Mais Popular</span>
                         <span class="badge level">Iniciante</span>
@@ -52,19 +52,19 @@
                         Aprenda HTML5, CSS3, JavaScript ES6+ e React para criar interfaces incríveis.
                     </p>
                     <div class="course-stats">
-                        <div class="stat">
+                        <div class="stat" data-tooltip="Duração total do curso">
                             <i class="fas fa-clock"></i>
-                            <span>40 horas</span>
+                            <span>66 horas</span>
                         </div>
-                        <div class="stat">
+                        <div class="stat" data-tooltip="Alunos matriculados">
                             <i class="fas fa-users"></i>
-                            <span>250+ alunos</span>
+                            <span>1.250+ alunos</span>
                         </div>
-                        <div class="stat">
+                        <div class="stat" data-tooltip="Avaliação média">
                             <i class="fas fa-star"></i>
-                            <span>4.9 (127 avaliações)</span>
+                            <span>4.9 (387 avaliações)</span>
                         </div>
-                        <div class="stat">
+                        <div class="stat" data-tooltip="Certificado de conclusão">
                             <i class="fas fa-certificate"></i>
                             <span>Certificado</span>
                         </div>
@@ -83,7 +83,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="course-preview">
+                <div class="course-preview fade-in-right">
                     <img src="../images/capa-front-end.jpg" alt="Front-End Moderno">
                     <div class="play-button">
                         <i class="fas fa-play"></i>
@@ -98,63 +98,195 @@
                     <div class="course-curriculum">
                         <h2>Conteúdo do Curso</h2>
                         <div class="curriculum-stats">
-                            <span>8 módulos • 45 aulas • 40h de conteúdo</span>
+                            <span>6 módulos • 58 aulas • 66h de conteúdo</span>
                         </div>
                         
-                        <div class="module">
+                        <div class="module fade-in-up">
                             <div class="module-header">
                                 <h3><i class="fas fa-play-circle"></i> Módulo 1: Fundamentos HTML5</h3>
-                                <span class="module-duration">5h</span>
+                                <span class="module-duration">8h</span>
                             </div>
                             <div class="module-lessons">
                                 <div class="lesson" onclick="window.location.href='lessons/frontend-html-intro.html'">
                                     <i class="fas fa-play"></i>
-                                    <span>Introdução ao HTML5</span>
-                                    <span class="lesson-duration">15min</span>
+                                    <span>Introdução ao HTML5 e estrutura básica</span>
+                                    <span class="lesson-duration">25min</span>
                                 </div>
                                 <div class="lesson" onclick="window.location.href='lessons/frontend-html-semantica.html'">
                                     <i class="fas fa-play"></i>
-                                    <span>Estrutura semântica</span>
-                                    <span class="lesson-duration">20min</span>
+                                    <span>HTML semântico e acessibilidade</span>
+                                    <span class="lesson-duration">30min</span>
+                                </div>
+                                <div class="lesson" onclick="window.location.href='lessons/frontend-html-forms.html'">
+                                    <i class="fas fa-play"></i>
+                                    <span>Formulários avançados e validação</span>
+                                    <span class="lesson-duration">35min</span>
                                 </div>
                                 <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
                                     <i class="fas fa-play"></i>
-                                    <span>Formulários modernos</span>
-                                    <span class="lesson-duration">25min</span>
+                                    <span>APIs HTML5 (Canvas, Storage, Geolocation)</span>
+                                    <span class="lesson-duration">40min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>SEO e meta tags</span>
+                                    <span class="lesson-duration">20min</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="module">
+                        <div class="module fade-in-up">
                             <div class="module-header">
                                 <h3><i class="fas fa-play-circle"></i> Módulo 2: CSS3 Avançado</h3>
-                                <span class="module-duration">8h</span>
+                                <span class="module-duration">12h</span>
                             </div>
                             <div class="module-lessons">
                                 <div class="lesson" onclick="window.location.href='lessons/frontend-css-flexbox.html'">
                                     <i class="fas fa-play"></i>
-                                    <span>Flexbox e Grid</span>
+                                    <span>Flexbox: layouts flexíveis</span>
+                                    <span class="lesson-duration">35min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>CSS Grid: layouts bidimensionais</span>
+                                    <span class="lesson-duration">40min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Animações e transições avançadas</span>
+                                    <span class="lesson-duration">45min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>CSS Custom Properties (variáveis)</span>
                                     <span class="lesson-duration">30min</span>
                                 </div>
                                 <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
                                     <i class="fas fa-play"></i>
-                                    <span>Animações e Transições</span>
-                                    <span class="lesson-duration">25min</span>
+                                    <span>Sass/SCSS e pré-processadores</span>
+                                    <span class="lesson-duration">50min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Design responsivo e mobile-first</span>
+                                    <span class="lesson-duration">55min</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="module">
+                        <div class="module fade-in-up">
                             <div class="module-header">
                                 <h3><i class="fas fa-play-circle"></i> Módulo 3: JavaScript ES6+</h3>
-                                <span class="module-duration">12h</span>
+                                <span class="module-duration">15h</span>
+                            </div>
+                            <div class="module-lessons">
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Fundamentos do JavaScript moderno</span>
+                                    <span class="lesson-duration">40min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Arrow functions e destructuring</span>
+                                    <span class="lesson-duration">35min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Promises e async/await</span>
+                                    <span class="lesson-duration">45min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Módulos ES6 e bundlers</span>
+                                    <span class="lesson-duration">50min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>DOM manipulation avançada</span>
+                                    <span class="lesson-duration">40min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Fetch API e consumo de APIs</span>
+                                    <span class="lesson-duration">45min</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="module">
+                        <div class="module fade-in-up">
                             <div class="module-header">
                                 <h3><i class="fas fa-play-circle"></i> Módulo 4: React Fundamentals</h3>
-                                <span class="module-duration">15h</span>
+                                <span class="module-duration">18h</span>
+                            </div>
+                            <div class="module-lessons">
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Introdução ao React e JSX</span>
+                                    <span class="lesson-duration">45min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Componentes funcionais e hooks</span>
+                                    <span class="lesson-duration">50min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Estado e props</span>
+                                    <span class="lesson-duration">40min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Roteamento com React Router</span>
+                                    <span class="lesson-duration">55min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Context API e gerenciamento de estado</span>
+                                    <span class="lesson-duration">60min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="module fade-in-up">
+                            <div class="module-header">
+                                <h3><i class="fas fa-play-circle"></i> Módulo 5: Ferramentas Modernas</h3>
+                                <span class="module-duration">8h</span>
+                            </div>
+                            <div class="module-lessons">
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Webpack e Vite</span>
+                                    <span class="lesson-duration">45min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>TypeScript para React</span>
+                                    <span class="lesson-duration">60min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Testes com Jest e Testing Library</span>
+                                    <span class="lesson-duration">50min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="module fade-in-up">
+                            <div class="module-header">
+                                <h3><i class="fas fa-play-circle"></i> Módulo 6: Deploy e Performance</h3>
+                                <span class="module-duration">5h</span>
+                            </div>
+                            <div class="module-lessons">
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Otimização e performance</span>
+                                    <span class="lesson-duration">40min</span>
+                                </div>
+                                <div class="lesson" onclick="alert('Aula em desenvolvimento! 🚧')">
+                                    <i class="fas fa-play"></i>
+                                    <span>Deploy com Netlify e Vercel</span>
+                                    <span class="lesson-duration">35min</span>
+                                </div>
                             </div>
                         </div>
                     </div>
