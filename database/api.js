@@ -5,9 +5,14 @@ const db = require('./config');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('../'));
 
 // Conectar ao banco
-db.connect();
+db.connect().then(() => {
+    console.log('✅ Banco conectado com sucesso!');
+}).catch(err => {
+    console.error('❌ Erro ao conectar:', err.message);
+});
 
 // Login
 app.post('/api/login', async (req, res) => {

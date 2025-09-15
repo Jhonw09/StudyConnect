@@ -1,13 +1,19 @@
 const sql = require('mssql');
 
 const config = {
-    user: 'sa', // ou seu usuário
-    password: 'sua_senha', // substitua pela sua senha
-    server: 'localhost', // ou seu servidor
+    user: 'sa',
+    password: '123456', // senha padrão
+    server: 'localhost\\SQLEXPRESS',
     database: 'StudyConnectPlus',
     options: {
-        encrypt: false, // true para Azure
-        trustServerCertificate: true
+        encrypt: false,
+        trustServerCertificate: true,
+        enableArithAbort: true
+    },
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
     }
 };
 
