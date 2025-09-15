@@ -1,18 +1,35 @@
 {
-  "name": "studyconnect-api",
+  "name": "studyconnect-database",
   "version": "1.0.0",
-  "description": "API para StudyConnect+ com SQL Server",
-  "main": "api.js",
+  "description": "Sistema de banco de dados para StudyConnect+",
+  "main": "api/server.js",
   "scripts": {
-    "start": "node api.js",
-    "dev": "nodemon api.js"
+    "start": "node api/server.js",
+    "start-sqlite": "node api/server-sqlite.js",
+    "dev": "nodemon api/server.js",
+    "setup": "node setup.js",
+    "setup-sqlite": "node setup-sqlite.js",
+    "test": "node test-connection.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "mssql": "^10.0.1",
-    "cors": "^2.8.5"
+    "sqlite3": "^5.1.6",
+    "sqlite": "^5.1.1",
+    "cors": "^2.8.5",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
-  }
+    "nodemon": "^3.0.2"
+  },
+  "keywords": [
+    "studyconnect",
+    "education",
+    "mysql",
+    "api",
+    "nodejs"
+  ],
+  "author": "StudyConnect+ Team",
+  "license": "MIT"
 }
