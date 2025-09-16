@@ -1,9 +1,10 @@
-// Sistema de Login/Cadastro Avançado
+// Sistema de Login/Cadastro Avançado com Banco SQLite
 class AuthSystem {
     constructor() {
         this.init();
         this.currentEmail = '';
         this.verificationCode = '';
+        this.apiUrl = 'http://localhost:3002/api';
     }
 
     init() {
@@ -38,6 +39,9 @@ class AuthSystem {
         if (registerForm) {
             registerForm.addEventListener('submit', (e) => this.handleRegister(e));
         }
+
+        // Validação em tempo real
+        this.setupRealTimeValidation();
 
         // Recuperação de senha
         const forgotLink = document.getElementById('forgotPasswordLink');
@@ -118,6 +122,103 @@ class AuthSystem {
         });
     }
 
+    setupRealTimeValidation() {
+        // Validação de email em tempo real
+        const emailInputs = ['loginEmail', 'registerEmail', 'forgotEmail'];
+        
+        emailInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.addEventListener('blur', () => this.validateEmailField(input));
+                input.addEventListener('input', () => this.clearFieldError(input));
+            }
+        });
+
+        // Validação de nome
+        const nameInput = document.getElementById('registerName');
+        if (nameInput) {
+            nameInput.addEventListener('blur', () => this.validateNameField(nameInput));
+            nameInput.addEventListener('input', () => this.clearFieldError(nameInput));
+        }
+
+        // Validação de senha
+        const passwordInputs = ['loginPassword', 'registerPassword'];
+        passwordInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.addEventListener('blur', () => this.validatePasswordField(input));
+                input.addEventListener('input', () => this.clearFieldError(input));
+            }
+        });
+    }
+
+    validateEmailField(input) {
+        const email = input.value.trim();
+        const fieldId = input.id;
+        
+        if (!email) {
+            this.setFieldError(fieldId, 'Email é obrigatório');
+            return false;
+        }
+        
+        if (!this.validateEmail(email)) {
+            this.setFieldError(fieldId, 'Digite um email válido');
+            return false;
+        }
+        
+        this.setFieldSuccess(fieldId);
+        return true;
+    }
+
+    validateNameField(input) {
+        const name = input.value.trim();
+        const fieldId = input.id;
+        
+        if (!name) {
+            this.setFieldError(fieldId, 'Nome é obrigatório');
+            return false;
+        }
+        
+        if (name.length < 2) {
+            this.setFieldError(fieldId, 'Nome deve ter pelo menos 2 caracteres');
+            return false;
+        }
+        
+        if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(name)) {
+            this.setFieldError(fieldId, 'Nome deve conter apenas letras');
+            return false;
+        }
+        
+        this.setFieldSuccess(fieldId);
+        return true;
+    }
+
+    validatePasswordField(input) {
+        const password = input.value;
+        const fieldId = input.id;
+        
+        if (!password) {
+            this.setFieldError(fieldId, 'Senha é obrigatória');
+            return false;
+        }
+        
+        if (fieldId === 'registerPassword' && password.length < 6) {
+            this.setFieldError(fieldId, 'Senha deve ter pelo menos 6 caracteres');
+            return false;
+        }
+        
+        this.setFieldSuccess(fieldId);
+        return true;
+    }
+
+    clearFieldError(input) {
+        const label = input.closest('.label-input');
+        const messageEl = label.querySelector('.validation-message');
+        
+        label.classList.remove('error', 'success');
+        messageEl.textContent = '';
+    }
+
     setupVerificationInputs() {
         const inputs = document.querySelectorAll('.code-input');
         
@@ -157,21 +258,30 @@ class AuthSystem {
         
         this.setButtonLoading(submitBtn, true);
         
-        // Simular delay de rede
-        await this.delay(1000);
-        
-        const users = this.getUsers();
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-            this.showAlert('Login realizado com sucesso!', 'success');
-            this.setUserSession(user);
+        try {
+            const response = await fetch(`${this.apiUrl}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
             
-            setTimeout(() => {
-                window.location.href = '../index.html';
-            }, 1500);
-        } else {
-            this.showAlert('Email ou senha incorretos', 'error');
+            const data = await response.json();
+            
+            if (response.ok) {
+                this.showAlert('Login realizado com sucesso!', 'success');
+                this.setUserSession(data.user, data.token);
+                
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1500);
+            } else {
+                this.showAlert(data.error || 'Erro no login', 'error');
+            }
+        } catch (error) {
+            console.error('Erro na conexão:', error);
+            this.showAlert('Erro de conexão. Verifique se a API está rodando.', 'error');
         }
         
         this.setButtonLoading(submitBtn, false);
@@ -189,35 +299,31 @@ class AuthSystem {
         
         this.setButtonLoading(submitBtn, true);
         
-        // Simular delay de rede
-        await this.delay(1500);
-        
-        const users = this.getUsers();
-        
-        if (users.find(u => u.email === email)) {
-            this.showAlert('Este email já está cadastrado', 'error');
-            this.setButtonLoading(submitBtn, false);
-            return;
+        try {
+            const response = await fetch(`${this.apiUrl}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password, type: 'student' })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                this.showAlert('Conta criada com sucesso!', 'success');
+                this.clearForm('registerForm');
+                
+                setTimeout(() => {
+                    this.switchToLogin();
+                }, 1500);
+            } else {
+                this.showAlert(data.error || 'Erro no cadastro', 'error');
+            }
+        } catch (error) {
+            console.error('Erro na conexão:', error);
+            this.showAlert('Erro de conexão. Verifique se a API está rodando.', 'error');
         }
-        
-        const newUser = {
-            id: Date.now(),
-            name,
-            email,
-            password,
-            joinDate: new Date().toLocaleDateString('pt-BR'),
-            avatar: '../images/favicon.png'
-        };
-        
-        users.push(newUser);
-        this.saveUsers(users);
-        
-        this.showAlert('Conta criada com sucesso!', 'success');
-        this.clearForm('registerForm');
-        
-        setTimeout(() => {
-            this.switchToLogin();
-        }, 1500);
         
         this.setButtonLoading(submitBtn, false);
     }
@@ -232,22 +338,43 @@ class AuthSystem {
             return;
         }
         
-        const users = this.getUsers();
-        const user = users.find(u => u.email === email);
-        
-        if (!user) {
-            this.showAlert('Email não encontrado', 'error');
-            return;
+        try {
+            // Verificar se email existe no banco
+            const response = await fetch(`${this.apiUrl}/auth/check-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            });
+            
+            if (response.ok) {
+                this.currentEmail = email;
+                this.verificationCode = this.generateVerificationCode();
+                
+                // Simular envio de email (em produção, seria enviado pelo backend)
+                await this.delay(1000);
+                
+                this.showAlert(`Código enviado para ${email}`, 'success');
+                this.showVerificationModal();
+            } else {
+                this.showAlert('Email não encontrado', 'error');
+            }
+        } catch (error) {
+            // Fallback para localStorage se API não estiver disponível
+            const users = this.getUsers();
+            const user = users.find(u => u.email === email);
+            
+            if (user) {
+                this.currentEmail = email;
+                this.verificationCode = this.generateVerificationCode();
+                await this.delay(1000);
+                this.showAlert(`Código enviado para ${email}`, 'success');
+                this.showVerificationModal();
+            } else {
+                this.showAlert('Email não encontrado', 'error');
+            }
         }
-        
-        this.currentEmail = email;
-        this.verificationCode = this.generateVerificationCode();
-        
-        // Simular envio de email
-        await this.delay(1000);
-        
-        this.showAlert(`Código enviado para ${email}`, 'success');
-        this.showVerificationModal();
     }
 
     async handleVerification(e) {
@@ -362,8 +489,28 @@ class AuthSystem {
     }
 
     validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+        // Validação robusta de email
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        
+        if (!emailRegex.test(email)) return false;
+        
+        // Verificações adicionais
+        if (email.length > 254) return false; // RFC 5321
+        if (email.includes('..')) return false; // Pontos consecutivos
+        if (email.startsWith('.') || email.endsWith('.')) return false;
+        
+        const [localPart, domain] = email.split('@');
+        if (localPart.length > 64) return false; // RFC 5321
+        if (domain.length > 253) return false;
+        
+        // Verificar caracteres especiais no início/fim
+        if (localPart.startsWith('.') || localPart.endsWith('.')) return false;
+        
+        // Verificar domínio válido
+        if (!domain.includes('.')) return false;
+        if (domain.startsWith('-') || domain.endsWith('-')) return false;
+        
+        return true;
     }
 
     setFieldError(fieldId, message) {
@@ -374,6 +521,13 @@ class AuthSystem {
         label.classList.remove('success');
         label.classList.add('error');
         messageEl.textContent = message;
+        messageEl.style.color = '#e74c3c';
+        
+        // Adicionar shake animation
+        field.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            field.style.animation = '';
+        }, 500);
     }
 
     setFieldSuccess(fieldId) {
@@ -383,7 +537,8 @@ class AuthSystem {
         
         label.classList.remove('error');
         label.classList.add('success');
-        messageEl.textContent = '✓';
+        messageEl.textContent = '✓ Válido';
+        messageEl.style.color = '#43e97b';
     }
 
     updatePasswordStrength(input) {
@@ -479,11 +634,14 @@ class AuthSystem {
         localStorage.setItem('studyconnect_users', JSON.stringify(users));
     }
 
-    setUserSession(user) {
+    setUserSession(user, token) {
         localStorage.setItem('userLoggedIn', 'true');
         localStorage.setItem('userName', user.name);
         localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('joinDate', user.joinDate);
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('userType', user.type);
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('joinDate', new Date().toLocaleDateString('pt-BR'));
     }
 
     checkIfLoggedIn() {

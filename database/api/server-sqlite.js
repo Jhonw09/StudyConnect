@@ -32,6 +32,23 @@ const authenticateToken = (req, res, next) => {
 initDatabase();
 
 // Rotas de autenticação
+app.post('/api/auth/check-email', async (req, res) => {
+    try {
+        const { email } = req.body;
+        
+        const users = await query('SELECT id FROM users WHERE email = ? AND active = 1', [email]);
+        
+        if (users.length > 0) {
+            res.json({ exists: true });
+        } else {
+            res.status(404).json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Erro ao verificar email:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
+
 app.post('/api/auth/register', async (req, res) => {
     try {
         const { name, email, password, type = 'student' } = req.body;
