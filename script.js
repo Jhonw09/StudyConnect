@@ -248,11 +248,18 @@ class StudyConnectApp {
         const loginBtn = document.querySelector('.login-btn');
         const profileMenu = document.getElementById('profileMenu');
         const profileName = document.getElementById('profileName');
+        const profileAvatar = document.querySelector('.profile-avatar');
         
         if (isLoggedIn) {
             if (loginBtn) loginBtn.parentElement.style.display = 'none';
             if (profileMenu) profileMenu.style.display = 'block';
             if (profileName) profileName.textContent = userName;
+            
+            // Carregar foto de perfil salva
+            const savedAvatar = localStorage.getItem('userAvatar');
+            if (savedAvatar && profileAvatar) {
+                profileAvatar.src = savedAvatar;
+            }
         } else {
             if (loginBtn) loginBtn.parentElement.style.display = 'block';
             if (profileMenu) profileMenu.style.display = 'none';
@@ -260,14 +267,18 @@ class StudyConnectApp {
     }
 
     logout() {
+        // Remover apenas dados de sessão, manter perfil e usuários
         localStorage.removeItem('userLoggedIn');
         localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('joinDate');
+        localStorage.removeItem('currentUserId');
         
         this.showNotification('Logout realizado com sucesso!', 'success');
         
         setTimeout(() => {
-            this.checkLoginStatus();
-        }, 500);
+            window.location.href = 'cursos/Login/Login.html';
+        }, 1000);
     }
 
     showNotification(message, type = 'info') {
@@ -439,7 +450,9 @@ class ThemeManager {
 
     loadTheme() {
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
+        if (savedTheme === 'light') {
+            this.disableDarkMode();
+        } else {
             this.enableDarkMode();
         }
     }

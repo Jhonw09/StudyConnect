@@ -1,10 +1,9 @@
-// Sistema de Login/Cadastro Avançado com Banco SQLite
+// Sistema de Login/Cadastro Avançado
 class AuthSystem {
     constructor() {
         this.init();
         this.currentEmail = '';
         this.verificationCode = '';
-        this.apiUrl = 'http://localhost:3002/api';
     }
 
     init() {
@@ -39,9 +38,6 @@ class AuthSystem {
         if (registerForm) {
             registerForm.addEventListener('submit', (e) => this.handleRegister(e));
         }
-
-        // Validação em tempo real
-        this.setupRealTimeValidation();
 
         // Recuperação de senha
         const forgotLink = document.getElementById('forgotPasswordLink');
@@ -122,103 +118,6 @@ class AuthSystem {
         });
     }
 
-    setupRealTimeValidation() {
-        // Validação de email em tempo real
-        const emailInputs = ['loginEmail', 'registerEmail', 'forgotEmail'];
-        
-        emailInputs.forEach(inputId => {
-            const input = document.getElementById(inputId);
-            if (input) {
-                input.addEventListener('blur', () => this.validateEmailField(input));
-                input.addEventListener('input', () => this.clearFieldError(input));
-            }
-        });
-
-        // Validação de nome
-        const nameInput = document.getElementById('registerName');
-        if (nameInput) {
-            nameInput.addEventListener('blur', () => this.validateNameField(nameInput));
-            nameInput.addEventListener('input', () => this.clearFieldError(nameInput));
-        }
-
-        // Validação de senha
-        const passwordInputs = ['loginPassword', 'registerPassword'];
-        passwordInputs.forEach(inputId => {
-            const input = document.getElementById(inputId);
-            if (input) {
-                input.addEventListener('blur', () => this.validatePasswordField(input));
-                input.addEventListener('input', () => this.clearFieldError(input));
-            }
-        });
-    }
-
-    validateEmailField(input) {
-        const email = input.value.trim();
-        const fieldId = input.id;
-        
-        if (!email) {
-            this.setFieldError(fieldId, 'Email é obrigatório');
-            return false;
-        }
-        
-        if (!this.validateEmail(email)) {
-            this.setFieldError(fieldId, 'Digite um email válido');
-            return false;
-        }
-        
-        this.setFieldSuccess(fieldId);
-        return true;
-    }
-
-    validateNameField(input) {
-        const name = input.value.trim();
-        const fieldId = input.id;
-        
-        if (!name) {
-            this.setFieldError(fieldId, 'Nome é obrigatório');
-            return false;
-        }
-        
-        if (name.length < 2) {
-            this.setFieldError(fieldId, 'Nome deve ter pelo menos 2 caracteres');
-            return false;
-        }
-        
-        if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(name)) {
-            this.setFieldError(fieldId, 'Nome deve conter apenas letras');
-            return false;
-        }
-        
-        this.setFieldSuccess(fieldId);
-        return true;
-    }
-
-    validatePasswordField(input) {
-        const password = input.value;
-        const fieldId = input.id;
-        
-        if (!password) {
-            this.setFieldError(fieldId, 'Senha é obrigatória');
-            return false;
-        }
-        
-        if (fieldId === 'registerPassword' && password.length < 6) {
-            this.setFieldError(fieldId, 'Senha deve ter pelo menos 6 caracteres');
-            return false;
-        }
-        
-        this.setFieldSuccess(fieldId);
-        return true;
-    }
-
-    clearFieldError(input) {
-        const label = input.closest('.label-input');
-        const messageEl = label.querySelector('.validation-message');
-        
-        label.classList.remove('error', 'success');
-        messageEl.textContent = '';
-    }
-
     setupVerificationInputs() {
         const inputs = document.querySelectorAll('.code-input');
         
@@ -258,30 +157,34 @@ class AuthSystem {
         
         this.setButtonLoading(submitBtn, true);
         
-        try {
-            const response = await fetch(`${this.apiUrl}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
+        // Simular delay de rede
+        await this.delay(1000);
+        
+        const users = this.getUsers();
+        console.log('Usuários cadastrados:', users);
+        console.log('Tentando login com:', email, password);
+        const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+        console.log('Usuário encontrado:', user);
+        
+        if (user) {
+            this.showAlert('Login realizado com sucesso!', 'success');
+            this.setUserSession(user);
             
-            const data = await response.json();
-            
-            if (response.ok) {
-                this.showAlert('Login realizado com sucesso!', 'success');
-                this.setUserSession(data.user, data.token);
-                
-                setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 1500);
-            } else {
-                this.showAlert(data.error || 'Erro no login', 'error');
+            // Carregar perfil existente se houver
+            const existingProfile = localStorage.getItem('studyconnect_profile');
+            if (existingProfile) {
+                const profile = JSON.parse(existingProfile);
+                // Atualizar dados básicos mas manter foto e outras informações
+                profile.name = user.name;
+                profile.email = user.email;
+                localStorage.setItem('studyconnect_profile', JSON.stringify(profile));
             }
-        } catch (error) {
-            console.error('Erro na conexão:', error);
-            this.showAlert('Erro de conexão. Verifique se a API está rodando.', 'error');
+            
+            setTimeout(() => {
+                window.location.href = '../../index.html';
+            }, 1500);
+        } else {
+            this.showAlert('Email ou senha incorretos', 'error');
         }
         
         this.setButtonLoading(submitBtn, false);
@@ -299,31 +202,35 @@ class AuthSystem {
         
         this.setButtonLoading(submitBtn, true);
         
-        try {
-            const response = await fetch(`${this.apiUrl}/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, email, password, type: 'student' })
-            });
-            
-            const data = await response.json();
-            
-            if (response.ok) {
-                this.showAlert('Conta criada com sucesso!', 'success');
-                this.clearForm('registerForm');
-                
-                setTimeout(() => {
-                    this.switchToLogin();
-                }, 1500);
-            } else {
-                this.showAlert(data.error || 'Erro no cadastro', 'error');
-            }
-        } catch (error) {
-            console.error('Erro na conexão:', error);
-            this.showAlert('Erro de conexão. Verifique se a API está rodando.', 'error');
+        // Simular delay de rede
+        await this.delay(1500);
+        
+        const users = this.getUsers();
+        
+        if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+            this.showAlert('Este email já está cadastrado', 'error');
+            this.setButtonLoading(submitBtn, false);
+            return;
         }
+        
+        const newUser = {
+            id: Date.now(),
+            name,
+            email,
+            password,
+            joinDate: new Date().toLocaleDateString('pt-BR'),
+            avatar: '../../images/favicon.png'
+        };
+        
+        users.push(newUser);
+        this.saveUsers(users);
+        
+        this.showAlert('Conta criada com sucesso!', 'success');
+        this.clearForm('registerForm');
+        
+        setTimeout(() => {
+            this.switchToLogin();
+        }, 1500);
         
         this.setButtonLoading(submitBtn, false);
     }
@@ -338,43 +245,22 @@ class AuthSystem {
             return;
         }
         
-        try {
-            // Verificar se email existe no banco
-            const response = await fetch(`${this.apiUrl}/auth/check-email`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email })
-            });
-            
-            if (response.ok) {
-                this.currentEmail = email;
-                this.verificationCode = this.generateVerificationCode();
-                
-                // Simular envio de email (em produção, seria enviado pelo backend)
-                await this.delay(1000);
-                
-                this.showAlert(`Código enviado para ${email}`, 'success');
-                this.showVerificationModal();
-            } else {
-                this.showAlert('Email não encontrado', 'error');
-            }
-        } catch (error) {
-            // Fallback para localStorage se API não estiver disponível
-            const users = this.getUsers();
-            const user = users.find(u => u.email === email);
-            
-            if (user) {
-                this.currentEmail = email;
-                this.verificationCode = this.generateVerificationCode();
-                await this.delay(1000);
-                this.showAlert(`Código enviado para ${email}`, 'success');
-                this.showVerificationModal();
-            } else {
-                this.showAlert('Email não encontrado', 'error');
-            }
+        const users = this.getUsers();
+        const user = users.find(u => u.email === email);
+        
+        if (!user) {
+            this.showAlert('Email não encontrado', 'error');
+            return;
         }
+        
+        this.currentEmail = email;
+        this.verificationCode = this.generateVerificationCode();
+        
+        // Simular envio de email
+        await this.delay(1000);
+        
+        this.showAlert(`Código enviado para ${email}`, 'success');
+        this.showVerificationModal();
     }
 
     async handleVerification(e) {
@@ -489,28 +375,8 @@ class AuthSystem {
     }
 
     validateEmail(email) {
-        // Validação robusta de email
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-        
-        if (!emailRegex.test(email)) return false;
-        
-        // Verificações adicionais
-        if (email.length > 254) return false; // RFC 5321
-        if (email.includes('..')) return false; // Pontos consecutivos
-        if (email.startsWith('.') || email.endsWith('.')) return false;
-        
-        const [localPart, domain] = email.split('@');
-        if (localPart.length > 64) return false; // RFC 5321
-        if (domain.length > 253) return false;
-        
-        // Verificar caracteres especiais no início/fim
-        if (localPart.startsWith('.') || localPart.endsWith('.')) return false;
-        
-        // Verificar domínio válido
-        if (!domain.includes('.')) return false;
-        if (domain.startsWith('-') || domain.endsWith('-')) return false;
-        
-        return true;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     }
 
     setFieldError(fieldId, message) {
@@ -521,13 +387,6 @@ class AuthSystem {
         label.classList.remove('success');
         label.classList.add('error');
         messageEl.textContent = message;
-        messageEl.style.color = '#e74c3c';
-        
-        // Adicionar shake animation
-        field.style.animation = 'shake 0.5s';
-        setTimeout(() => {
-            field.style.animation = '';
-        }, 500);
     }
 
     setFieldSuccess(fieldId) {
@@ -537,8 +396,7 @@ class AuthSystem {
         
         label.classList.remove('error');
         label.classList.add('success');
-        messageEl.textContent = '✓ Válido';
-        messageEl.style.color = '#43e97b';
+        messageEl.textContent = '✓';
     }
 
     updatePasswordStrength(input) {
@@ -634,19 +492,55 @@ class AuthSystem {
         localStorage.setItem('studyconnect_users', JSON.stringify(users));
     }
 
-    setUserSession(user, token) {
+    setUserSession(user) {
         localStorage.setItem('userLoggedIn', 'true');
         localStorage.setItem('userName', user.name);
         localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('userType', user.type);
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('joinDate', new Date().toLocaleDateString('pt-BR'));
+        localStorage.setItem('joinDate', user.joinDate);
+        localStorage.setItem('currentUserId', user.id);
+        
+        // Salvar perfil completo
+        const profileData = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone || '(11) 99999-9999',
+            location: user.location || 'São Paulo, Brasil',
+            bio: user.bio || 'Estudante na StudyConnect+',
+            joinDate: user.joinDate,
+            avatar: user.avatar,
+            stats: {
+                courses: 0,
+                progress: 0,
+                lessons: 0,
+                hours: 0
+            },
+            favorites: [],
+            completedLessons: [],
+            gameScores: {},
+            preferences: {
+                theme: 'dark',
+                notifications: true
+            }
+        };
+        
+        // Manter dados existentes se já houver
+        const existingProfile = localStorage.getItem('studyconnect_profile');
+        if (existingProfile) {
+            const existing = JSON.parse(existingProfile);
+            profileData.stats = existing.stats || profileData.stats;
+            profileData.favorites = existing.favorites || profileData.favorites;
+            profileData.completedLessons = existing.completedLessons || profileData.completedLessons;
+            profileData.gameScores = existing.gameScores || profileData.gameScores;
+            profileData.preferences = existing.preferences || profileData.preferences;
+        }
+        
+        localStorage.setItem('studyconnect_profile', JSON.stringify(profileData));
     }
 
     checkIfLoggedIn() {
         if (localStorage.getItem('userLoggedIn') === 'true') {
-            window.location.href = '../index.html';
+            window.location.href = '../../index.html';
         }
     }
 
