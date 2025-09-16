@@ -1,5 +1,7 @@
--- Criação do banco de dados StudyConnect
-CREATE DATABASE StudyConnect;
+
+-- Criar novo banco
+CREATE DATABASE StudyConnect
+
 GO
 
 USE StudyConnect;

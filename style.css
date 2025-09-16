@@ -3764,13 +3764,12 @@ body {
 }
 
 .profile-avatar {
-  width: 120px;
-  height: 120px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
-  background: #ffffff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3920,8 +3919,8 @@ body {
   }
   
   .profile-avatar {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
 }
 

@@ -1,0 +1,62 @@
+/* ===========================
+   CORREÇÃO DA LOGO DO PERFIL
+=========================== */
+
+/* Remover fundo preto do chapéu */
+.profile-avatar {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.profile-avatar img {
+  background: transparent !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.profile-btn {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.5rem !important;
+}
+
+.profile-btn:hover {
+  background: transparent !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+body.dark-mode .profile-btn {
+  background: transparent !important;
+  border: none !important;
+}
+
+body.dark-mode .profile-btn:hover {
+  background: transparent !important;
+}
+
+/* Corrigir fundo escuro da logo na navbar */
+.logo {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.logo-glow {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .profile-avatar {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}

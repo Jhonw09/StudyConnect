@@ -1,159 +1,82 @@
-# StudyConnect Database & API
+# 🗄️ StudyConnect+ Database
 
-## 📋 Pré-requisitos
+## 📁 Estrutura
 
-### SQL Server
-- SQL Server 2019 ou superior
-- SQL Server Management Studio (SSMS)
+### 📊 **SQL Scripts**
+- `01_create_database.sql` - Criar banco de dados
+- `02_create_tables.sql` - Criar todas as tabelas
+- `03_insert_data.sql` - Inserir dados de exemplo
+- `execute_all.sql` - **Executar tudo de uma vez**
 
-### Java/IntelliJ
-- Java 17 ou superior
-- IntelliJ IDEA
-- Maven
+### ☕ **API Spring Boot**
+- `pom.xml` - Dependências Maven
+- `application.yml` - Configuração
+- `StudyConnectApplication.java` - API completa
 
-## 🗄️ Configuração do Banco de Dados
+## 🚀 Como Usar
 
-### 1. Executar Scripts SQL
-Execute os scripts na seguinte ordem no SSMS:
-
+### 1. **SQL Server Management Studio**
 ```sql
--- 1. Criar banco
-.\sql\01_create_database.sql
+-- Opção 1: Executar arquivo único
+-- Abra: execute_all.sql
+-- Execute tudo
 
--- 2. Criar tabelas
-.\sql\02_create_tables.sql
-
--- 3. Inserir dados iniciais
-.\sql\03_insert_data.sql
+-- Opção 2: Executar separadamente
+-- 1. Execute: 01_create_database.sql
+-- 2. Execute: 02_create_tables.sql  
+-- 3. Execute: 03_insert_data.sql
 ```
 
-### 2. Configurar Usuário SQL Server
-```sql
--- Criar login e usuário
-CREATE LOGIN studyconnect_user WITH PASSWORD = 'SuaSenha123';
-USE StudyConnect;
-CREATE USER studyconnect_user FOR LOGIN studyconnect_user;
-ALTER ROLE db_owner ADD MEMBER studyconnect_user;
+### 2. **IntelliJ IDEA**
+```bash
+# 1. Abrir pasta: database/api
+# 2. Importar projeto Maven
+# 3. Executar: StudyConnectApplication.java
+# 4. API: http://localhost:8080/api
 ```
 
-## 🚀 Configuração da API
+## 🎯 Funcionalidades
 
-### 1. Abrir no IntelliJ
-1. Abra o IntelliJ IDEA
-2. File → Open → Selecione a pasta `database/api`
-3. Aguarde o Maven baixar as dependências
+### ✅ **Banco de Dados**
+- **13 tabelas** completas
+- **Relacionamentos** corretos
+- **Índices** para performance
+- **Dados de exemplo** prontos
 
-### 2. Configurar application.properties
-Edite `src/main/resources/application.properties`:
-
-```properties
-# Altere para suas configurações
-spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=StudyConnect;encrypt=false
-spring.datasource.username=sa
-spring.datasource.password=SuaSenhaAqui
-```
-
-### 3. Executar a API
-1. Localize `StudyConnectApplication.java`
-2. Clique com botão direito → Run
-3. API estará disponível em: `http://localhost:8080/api`
-
-## 📡 Endpoints da API
-
-### Cursos
-- `GET /api/cursos` - Listar todos os cursos
+### 🔗 **API Endpoints**
+- `GET /api/cursos` - Todos os cursos
+- `GET /api/cursos/categoria/{id}` - Por categoria
 - `GET /api/cursos/populares` - Cursos populares
-- `GET /api/cursos/categoria/{id}` - Cursos por categoria
-- `GET /api/cursos/buscar?termo=react` - Buscar cursos
-- `POST /api/cursos` - Criar curso
+- `GET /api/professores` - Todos os professores
+- `POST /api/contatos` - Enviar mensagem
+- `GET /api/stats` - Estatísticas
+- `GET /api/health` - Status da API
 
-### Professores
-- `GET /api/professores` - Listar professores
-- `GET /api/professores/online` - Professores online
-- `GET /api/professores/{id}` - Professor por ID
+### 📊 **Dados Inclusos**
+- **4 categorias** (Frontend, Backend, Matemática, Português)
+- **4 professores** com perfis completos
+- **4 cursos** com aulas e tecnologias
+- **3 jogos** (Quiz e digitação)
+- **Configurações** do sistema
 
-### Contatos
-- `POST /api/contatos` - Enviar contato
-- `GET /api/contatos` - Listar contatos
+## 🔧 Configuração
 
-## 🔗 Integração com Frontend
+### **Banco de Dados**
+- **Nome**: StudyConnect
+- **Servidor**: localhost:1433
+- **Usuário**: sa
+- **Senha**: 123456
 
-### JavaScript Fetch Example
-```javascript
-// Buscar cursos
-async function buscarCursos() {
-    try {
-        const response = await fetch('http://localhost:8080/api/cursos');
-        const cursos = await response.json();
-        console.log(cursos);
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
+### **API**
+- **Porta**: 8080
+- **Context**: /api
+- **URL Base**: http://localhost:8080/api
 
-// Enviar contato
-async function enviarContato(dados) {
-    try {
-        const response = await fetch('http://localhost:8080/api/contatos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dados)
-        });
-        const resultado = await response.json();
-        console.log('Contato enviado:', resultado);
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-```
+## ✅ **Testando**
 
-## 🛠️ Estrutura do Projeto
+1. Execute `execute_all.sql` no SSMS
+2. Inicie a API no IntelliJ
+3. Teste: http://localhost:8080/api/health
+4. Veja cursos: http://localhost:8080/api/cursos
 
-```
-database/
-├── sql/                    # Scripts SQL Server
-│   ├── 01_create_database.sql
-│   ├── 02_create_tables.sql
-│   └── 03_insert_data.sql
-└── api/                    # API Spring Boot
-    ├── pom.xml
-    └── src/main/java/com/studyconnect/
-        ├── StudyConnectApplication.java
-        ├── model/          # Entidades JPA
-        ├── repository/     # Repositórios
-        ├── service/        # Serviços
-        └── controller/     # Controllers REST
-```
-
-## 🔧 Troubleshooting
-
-### Erro de Conexão SQL Server
-1. Verifique se o SQL Server está rodando
-2. Confirme a porta (padrão: 1433)
-3. Verifique usuário e senha
-4. Teste conexão no SSMS primeiro
-
-### Erro de Dependências Maven
-1. IntelliJ → File → Reload Maven Project
-2. Ou execute: `mvn clean install`
-
-### CORS Error
-- API já configurada para aceitar requisições do frontend
-- Verifique se a porta está correta (8080)
-
-## 📝 Próximos Passos
-
-1. **Autenticação JWT**: Implementar login/registro
-2. **Upload de Imagens**: Para fotos de cursos/professores
-3. **Paginação**: Para listas grandes
-4. **Cache**: Redis para performance
-5. **Logs**: Sistema de auditoria
-
-## 🤝 Suporte
-
-Para dúvidas ou problemas:
-1. Verifique os logs da aplicação
-2. Confirme configurações do banco
-3. Teste endpoints com Postman/Insomnia
+**Sistema 100% funcional! 🎉**
