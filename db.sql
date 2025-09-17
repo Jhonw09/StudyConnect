@@ -29,7 +29,7 @@ CREATE TABLE professores (
     id BIGINT IDENTITY(1,1) PRIMARY KEY,
     usuario_id BIGINT FOREIGN KEY REFERENCES usuarios(id),
     especialidade NVARCHAR(100),
-    biografia NTEXT,
+    biografia NVARCHAR(MAX),
     avaliacao DECIMAL(3,2) DEFAULT 0,
     total_alunos INT DEFAULT 0,
     online BIT DEFAULT 0,
@@ -41,7 +41,7 @@ CREATE TABLE professores (
 CREATE TABLE cursos (
     id BIGINT IDENTITY(1,1) PRIMARY KEY,
     titulo NVARCHAR(100) NOT NULL,
-    descricao NTEXT,
+    descricao NVARCHAR(MAX),
     professor_id BIGINT FOREIGN KEY REFERENCES professores(id),
     categoria_id BIGINT FOREIGN KEY REFERENCES categorias(id),
     nivel NVARCHAR(20) DEFAULT 'INICIANTE',
@@ -59,7 +59,7 @@ CREATE TABLE contatos (
     nome NVARCHAR(100) NOT NULL,
     email NVARCHAR(100) NOT NULL,
     assunto NVARCHAR(200) NOT NULL,
-    mensagem NTEXT NOT NULL,
+    mensagem NVARCHAR(MAX) NOT NULL,
     criado_em DATETIME2 DEFAULT GETDATE()
 );
 
@@ -83,9 +83,9 @@ INSERT INTO professores (usuario_id, especialidade, biografia, avaliacao, total_
 (4, 'Matemática Aplicada', 'PhD em Matemática, especialista em álgebra. +10 anos de experiência.', 4.7, 290, 1, 'https://linkedin.com/in/joao-pereira', NULL);
 
 INSERT INTO cursos (titulo, descricao, professor_id, categoria_id, nivel, duracao_horas, avaliacao, total_alunos, popular, imagem) VALUES
-('Frontend Moderno', 'HTML5, CSS3, JavaScript e React. Interfaces modernas e responsivas.', 1, 1, 'INICIANTE', 40, 4.9, 450, 1, '/images/capa-front-end.jpg'),
-('Backend Avançado', 'APIs com Node.js, bancos de dados e arquiteturas escaláveis.', 2, 2, 'AVANCADO', 60, 4.8, 320, 1, '/images/17f7d622-3a54-480e-be53-5dd7296bddce_desenvolvedor+backend.avif'),
-('Português', 'Gramática, redação e interpretação. Prepare-se para concursos.', 3, 4, 'INICIANTE', 40, 4.9, 580, 0, '/images/dia-mundial-da-lingua-portuguesa-momento-para-se-aperfeicoar-no-idioma.jpeg'),
-('Matemática', 'Álgebra, geometria, cálculo. Matemática prática e aplicada.', 4, 3, 'INTERMEDIARIO', 45, 4.7, 290, 0, '/images/capa-matematicawebp.webp');
+('Frontend Moderno', 'HTML5, CSS3, JavaScript e React. Interfaces modernas e responsivas.', 1, 1, 'Iniciante', 40, 4.9, 450, 1, 'images/capa-front-end.jpg'),
+('Backend Avançado', 'APIs com Node.js, bancos de dados e arquiteturas escaláveis.', 2, 2, 'Avançado', 60, 4.8, 320, 1, 'images/17f7d622-3a54-480e-be53-5dd7296bddce_desenvolvedor+backend.avif'),
+('Português', 'Gramática, redação e interpretação. Prepare-se para concursos.', 3, 4, 'Básico', 40, 4.9, 580, 0, 'images/dia-mundial-da-lingua-portuguesa-momento-para-se-aperfeicoar-no-idioma.jpeg'),
+('Matemática', 'Álgebra, geometria, cálculo. Matemática prática e aplicada.', 4, 3, 'Intermediário', 45, 4.7, 290, 0, 'images/capa-matematicawebp.webp');
 
 PRINT 'Database criado com sucesso!';
