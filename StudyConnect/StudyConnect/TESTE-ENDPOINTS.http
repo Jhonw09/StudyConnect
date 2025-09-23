@@ -1,0 +1,38 @@
+### StudyConnect API - Testes Profissionais
+
+### 1. Listar todos os cursos
+GET http://localhost:8080/api/cursos
+Accept: application/json
+
+### 2. Listar cursos de Frontend (categoria 1)
+GET http://localhost:8080/api/cursos/categoria/1
+Accept: application/json
+
+### 3. Listar cursos de Backend (categoria 2)
+GET http://localhost:8080/api/cursos/categoria/2
+Accept: application/json
+
+### 4. Listar todos os professores
+GET http://localhost:8080/api/professores
+Accept: application/json
+
+### 5. Enviar mensagem de contato
+POST http://localhost:8080/api/contatos
+Content-Type: application/json
+
+{
+  "nome": "Teste API",
+  "email": "teste@email.com",
+  "assunto": "Teste de Integração",
+  "mensagem": "Testando a API do StudyConnect"
+}
+
+### 6. Obter estatísticas
+GET http://localhost:8080/api/stats
+Accept: application/json
+
+### Respostas Esperadas:
+# /cursos - Array com 8 cursos
+# /professores - Array com 4 professores  
+# /contatos POST - {"message": "Mensagem enviada com sucesso!"}
+# /stats - {"cursos": 8, "professores": 4, "contatos": 4}
