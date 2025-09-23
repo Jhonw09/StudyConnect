@@ -21,6 +21,12 @@ public class StudyConnectController {
     
     @Autowired
     private ContatoRepository contatoRepository;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private AulaRepository aulaRepository;
 
     @GetMapping("/cursos")
     public List<Curso> getCursos() {
@@ -45,12 +51,28 @@ public class StudyConnectController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/cursos/{cursoId}/aulas")
+    public List<Aula> getAulasCurso(@PathVariable Long cursoId) {
+        return aulaRepository.findByCursoIdAndAtivoTrueOrderByOrdem(cursoId);
+    }
+
+    @GetMapping("/curso/{id}")
+    public Curso getCurso(@PathVariable Long id) {
+        return cursoRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/professor/{id}")
+    public Professor getProfessor(@PathVariable Long id) {
+        return professorRepository.findById(id).orElse(null);
+    }
+
     @GetMapping("/stats")
     public Map<String, Long> getStats() {
         Map<String, Long> stats = new HashMap<>();
         stats.put("cursos", cursoRepository.count());
         stats.put("professores", professorRepository.count());
         stats.put("contatos", contatoRepository.count());
+        stats.put("usuarios", usuarioRepository.count());
         return stats;
     }
 }

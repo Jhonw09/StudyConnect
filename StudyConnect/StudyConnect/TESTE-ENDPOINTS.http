@@ -12,11 +12,15 @@ Accept: application/json
 GET http://localhost:8080/api/cursos/categoria/2
 Accept: application/json
 
-### 4. Listar todos os professores
+### 4. Listar aulas de um curso
+GET http://localhost:8080/api/cursos/1/aulas
+Accept: application/json
+
+### 5. Listar todos os professores
 GET http://localhost:8080/api/professores
 Accept: application/json
 
-### 5. Enviar mensagem de contato
+### 6. Enviar mensagem de contato
 POST http://localhost:8080/api/contatos
 Content-Type: application/json
 
@@ -27,7 +31,77 @@ Content-Type: application/json
   "mensagem": "Testando a API do StudyConnect"
 }
 
-### 6. Obter estatísticas
+### 7. Cadastrar usuário
+POST http://localhost:8080/api/usuarios/cadastrar
+Content-Type: application/json
+
+{
+  "nome": "Teste Usuario",
+  "email": "teste@usuario.com",
+  "senha": "123456"
+}
+
+### 8. Fazer login
+POST http://localhost:8080/api/usuarios/login
+Content-Type: application/json
+
+{
+  "email": "teste@usuario.com",
+  "senha": "123456"
+}
+
+### 9. Trocar senha
+POST http://localhost:8080/api/usuarios/trocar-senha
+Content-Type: application/json
+
+{
+  "email": "teste@usuario.com",
+  "senhaAtual": "123456",
+  "novaSenha": "novaSenha123"
+}
+
+### 10. Excluir conta
+DELETE http://localhost:8080/api/usuarios/excluir/teste@usuario.com
+
+### 11. Atualizar perfil
+PUT http://localhost:8080/api/usuarios/atualizar-perfil/2
+Content-Type: application/json
+
+{
+  "nome": "João Silva Santos",
+  "bio": "Desenvolvedor Full Stack apaixonado por tecnologia",
+  "telefone": "(11) 99999-9999",
+  "cidade": "São Paulo",
+  "estado": "SP",
+  "fotoUrl": "images/joao-novo-avatar.png"
+}
+
+### 12. Matricular em curso
+POST http://localhost:8080/api/usuarios/matricular?usuarioId=2&cursoId=1
+
+### 13. Favoritar curso
+POST http://localhost:8080/api/usuarios/favoritar?usuarioId=2&cursoId=3
+
+### 14. Meus cursos
+GET http://localhost:8080/api/usuarios/meus-cursos/2
+Accept: application/json
+
+### 15. Meus favoritos
+GET http://localhost:8080/api/usuarios/favoritos/2
+Accept: application/json
+
+### 16. Minhas notificações
+GET http://localhost:8080/api/usuarios/notificacoes/2
+Accept: application/json
+
+### 17. Marcar notificação como lida
+PUT http://localhost:8080/api/usuarios/marcar-notificacao-lida/1
+
+### 18. Ver perfil
+GET http://localhost:8080/api/usuarios/perfil/2
+Accept: application/json
+
+### 19. Obter estatísticas
 GET http://localhost:8080/api/stats
 Accept: application/json
 
@@ -35,4 +109,8 @@ Accept: application/json
 # /cursos - Array com 8 cursos
 # /professores - Array com 4 professores  
 # /contatos POST - {"message": "Mensagem enviada com sucesso!"}
-# /stats - {"cursos": 8, "professores": 4, "contatos": 4}
+# /usuarios/cadastrar - {"success": true, "message": "Usuário cadastrado com sucesso!"}
+# /usuarios/login - {"success": true, "message": "Login realizado com sucesso!"}
+# /usuarios/matricular - {"success": "true", "message": "Matrícula realizada com sucesso!"}
+# /usuarios/favoritar - {"success": "true", "message": "Curso adicionado aos favoritos!"}
+# /stats - {"cursos": 8, "professores": 4, "contatos": 4, "usuarios": 3}

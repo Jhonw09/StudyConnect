@@ -1,7 +1,6 @@
 package com.Study.StudyConnect.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,9 +28,6 @@ public class Curso {
     
     @Column(length = 20)
     private String nivel = "Iniciante";
-    
-    @Column(precision = 10, scale = 2)
-    private BigDecimal preco = BigDecimal.ZERO;
     
     @Column(name = "imagem_url", length = 255)
     private String imagemUrl;
@@ -63,9 +59,6 @@ public class Curso {
     
     public String getNivel() { return nivel; }
     public void setNivel(String nivel) { this.nivel = nivel; }
-    
-    public BigDecimal getPreco() { return preco; }
-    public void setPreco(BigDecimal preco) { this.preco = preco; }
     
     public String getImagemUrl() { return imagemUrl; }
     public void setImagemUrl(String imagemUrl) { this.imagemUrl = imagemUrl; }
