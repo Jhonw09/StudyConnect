@@ -988,5 +988,21 @@
     <script src="theme-sync-global.js"></script>
     <script src="user-data-manager.js"></script>
     <script src="profile-sync.js"></script>
+    <script>
+        // Tela de carregamento de 5 segundos
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            
+            // Aguarda 5 segundos antes de esconder a tela de loading
+            setTimeout(function() {
+                loadingScreen.classList.add('hidden');
+                
+                // Remove completamente o elemento após a transição
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
