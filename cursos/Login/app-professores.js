@@ -1,5 +1,5 @@
-// Sistema de Login/Cadastro Avançado
-class AuthSystem {
+// Sistema de Login/Cadastro para Professores
+class AuthSystemProfessores {
     constructor() {
         this.init();
         this.currentEmail = '';
@@ -27,10 +27,10 @@ class AuthSystem {
             signupBtn.addEventListener('click', () => this.switchToRegister());
         }
 
-        // Botão Professores
-        const professoresBtn = document.getElementById('professores');
-        if (professoresBtn) {
-            professoresBtn.addEventListener('click', () => this.goToProfessores());
+        // Botão Estudantes
+        const estudantesBtn = document.getElementById('estudantes');
+        if (estudantesBtn) {
+            estudantesBtn.addEventListener('click', () => this.goToEstudantes());
         }
 
         // Formulários
@@ -152,6 +152,10 @@ class AuthSystem {
         document.body.classList.remove('sign-in-js');
     }
 
+    goToEstudantes() {
+        window.location.href = 'Login.html';
+    }
+
     async handleLogin(e) {
         e.preventDefault();
         
@@ -166,32 +170,24 @@ class AuthSystem {
         // Simular delay de rede
         await this.delay(1000);
         
-        const users = this.getUsers();
-        console.log('Usuários cadastrados:', users);
-        console.log('Tentando login com:', email, password);
-        const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-        console.log('Usuário encontrado:', user);
+        const professores = this.getProfessores();
+        const professor = professores.find(p => p.email.toLowerCase() === email.toLowerCase() && p.password === password);
         
-        if (user) {
+        if (professor) {
             this.showAlert('Login realizado com sucesso!', 'success');
-            this.setUserSession(user);
+            this.setUserSession(professor);
             
-            // Carregar perfil existente se houver
-            const existingProfile = localStorage.getItem('studyconnect_profile');
-            if (existingProfile) {
-                const profile = JSON.parse(existingProfile);
-                // Atualizar dados básicos mas manter foto e outras informações
-                profile.name = user.name;
-                profile.email = user.email;
-                localStorage.setItem('studyconnect_profile', JSON.stringify(profile));
-            }
+            // Salvar dados do professor logado
+            localStorage.setItem('currentProfessor', JSON.stringify({
+                id: professor.id,
+                name: professor.name,
+                email: professor.email,
+                disciplina: professor.disciplina,
+                avatar: professor.avatar || '../../images/profa.jpg'
+            }));
             
             setTimeout(() => {
-                window.location.href = '../../index.html';
-                // Forçar atualização da UI após redirecionamento
-                if (window.updateUserInterface) {
-                    window.updateUserInterface();
-                }
+                window.location.href = '../../dashboard-professor/dashboard.html';
             }, 1500);
         } else {
             this.showAlert('Email ou senha incorretos', 'error');
@@ -205,37 +201,40 @@ class AuthSystem {
         
         const name = document.getElementById('registerName').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
+        const disciplina = document.getElementById('registerDisciplina').value.trim();
         const password = document.getElementById('registerPassword').value.trim();
         const submitBtn = e.target.querySelector('button[type="submit"]');
         
-        if (!this.validateRegisterForm(name, email, password)) return;
+        if (!this.validateRegisterForm(name, email, disciplina, password)) return;
         
         this.setButtonLoading(submitBtn, true);
         
         // Simular delay de rede
         await this.delay(1500);
         
-        const users = this.getUsers();
+        const professores = this.getProfessores();
         
-        if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+        if (professores.find(p => p.email.toLowerCase() === email.toLowerCase())) {
             this.showAlert('Este email já está cadastrado', 'error');
             this.setButtonLoading(submitBtn, false);
             return;
         }
         
-        const newUser = {
+        const newProfessor = {
             id: Date.now(),
             name,
             email,
+            disciplina,
             password,
             joinDate: new Date().toLocaleDateString('pt-BR'),
-            avatar: '../../images/favicon.png'
+            avatar: '../../images/favicon.png',
+            type: 'professor'
         };
         
-        users.push(newUser);
-        this.saveUsers(users);
+        professores.push(newProfessor);
+        this.saveProfessores(professores);
         
-        this.showAlert('Conta criada com sucesso!', 'success');
+        this.showAlert('Conta de professor criada com sucesso!', 'success');
         this.clearForm('registerForm');
         
         setTimeout(() => {
@@ -255,10 +254,10 @@ class AuthSystem {
             return;
         }
         
-        const users = this.getUsers();
-        const user = users.find(u => u.email === email);
+        const professores = this.getProfessores();
+        const professor = professores.find(p => p.email === email);
         
-        if (!user) {
+        if (!professor) {
             this.showAlert('Email não encontrado', 'error');
             return;
         }
@@ -305,12 +304,12 @@ class AuthSystem {
         
         if (!this.validateNewPassword(newPassword, confirmPassword)) return;
         
-        const users = this.getUsers();
-        const userIndex = users.findIndex(u => u.email === this.currentEmail);
+        const professores = this.getProfessores();
+        const professorIndex = professores.findIndex(p => p.email === this.currentEmail);
         
-        if (userIndex !== -1) {
-            users[userIndex].password = newPassword;
-            this.saveUsers(users);
+        if (professorIndex !== -1) {
+            professores[professorIndex].password = newPassword;
+            this.saveProfessores(professores);
             
             this.showAlert('Senha alterada com sucesso!', 'success');
             
@@ -341,7 +340,7 @@ class AuthSystem {
         return isValid;
     }
 
-    validateRegisterForm(name, email, password) {
+    validateRegisterForm(name, email, disciplina, password) {
         let isValid = true;
         
         if (name.length < 2) {
@@ -356,6 +355,13 @@ class AuthSystem {
             isValid = false;
         } else {
             this.setFieldSuccess('registerEmail');
+        }
+        
+        if (disciplina.length < 2) {
+            this.setFieldError('registerDisciplina', 'Disciplina deve ter pelo menos 2 caracteres');
+            isValid = false;
+        } else {
+            this.setFieldSuccess('registerDisciplina');
         }
         
         if (password.length < 6) {
@@ -494,56 +500,45 @@ class AuthSystem {
         });
     }
 
-    getUsers() {
-        return JSON.parse(localStorage.getItem('studyconnect_users') || '[]');
+    getProfessores() {
+        return JSON.parse(localStorage.getItem('studyconnect_professores') || '[]');
     }
 
-    saveUsers(users) {
-        localStorage.setItem('studyconnect_users', JSON.stringify(users));
+    saveProfessores(professores) {
+        localStorage.setItem('studyconnect_professores', JSON.stringify(professores));
     }
 
-    setUserSession(user) {
+    setUserSession(professor) {
         localStorage.setItem('userLoggedIn', 'true');
-        localStorage.setItem('userName', user.name);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('joinDate', user.joinDate);
-        localStorage.setItem('currentUserId', user.id);
+        localStorage.setItem('userName', professor.name);
+        localStorage.setItem('userEmail', professor.email);
+        localStorage.setItem('joinDate', professor.joinDate);
+        localStorage.setItem('currentUserId', professor.id);
+        localStorage.setItem('userType', 'professor');
         
         // Salvar perfil completo
         const profileData = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            phone: user.phone || '(11) 99999-9999',
-            location: user.location || 'São Paulo, Brasil',
-            bio: user.bio || 'Estudante na StudyConnect+',
-            joinDate: user.joinDate,
-            avatar: user.avatar,
+            id: professor.id,
+            name: professor.name,
+            email: professor.email,
+            phone: professor.phone || '(11) 99999-9999',
+            location: professor.location || 'São Paulo, Brasil',
+            bio: professor.bio || 'Professor na StudyConnect+',
+            joinDate: professor.joinDate,
+            avatar: professor.avatar,
+            type: 'professor',
             stats: {
                 courses: 0,
-                progress: 0,
+                students: 0,
                 lessons: 0,
                 hours: 0
             },
-            favorites: [],
-            completedLessons: [],
-            gameScores: {},
+            subjects: [],
             preferences: {
                 theme: 'dark',
                 notifications: true
             }
         };
-        
-        // Manter dados existentes se já houver
-        const existingProfile = localStorage.getItem('studyconnect_profile');
-        if (existingProfile) {
-            const existing = JSON.parse(existingProfile);
-            profileData.stats = existing.stats || profileData.stats;
-            profileData.favorites = existing.favorites || profileData.favorites;
-            profileData.completedLessons = existing.completedLessons || profileData.completedLessons;
-            profileData.gameScores = existing.gameScores || profileData.gameScores;
-            profileData.preferences = existing.preferences || profileData.preferences;
-        }
         
         localStorage.setItem('studyconnect_profile', JSON.stringify(profileData));
     }
@@ -567,16 +562,9 @@ class AuthSystem {
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
-    goToProfessores() {
-        window.location.href = 'LoginProfessores.html';
-    }
 }
 
 // Inicializar sistema
 document.addEventListener('DOMContentLoaded', () => {
-    new AuthSystem();
-
-
-    
+    new AuthSystemProfessores();
 });

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Aulas - StudyConnect+</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="lessons-manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="lessons-container">
+        <header class="lessons-header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </button>
+            <h1 id="courseTitle">Gerenciar Aulas</h1>
+            <button class="btn-primary" id="addLessonBtn">
+                <i class="fas fa-plus"></i> Nova Aula
+            </button>
+        </header>
+
+        <div class="lessons-content">
+            <div class="lessons-list" id="lessonsList">
+                <!-- Aulas serão carregadas aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Aula -->
+    <div id="lessonModal" class="modal">
+        <div class="modal-content lesson-modal">
+            <span class="close">&times;</span>
+            <h2 id="lessonModalTitle">Nova Aula</h2>
+            <form id="lessonForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lessonTitle">Título da Aula</label>
+                        <input type="text" id="lessonTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lessonDuration">Duração (minutos)</label>
+                        <input type="number" id="lessonDuration" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lessonDescription">Descrição</label>
+                    <textarea id="lessonDescription" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lessonVideo">Vídeo da Aula</label>
+                    <div class="file-upload">
+                        <input type="file" id="lessonVideo" accept="video/*">
+                        <div class="upload-preview" id="videoPreview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lessonMaterials">Materiais de Apoio</label>
+                    <input type="file" id="lessonMaterials" multiple accept=".pdf,.doc,.docx,.ppt,.pptx">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lessonOrder">Ordem da Aula</label>
+                        <input type="number" id="lessonOrder" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lessonStatus">Status</label>
+                        <select id="lessonStatus">
+                            <option value="draft">Rascunho</option>
+                            <option value="published">Publicada</option>
+                            <option value="archived">Arquivada</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelLesson">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Aula</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Visualização -->
+    <div id="viewLessonModal" class="modal">
+        <div class="modal-content view-modal">
+            <span class="close">&times;</span>
+            <div class="lesson-view">
+                <div class="lesson-video">
+                    <video id="lessonVideoPlayer" controls>
+                        <source src="" type="video/mp4">
+                        Seu navegador não suporta vídeo HTML5.
+                    </video>
+                </div>
+                <div class="lesson-info">
+                    <h2 id="viewLessonTitle"></h2>
+                    <p id="viewLessonDescription"></p>
+                    <div class="lesson-stats">
+                        <span><i class="fas fa-clock"></i> <span id="viewLessonDuration"></span> min</span>
+                        <span><i class="fas fa-eye"></i> <span id="viewLessonViews"></span> visualizações</span>
+                        <span><i class="fas fa-users"></i> <span id="viewLessonStudents"></span> alunos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="lessons-manager.js"></script>
+</body>
+</html>

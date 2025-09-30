@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
     const configBtn = document.getElementById('configBtn');
+    const professorDashboardBtn = document.getElementById('professorDashboardBtn');
+    
+    // Verificar se o usuário é professor e mostrar o link do dashboard
+    const userType = localStorage.getItem('userType');
+    if (userType === 'professor' && professorDashboardBtn) {
+        professorDashboardBtn.style.display = 'block';
+    }
     
     if (profileBtn && profileDropdown) {
         // Toggle dropdown

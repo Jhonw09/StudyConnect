@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Dashboard</title>
+</head>
+<body>
+    <script>
+        // Simular login de professor
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('userType', 'professor');
+        localStorage.setItem('userName', 'Professor Teste');
+        localStorage.setItem('userEmail', 'professor@teste.com');
+        
+        // Redirecionar para o dashboard
+        window.location.href = 'professor-dashboard.html#analytics';
+    </script>
+</body>
+</html>

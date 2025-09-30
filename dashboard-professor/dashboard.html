@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Professor - StudyConnect+</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/logo preta.png" alt="StudyConnect+" class="logo">
+                <h3>Professor Dashboard</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#overview" class="menu-item active" data-section="overview"><i class="fas fa-chart-line"></i> Visão Geral</a></li>
+                <li><a href="#courses" class="menu-item" data-section="courses"><i class="fas fa-book"></i> Meus Cursos</a></li>
+                <li><a href="#students" class="menu-item" data-section="students"><i class="fas fa-users"></i> Alunos</a></li>
+                <li><a href="#certificates" class="menu-item" data-section="certificates"><i class="fas fa-certificate"></i> Certificados</a></li>
+                <li><a href="#analytics" class="menu-item" data-section="analytics"><i class="fas fa-chart-bar"></i> Relatórios</a></li>
+                <li><a href="#profile" class="menu-item" data-section="profile"><i class="fas fa-user"></i> Perfil</a></li>
+                <li><a href="#" class="menu-item logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome">
+                    <h2>Bem-vindo, <span id="professorName">Professor</span>!</h2>
+                    <p id="currentDate"></p>
+                </div>
+                <div class="top-actions">
+                    <button class="btn-primary" id="newCourseBtn"><i class="fas fa-plus"></i> Novo Curso</button>
+                    <div class="profile-menu">
+                        <img src="../images/profa.jpg" alt="Professor" class="profile-pic" id="profilePic">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <section id="overview-section" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-book"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalCourses">0</h3>
+                            <p>Cursos Criados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalStudents">0</h3>
+                            <p>Alunos Inscritos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-play-circle"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalViews">0</h3>
+                            <p>Aulas Assistidas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-certificate"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalCertificates">0</h3>
+                            <p>Certificados Emitidos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Aulas Assistidas (Últimos 7 dias)</h3>
+                        <canvas id="viewsChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Conclusões por Curso</h3>
+                        <canvas id="completionChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Courses Section -->
+            <section id="courses-section" class="content-section">
+                <div class="section-header">
+                    <h2>Meus Cursos</h2>
+                    <button class="btn-primary" id="addCourseBtn"><i class="fas fa-plus"></i> Adicionar Curso</button>
+                </div>
+                <div class="courses-grid" id="coursesGrid">
+                    <!-- Cursos serão carregados aqui -->
+                </div>
+            </section>
+
+            <!-- Students Section -->
+            <section id="students-section" class="content-section">
+                <div class="section-header">
+                    <h2>Alunos</h2>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar aluno..." id="studentSearch">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                <div class="students-table">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Curso</th>
+                                <th>Progresso</th>
+                                <th>Último Acesso</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Alunos serão carregados aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Certificates Section -->
+            <section id="certificates-section" class="content-section">
+                <div class="section-header">
+                    <h2>Certificados</h2>
+                    <button class="btn-primary" id="generateCertificateBtn"><i class="fas fa-certificate"></i> Gerar Certificado</button>
+                </div>
+                <div class="certificates-grid" id="certificatesGrid">
+                    <!-- Certificados serão carregados aqui -->
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics-section" class="content-section">
+                <div class="section-header">
+                    <h2>Relatórios e Análises</h2>
+                    <select id="analyticsFilter">
+                        <option value="7">Últimos 7 dias</option>
+                        <option value="30">Últimos 30 dias</option>
+                        <option value="90">Últimos 3 meses</option>
+                    </select>
+                </div>
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>Engajamento dos Alunos</h3>
+                        <canvas id="engagementChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Performance por Curso</h3>
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="content-section">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <img src="../images/profa.jpg" alt="Professor" class="profile-avatar">
+                        <div class="profile-info">
+                            <h2 id="profileName">Nome do Professor</h2>
+                            <p id="profileEmail">email@exemplo.com</p>
+                            <p id="profileDisciplina">Disciplina</p>
+                        </div>
+                        <button class="btn-secondary" id="editProfileBtn">Editar Perfil</button>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <h3 id="profileCourses">0</h3>
+                            <p>Cursos</p>
+                        </div>
+                        <div class="profile-stat">
+                            <h3 id="profileStudents">0</h3>
+                            <p>Alunos</p>
+                        </div>
+                        <div class="profile-stat">
+                            <h3 id="profileRating">5.0</h3>
+                            <p>Avaliação</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="courseModalTitle">Novo Curso</h2>
+            <form id="courseForm">
+                <div class="form-group">
+                    <label for="courseTitle">Título do Curso</label>
+                    <input type="text" id="courseTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseDescription">Descrição</label>
+                    <textarea id="courseDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="courseCategory">Categoria</label>
+                    <div class="custom-select">
+                        <div class="select-selected" id="categorySelected">Selecione uma categoria</div>
+                        <div class="select-items select-hide" id="categoryOptions">
+                            <div data-value="Matemática">Matemática</div>
+                            <div data-value="Português">Português</div>
+                            <div data-value="História">História</div>
+                            <div data-value="Geografia">Geografia</div>
+                            <div data-value="Ciências">Ciências</div>
+                            <div data-value="Programação">Programação</div>
+                            <div data-value="Física">Física</div>
+                            <div data-value="Química">Química</div>
+                            <div data-value="Biologia">Biologia</div>
+                            <div data-value="Inglês">Inglês</div>
+                            <div data-value="Artes">Artes</div>
+                            <div data-value="Educação Física">Educação Física</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="courseCategory" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseThumbnail">Imagem do Curso</label>
+                    <input type="file" id="courseThumbnail" accept="image/*">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelCourse">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Curso</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="lessonModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Aula</h2>
+            <form id="lessonForm">
+                <div class="form-group">
+                    <label for="lessonTitle">Título da Aula</label>
+                    <input type="text" id="lessonTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="lessonDescription">Descrição</label>
+                    <textarea id="lessonDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="lessonVideo">Vídeo da Aula</label>
+                    <input type="file" id="lessonVideo" accept="video/*">
+                </div>
+                <div class="form-group">
+                    <label for="lessonDuration">Duração (minutos)</label>
+                    <input type="number" id="lessonDuration" min="1">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelLesson">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Aula</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="generateCertificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Gerar Certificado</h2>
+            <form id="generateCertificateForm">
+                <div class="form-group">
+                    <label for="certStudentName">Nome do Aluno</label>
+                    <select id="certStudentName" required>
+                        <option value="">Selecione um aluno</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="certCourseName">Curso</label>
+                    <select id="certCourseName" required>
+                        <option value="">Selecione um curso</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="certCompletionDate">Data de Conclusão</label>
+                    <input type="date" id="certCompletionDate" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelCertificate">Cancelar</button>
+                    <button type="submit" class="btn-primary">Gerar Certificado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="certificate-generator.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

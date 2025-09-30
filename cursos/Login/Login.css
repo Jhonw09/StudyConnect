@@ -1090,6 +1090,74 @@ html, body {
     max-width: 100%;
 }
 
+/* Harmonizar layout da seção criar conta */
+.first-content .second-column {
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.first-content .second-column .title {
+    margin-bottom: 0.5rem;
+    font-size: 24px;
+}
+
+.first-content .second-column .social-media {
+    margin: 0.5rem 0;
+}
+
+.first-content .second-column .description {
+    margin-bottom: 0.5rem;
+    font-size: 13px;
+}
+
+.first-content .second-column .password-strength {
+    margin-bottom: 0.5rem;
+}
+
+.first-content .second-column .label-input {
+    margin: 4px;
+}
+
+/* Alinhamento dos botões lado a lado */
+.button-group-horizontal {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.button-group-horizontal .btn {
+    width: 120px;
+    margin: 0;
+}
+
+/* Ajustar espaçamento dos botões na seção criar conta */
+.first-content .second-column .btn {
+    margin-top: 0.5rem;
+}
+
+/* Estilo para select */
+.form select {
+    height: 35px;
+    width: 100%;
+    border: none;
+    background-color: #ecf0f1;
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.form select:focus {
+    outline: none;
+}
+
+.form input {
+    height: 35px;
+    font-size: 12px;
+}
+
 /* Previne zoom em inputs no iOS */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     select, textarea, input[type="text"], input[type="password"], 
@@ -1099,5 +1167,87 @@ html, body {
     input[type="url"], input[type="search"], input[type="tel"], 
     input[type="color"] {
         font-size: 16px;
+    }
+}
+
+/* RESPONSIVIDADE PARA PÁGINA DE PROFESSORES */
+@media screen and (max-width: 1040px) {
+    .first-content .second-column .title {
+        font-size: 20px;
+    }
+    
+    .first-content .second-column .description {
+        font-size: 12px;
+    }
+    
+    .form input, .form select {
+        height: 32px;
+        font-size: 11px;
+    }
+    
+    .first-content .second-column .label-input {
+        margin: 3px;
+    }
+}
+
+@media screen and (max-width: 740px) {
+    .first-content .second-column .title {
+        font-size: 20px;
+    }
+    
+    .first-content .second-column .description {
+        font-size: 13px;
+    }
+    
+    .form input, .form select {
+        height: 38px;
+        font-size: 14px;
+    }
+    
+    .first-content .second-column .label-input {
+        margin: 5px;
+    }
+    
+    .first-content .second-column .social-media {
+        margin: 0.5rem 0;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .first-content .second-column .title {
+        font-size: 18px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .first-content .second-column .description {
+        font-size: 12px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form input, .form select {
+        height: 36px;
+        font-size: 13px;
+    }
+    
+    .first-content .second-column .label-input {
+        margin: 4px;
+    }
+    
+    .first-content .second-column .social-media {
+        margin: 0.4rem 0;
+    }
+    
+    .first-content .second-column .password-strength {
+        margin-bottom: 0.4rem;
+    }
+    
+    .button-group-horizontal {
+        gap: 8px;
+    }
+    
+    .button-group-horizontal .btn {
+        width: 110px;
+        font-size: 10px;
+        padding: 8px 12px;
     }
 }

@@ -534,6 +534,6 @@ async function deleteUserAccount() {
     closeModal();
     
     setTimeout(() => {
-        window.location.href = 'Login/Login.html';
+        window.location.href = 'cursos/Login/Login.html';
     }, 2000);
 }

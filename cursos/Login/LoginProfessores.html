@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="shortcut icon" type="images" href="../../images/favicon.png">
-    <title>Login</title>
+    <title>Login Professores</title>
     <link rel="stylesheet" href="Login.css" />
     <link
         rel="stylesheet"
@@ -112,16 +112,16 @@
     <div class="container">
         <div class="content first-content">
             <div class="first-column">
-                <h2 class="title title-primary">Seja bem-vindo</h2>
+                <h2 class="title title-primary">Bem-vindo Professor!</h2>
                 <br>
                 <p class="description description-primary">
                     Para continuar conectado conosco,
                 </p>
-                <p class="description description-primary">faça login com suas informações pessoais</p>
+                <p class="description description-primary">faça login com suas informações de professor</p>
                 <button id="signin" class="btn btn-primary">Entrar</button>
             </div>
             <div class="second-column">
-                <h2 class="title title-second">Criar conta</h2>
+                <h2 class="title title-second">Cadastro Professor</h2>
                 <div class="social-media">
                     <ul class="list-social-media">
                         <a class="link-social-media" href="https://www.facebook.com">
@@ -141,17 +141,37 @@
                         </a>
                     </ul>
                 </div>
-                <p class="description description-second">ou use seu e-mail para registro:</p>
+                <p class="description description-second">ou use seu e-mail para registro como professor:</p>
                 <form class="form" id="registerForm">
                     <label class="label-input" for="registerName">
                         <i class="far fa-user icon-modify"></i>
-                        <input type="text" placeholder="Nome completo" id="registerName" required />
+                        <input type="text" placeholder="Nome completo do professor" id="registerName" required />
                         <span class="validation-message"></span>
                     </label>
 
                     <label class="label-input" for="registerEmail">
                         <i class="far fa-envelope icon-modify"></i>
-                        <input type="email" placeholder="E-mail" id="registerEmail" required />
+                        <input type="email" placeholder="E-mail profissional" id="registerEmail" required />
+                        <span class="validation-message"></span>
+                    </label>
+
+                    <label class="label-input" for="registerDisciplina">
+                        <i class="fas fa-book icon-modify"></i>
+                        <select id="registerDisciplina" required>
+                            <option value="">Selecione a disciplina</option>
+                            <option value="Matemática">Matemática</option>
+                            <option value="Português">Português</option>
+                            <option value="História">História</option>
+                            <option value="Geografia">Geografia</option>
+                            <option value="Ciências">Ciências</option>
+                            <option value="Física">Física</option>
+                            <option value="Química">Química</option>
+                            <option value="Biologia">Biologia</option>
+                            <option value="Inglês">Inglês</option>
+                            <option value="Programação">Programação</option>
+                            <option value="Artes">Artes</option>
+                            <option value="Educação Física">Educação Física</option>
+                        </select>
                         <span class="validation-message"></span>
                     </label>
 
@@ -178,21 +198,20 @@
                                 <i class="fas fa-spinner fa-spin"></i>
                             </div>
                         </button>
-                        <button id="professores" class="btn btn-second">Professores</button>
+                        <button id="estudantes" class="btn btn-second">Estudantes</button>
                     </div>
                 </form>
-                </form>
             </div>
-            </div>
+        </div>
         <div class="content second-content">
             <div class="first-column">
-                <h2 class="title title-primary">Olá, Estudante!</h2>
-                <p class="description description-primary">Insira seus dados pessoais</p>
-                <p class="description description-primary">e comece sua jornada conosco</p>
+                <h2 class="title title-primary">Olá, Professor!</h2>
+                <p class="description description-primary">Insira seus dados de acesso</p>
+                <p class="description description-primary">e comece a ensinar conosco</p>
                 <button id="signup" class="btn btn-primary">Cadastrar</button>
             </div>
             <div class="second-column">
-                <h2 class="title title-second">Entrar no StudyConect+</h2>
+                <h2 class="title title-second">Entrar como Professor</h2>
                 <div class="social-media">
                     <ul class="list-social-media">
                         <a class="link-social-media" href="https://www.facebook.com">
@@ -212,11 +231,11 @@
                         </a>
                     </ul>
                 </div>
-                <p class="description description-second">ou use sua conta de e-mail:</p>
+                <p class="description description-second">ou use sua conta de professor:</p>
                 <form class="form" id="loginForm">
                     <label class="label-input" for="loginEmail">
                         <i class="far fa-envelope icon-modify"></i>
-                        <input type="email" placeholder="E-mail" id="loginEmail" required />
+                        <input type="email" placeholder="E-mail do professor" id="loginEmail" required />
                         <span class="validation-message"></span>
                     </label>
 
@@ -240,9 +259,9 @@
                     </button>
                 </form>
             </div>
-            </div>
         </div>
-    <script src="app.js"></script>
+    </div>
+    <script src="app-professores.js"></script>
     <script src="profile-sync.js"></script>
 </body>
 </html>
