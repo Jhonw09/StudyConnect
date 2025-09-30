@@ -341,12 +341,29 @@
         text-align: center;
     }
     
+    .lessons-header h1 {
+        font-size: 1.5rem;
+    }
+    
     .lesson-item {
         flex-direction: column;
         text-align: center;
+        gap: 1rem;
+    }
+    
+    .lesson-order {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
     
     .lesson-meta {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .lesson-actions {
         justify-content: center;
     }
     
@@ -362,6 +379,46 @@
     .view-modal {
         width: 95%;
         margin: 2% auto;
+        padding: 1rem;
+    }
+    
+    .file-upload input[type="file"] {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lessons-header {
+        padding: 1rem;
+    }
+    
+    .back-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-primary {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .lesson-item {
+        padding: 1rem;
+    }
+    
+    .lesson-title {
+        font-size: 1.1rem;
+    }
+    
+    .lesson-meta {
+        font-size: 0.8rem;
+    }
+    
+    .btn-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
     }
 }
 

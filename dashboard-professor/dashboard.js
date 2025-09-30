@@ -135,6 +135,26 @@ class ProfessorDashboard {
     }
 
     setupEventListeners() {
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (mobileMenuBtn && sidebar) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('mobile-open');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.className = sidebar.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    sidebar.classList.remove('mobile-open');
+                    mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+        }
+        
         // Menu navigation
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', (e) => {
@@ -148,6 +168,12 @@ class ProfessorDashboard {
                 if (section) {
                     this.showSection(section);
                     this.updateActiveMenu(item);
+                    
+                    // Close mobile menu after selection
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('mobile-open');
+                        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+                    }
                 }
             });
         });
